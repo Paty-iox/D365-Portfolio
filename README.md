@@ -6,15 +6,13 @@ A collection of Dynamics 365 projects, customizations, and solutions.
 
 ```
 D365-Portfolio/
-├── Solutions/          # D365 solution files (organized by project)
-│   └── Project1/       # Example project folder
-│       ├── ProjectName_managed.zip
-│       └── ProjectName_unmanaged.zip
-├── Code/               # Source code for customizations
-│   ├── Plugins/        # C# plugin projects
-│   ├── WebResources/   # JavaScript, HTML, CSS
-│   └── PCF/            # PowerApps Component Framework controls
-└── Documentation/      # Technical docs and guides
+└── Project1/                   # Each project is self-contained
+    ├── Solutions/              # D365 solution files (.zip)
+    ├── Code/                   # Source code
+    │   ├── Plugins/            # C# plugins
+    │   ├── WebResources/       # JavaScript, HTML, CSS
+    │   └── PCF/                # PCF controls
+    └── Documentation/          # Project docs
 ```
 
 ## Technologies
