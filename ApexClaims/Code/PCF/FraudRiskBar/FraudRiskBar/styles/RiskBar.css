@@ -1,0 +1,116 @@
+/* Fraud Risk Bar PCF Control Styles */
+
+.fraud-risk-bar {
+    box-sizing: border-box;
+}
+
+.fraud-risk-bar *,
+.fraud-risk-bar *::before,
+.fraud-risk-bar *::after {
+    box-sizing: border-box;
+}
+
+/* Track styles */
+.fraud-risk-track {
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Fill animation */
+.fraud-risk-fill {
+    will-change: width;
+}
+
+/* Marker styles */
+.fraud-risk-marker {
+    will-change: left;
+}
+
+/* Critical pulse animation */
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow:
+            inset 0 1px 3px rgba(0, 0, 0, 0.1),
+            0 0 0 0 rgba(239, 68, 68, 0);
+    }
+    50% {
+        box-shadow:
+            inset 0 1px 3px rgba(0, 0, 0, 0.1),
+            0 0 15px 3px rgba(239, 68, 68, 0.5);
+    }
+}
+
+.fraud-risk-bar.critical .fraud-risk-track {
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Label container */
+.fraud-risk-label-container {
+    display: flex;
+    justify-content: flex-start;
+}
+
+/* Focus styles for accessibility */
+.fraud-risk-bar:focus {
+    outline: 2px solid #3B82F6;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+.fraud-risk-bar:focus:not(:focus-visible) {
+    outline: none;
+}
+
+.fraud-risk-bar:focus-visible {
+    outline: 2px solid #3B82F6;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .fraud-risk-track {
+        border: 2px solid currentColor;
+    }
+
+    .fraud-risk-fill {
+        border: 1px solid currentColor;
+    }
+
+    .fraud-risk-marker {
+        background-color: currentColor !important;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .fraud-risk-fill,
+    .fraud-risk-marker {
+        transition: none !important;
+    }
+
+    .fraud-risk-bar.critical .fraud-risk-track {
+        animation: none;
+        box-shadow:
+            inset 0 1px 3px rgba(0, 0, 0, 0.1),
+            0 0 10px 2px rgba(239, 68, 68, 0.4);
+    }
+
+    @keyframes pulse-glow {
+        0%, 100% {
+            box-shadow:
+                inset 0 1px 3px rgba(0, 0, 0, 0.1),
+                0 0 10px 2px rgba(239, 68, 68, 0.4);
+        }
+    }
+}
+
+/* Dark mode support (if container has dark theme) */
+@media (prefers-color-scheme: dark) {
+    .fraud-risk-bar[data-theme="dark"] {
+        color: #F3F4F6;
+    }
+
+    .fraud-risk-bar[data-theme="dark"] .fraud-risk-track {
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+}

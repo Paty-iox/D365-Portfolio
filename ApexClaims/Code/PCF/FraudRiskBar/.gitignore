@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+FraudRiskBar/node_modules/
+
+# Build outputs
+out/
+bin/
+obj/
+*.zip
+
+# Generated files
+FraudRiskBar/generated/
+
+# IDE
+.vs/
+*.user
+
+# Misc
+nul

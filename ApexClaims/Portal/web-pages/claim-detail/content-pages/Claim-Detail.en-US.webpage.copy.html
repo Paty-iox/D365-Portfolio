@@ -1,0 +1,126 @@
+<div class="row sectionBlockLayout text-start" style="min-height: auto; padding: 8px;">
+  <div class="container" style="display: flex; flex-wrap: wrap;">
+    <div class="col-lg-12 columnBlockLayout" style="padding: 0; margin: 0; min-height: 200px;">
+
+{% include 'Portal Web Api Security' %}
+
+<div class="claim-detail-page" id="claim-detail-page">
+
+  <!-- Loading State -->
+  <div class="loading-container" id="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Loading claim details...</p>
+  </div>
+
+  <!-- Error State -->
+  <div class="error-container" id="error-container" style="display: none;">
+    <h2>Unable to Load Claim</h2>
+    <p id="error-message">The claim could not be found or you don't have permission to view it.</p>
+    <a href="/claims-dashboard" class="btn-back">Back to Dashboard</a>
+  </div>
+
+  <!-- Main Content (hidden until loaded) -->
+  <div class="claim-content" id="claim-content" style="display: none;">
+
+    <!-- Header -->
+    <div class="claim-header">
+      <div class="header-left">
+        <a href="/claims-dashboard" class="back-link">← Back to Dashboard</a>
+        <h1 class="claim-number" id="claim-number">Loading...</h1>
+        <p class="created-date" id="created-date"></p>
+      </div>
+    </div>
+
+    <!-- Cards Grid -->
+    <div class="cards-grid">
+
+      <!-- Policy Information Card -->
+      <div class="detail-card">
+        <h2 class="card-title">Policy Information</h2>
+        <div class="card-content">
+          <div class="detail-row">
+            <span class="detail-label">Policy Number</span>
+            <span class="detail-value" id="policy-number">-</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Customer Name</span>
+            <span class="detail-value" id="customer-name">-</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Coverage Type</span>
+            <span class="detail-value" id="coverage-type">-</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Coverage Limit</span>
+            <span class="detail-value" id="coverage-limit">-</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Deductible</span>
+            <span class="detail-value" id="deductible">-</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Incident Details Card -->
+      <div class="detail-card">
+        <h2 class="card-title">Incident Details</h2>
+        <div class="card-content">
+          <div class="detail-row">
+            <span class="detail-label">Incident Date</span>
+            <span class="detail-value" id="incident-date">-</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Location</span>
+            <span class="detail-value" id="incident-location">-</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Claim Type</span>
+            <span class="detail-value" id="claim-type">-</span>
+          </div>
+          <div class="detail-row description-row">
+            <span class="detail-label">Description</span>
+            <p class="detail-value description-text" id="description">-</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Financial Summary Card -->
+      <div class="detail-card">
+        <h2 class="card-title">Financial Summary</h2>
+        <div class="card-content">
+          <div class="detail-row">
+            <span class="detail-label">Estimated Amount</span>
+            <span class="detail-value amount" id="estimated-amount">-</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Approved Amount</span>
+            <span class="detail-value amount" id="approved-amount">-</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Deductible Applied</span>
+            <span class="detail-value" id="deductible-applied">-</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Payment Status</span>
+            <span class="detail-value" id="payment-status">-</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Digital Signature Section -->
+    <div class="signature-section" id="signature-section" style="display: none;">
+      <h2 class="section-title">Digital Signature</h2>
+      <div class="signature-container">
+        <img id="signature-image" class="signature-image" alt="Digital Signature" />
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+adx_append: false
+adx_appendto: false
+adx_create: false
+adx_delete: false
+adx_entitylogicalname: new_policy
+adx_entityname: Policy - Customer Read
+adx_entitypermission_webrole:
+- 528fe9d8-1adf-f011-8543-000d3a326d87
+- f9b2409c-14c4-4952-a5cc-9a772787144b
+adx_entitypermissionid: eedfac58-1adf-f011-8543-000d3a326d87
+adx_read: true
+adx_scope: 756150000
+adx_write: false

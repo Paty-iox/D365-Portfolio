@@ -1,0 +1,18 @@
+- adx_name: Grant Change to Content
+  adx_right: 1
+  adx_webpageaccesscontrolruleid: 272170ec-8d50-4dc2-928b-ff282b2bce28
+- adx_filecontent: 
+  adx_name: Restrict Read on New Claim
+  adx_right: 2
+  adx_scope: 1
+  adx_webpageaccesscontrolrule_webrole:
+  - 528fe9d8-1adf-f011-8543-000d3a326d87
+  - f9b2409c-14c4-4952-a5cc-9a772787144b
+  adx_webpageaccesscontrolruleid: 31eab0d3-5e60-72b9-b6f3-29402b666ea9
+  adx_webpageid: b42c895d-d955-c732-619b-d6ad360b39e3
+- adx_name: Grant Change to Administrators
+  adx_right: 1
+  adx_webpageaccesscontrolrule_webrole:
+  - 77950059-e9dd-4b34-af88-484dafc41805
+  adx_webpageaccesscontrolruleid: 9304645c-d9dd-43a9-be61-a541485ad704
+  adx_webpageid: 0cce02fb-9453-4d98-b30c-d1401c8a59cb

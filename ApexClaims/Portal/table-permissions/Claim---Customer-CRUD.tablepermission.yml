@@ -1,0 +1,13 @@
+adx_append: false
+adx_appendto: false
+adx_contactrelationship: new_claim_Customer_contact
+adx_create: true
+adx_delete: false
+adx_entitylogicalname: new_claim
+adx_entityname: Claim - Customer CRUD
+adx_entitypermission_webrole:
+- 528fe9d8-1adf-f011-8543-000d3a326d87
+adx_entitypermissionid: 5dee5276-1adf-f011-8543-000d3a326d87
+adx_read: true
+adx_scope: 756150001
+adx_write: true

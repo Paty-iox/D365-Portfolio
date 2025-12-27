@@ -1,0 +1,27 @@
+- adx_anonymoususersrole: true
+  adx_authenticatedusersrole: false
+  adx_name: Anonymous Users
+  adx_webroleid: 2e4967c5-245f-4a6b-9b76-97c4323d5f7d
+- adx_anonymoususersrole: false
+  adx_authenticatedusersrole: false
+  adx_description: External customers who hold policies and file claims
+  adx_name: Policyholder
+  adx_webroleid: 528fe9d8-1adf-f011-8543-000d3a326d87
+- adx_anonymoususersrole: false
+  adx_authenticatedusersrole: false
+  adx_description: Internal staff who review and process claims
+  adx_name: Claims Adjuster
+  adx_webroleid: 6a386225-1bdf-f011-8543-000d3a326d87
+- adx_anonymoususersrole: false
+  adx_authenticatedusersrole: false
+  adx_name: Administrators
+  adx_webroleid: 77950059-e9dd-4b34-af88-484dafc41805
+- adx_anonymoususersrole: false
+  adx_authenticatedusersrole: true
+  adx_name: Authenticated Users
+  adx_webroleid: f9b2409c-14c4-4952-a5cc-9a772787144b
+- adx_anonymoususersrole: false
+  adx_authenticatedusersrole: false
+  adx_description: Supervisors with full access and fraud review
+  adx_name: Claims Manager
+  adx_webroleid: fd79d32c-1bdf-f011-8543-000d3a326d87
