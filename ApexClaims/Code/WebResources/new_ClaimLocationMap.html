@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Claim Location Map</title>
+
+    <!-- Azure Maps SDK -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css" rel="stylesheet" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
+
+        #nodata {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+            color: #6c757d;
+        }
+
+        #nodata.hidden {
+            display: none;
+        }
+
+        #map.visible {
+            display: block;
+        }
+
+        .nodata-icon {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .nodata-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 8px;
+        }
+
+        .nodata-message {
+            font-size: 13px;
+            color: #6c757d;
+            text-align: center;
+            max-width: 280px;
+            line-height: 1.5;
+        }
+
+        /* Popup styling */
+        .azure-maps-popup-content {
+            padding: 12px 16px !important;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+        }
+
+        .popup-content {
+            min-width: 200px;
+        }
+
+        .popup-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a365d;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .popup-coords {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .popup-coords span {
+            display: block;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div id="nodata">
+        <svg class="nodata-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+        </svg>
+        <div class="nodata-title">No Location Set</div>
+        <div class="nodata-message">Enter an incident location and save the record to display the map.</div>
+    </div>
+
+    <script>
+        // Azure Maps Key - received from parent via postMessage
+        var azureMapsKey = null;
+        var map = null;
+        var marker = null;
+        var popup = null;
+        var pendingLocation = null;
+
+        // Allowed parent origins (Dynamics 365 domains)
+        var allowedOrigins = [
+            'https://org22b59a4a.crm.dynamics.com',
+            'https://org22b59a4a.crm6.dynamics.com'
+        ];
+
+        // Check if origin is allowed
+        function isAllowedOrigin(origin) {
+            // Allow Dynamics 365 CRM domains
+            if (allowedOrigins.indexOf(origin) !== -1) {
+                return true;
+            }
+            // Also allow any *.dynamics.com domain
+            if (origin && origin.match(/^https:\/\/[a-z0-9-]+\.crm[0-9]*\.dynamics\.com$/)) {
+                return true;
+            }
+            return false;
+        }
+
+        // Parse URL parameters
+        function getUrlParams() {
+            var params = {};
+            var queryString = window.location.search.substring(1);
+
+            if (queryString) {
+                var pairs = queryString.split('&');
+                for (var i = 0; i < pairs.length; i++) {
+                    var pair = pairs[i].split('=');
+                    if (pair.length === 2) {
+                        params[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+                    }
+                }
+            }
+
+            return params;
+        }
+
+        // Validate coordinates with proper range check
+        function isValidCoordinates(lat, lon) {
+            if (isNaN(lat) || isNaN(lon)) {
+                return false;
+            }
+            // Valid ranges: lat -90 to 90, lon -180 to 180
+            // Note: (0,0) is valid (Gulf of Guinea)
+            if (lat < -90 || lat > 90 || lon < -180 || lon > 180) {
+                return false;
+            }
+            return true;
+        }
+
+        // Initialize the map
+        function initMap(lat, lon, locationName) {
+            if (!azureMapsKey) {
+                console.warn('Azure Maps key not yet received');
+                pendingLocation = { lat: lat, lon: lon, location: locationName };
+                return;
+            }
+
+            // Hide no data message, show map
+            document.getElementById('nodata').classList.add('hidden');
+            document.getElementById('map').classList.add('visible');
+
+            // Create map if not exists
+            if (!map) {
+                map = new atlas.Map('map', {
+                    center: [lon, lat],
+                    zoom: 15,
+                    style: 'road',
+                    language: 'en-US',
+                    authOptions: {
+                        authType: 'subscriptionKey',
+                        subscriptionKey: azureMapsKey
+                    }
+                });
+
+                // Wait for map to load
+                map.events.add('ready', function() {
+                    addMarker(lat, lon, locationName);
+                    // Resize map to ensure proper rendering
+                    map.resize();
+                });
+            } else {
+                // Update existing map
+                map.setCamera({
+                    center: [lon, lat],
+                    zoom: 15
+                });
+                addMarker(lat, lon, locationName);
+                map.resize();
+            }
+        }
+
+        // Add marker and popup
+        function addMarker(lat, lon, locationName) {
+            // Remove existing marker
+            if (marker) {
+                map.markers.remove(marker);
+            }
+            if (popup) {
+                popup.close();
+            }
+
+            // Create HTML marker (red pin)
+            marker = new atlas.HtmlMarker({
+                position: [lon, lat],
+                color: '#DC2626',
+                text: ' '
+            });
+
+            // Create popup content
+            var popupContent = '<div class="popup-content">' +
+                '<div class="popup-title">' + escapeHtml(locationName || 'Incident Location') + '</div>' +
+                '<div class="popup-coords">' +
+                '<span><strong>Lat:</strong> ' + lat.toFixed(6) + '</span>' +
+                '<span><strong>Lon:</strong> ' + lon.toFixed(6) + '</span>' +
+                '</div>' +
+                '</div>';
+
+            // Create popup
+            popup = new atlas.Popup({
+                content: popupContent,
+                position: [lon, lat],
+                pixelOffset: [0, -30],
+                closeButton: false
+            });
+
+            // Add marker to map
+            map.markers.add(marker);
+
+            // Show popup on marker click
+            map.events.add('click', marker, function() {
+                popup.open(map);
+            });
+
+            // Open popup by default
+            popup.open(map);
+        }
+
+        // Show no data state
+        function showNoData() {
+            document.getElementById('nodata').classList.remove('hidden');
+            document.getElementById('map').classList.remove('visible');
+        }
+
+        // Escape HTML to prevent XSS
+        function escapeHtml(text) {
+            if (!text) return '';
+            var div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Main initialization
+        function init() {
+            var params = getUrlParams();
+
+            var lat = parseFloat(params.lat);
+            var lon = parseFloat(params.lon);
+            var location = params.location || '';
+
+            // Check if we have valid coordinates
+            if (isValidCoordinates(lat, lon)) {
+                initMap(lat, lon, location);
+            } else {
+                showNoData();
+            }
+        }
+
+        // Listen for messages from parent (for dynamic updates and key)
+        window.addEventListener('message', function(event) {
+            // Validate origin
+            if (!isAllowedOrigin(event.origin)) {
+                console.warn('Message from unauthorized origin:', event.origin);
+                return;
+            }
+
+            try {
+                var data = event.data;
+                if (!data || typeof data !== 'object') {
+                    return;
+                }
+
+                // Handle Azure Maps key initialization
+                if (data.type === 'initMapKey' && data.key) {
+                    azureMapsKey = data.key;
+                    console.log('Azure Maps key received');
+
+                    // If we have pending location, initialize map now
+                    if (pendingLocation) {
+                        initMap(pendingLocation.lat, pendingLocation.lon, pendingLocation.location);
+                        pendingLocation = null;
+                    }
+                    return;
+                }
+
+                // Handle location updates
+                if (data.type === 'updateLocation') {
+                    var lat = parseFloat(data.lat);
+                    var lon = parseFloat(data.lon);
+                    var location = data.location || '';
+
+                    if (isValidCoordinates(lat, lon)) {
+                        initMap(lat, lon, location);
+                    } else {
+                        showNoData();
+                    }
+                }
+            } catch (e) {
+                console.error('Error processing message:', e);
+            }
+        });
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

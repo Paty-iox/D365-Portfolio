@@ -1,0 +1,273 @@
+<div class="row sectionBlockLayout text-start" style="min-height: auto; padding: 8px;">
+  <div class="container" style="display: flex; flex-wrap: wrap;">
+    <div class="col-lg-12 columnBlockLayout" style="padding: 0; margin: 0; min-height: 200px;">
+
+{% include 'Portal Web Api Security' %}
+
+<div class="claim-wizard" id="claim-wizard" data-claim-id="">
+
+  <!-- Progress Indicator -->
+  <div class="wizard-progress">
+    <div class="progress-step active" data-step="1">
+      <div class="step-circle">1</div>
+      <div class="step-label">Policy</div>
+    </div>
+    <div class="progress-line"></div>
+    <div class="progress-step" data-step="2">
+      <div class="step-circle">2</div>
+      <div class="step-label">Incident</div>
+    </div>
+    <div class="progress-line"></div>
+    <div class="progress-step" data-step="3">
+      <div class="step-circle">3</div>
+      <div class="step-label">Description</div>
+    </div>
+    <div class="progress-line"></div>
+    <div class="progress-step" data-step="4">
+      <div class="step-circle">4</div>
+      <div class="step-label">Documents</div>
+    </div>
+    <div class="progress-line"></div>
+    <div class="progress-step" data-step="5">
+      <div class="step-circle">5</div>
+      <div class="step-label">Review</div>
+    </div>
+  </div>
+
+  <!-- Step Panels Container -->
+  <div class="wizard-steps">
+
+    <!-- Step 1: Policy Verification -->
+    <div class="step-panel active" data-step="1">
+      <h2>Verify Your Policy</h2>
+      <p class="step-description">Enter your policy number to begin your claim. We'll verify your coverage and pre-fill your details.</p>
+
+      <div class="form-group">
+        <label for="policy-number">Policy Number <span class="required">*</span></label>
+        <div class="input-with-icon">
+          <input type="text" id="policy-number" placeholder="e.g., POL-000001" maxlength="20" />
+          <span class="input-spinner" id="policy-spinner" style="display:none;">⟳</span>
+          <span class="input-status" id="policy-status"></span>
+        </div>
+        <div class="field-error" id="policy-error"></div>
+      </div>
+
+      <div class="policy-card" id="policy-card" style="display:none;">
+        <div class="policy-card-header">
+          <span class="policy-card-title">Policy Details</span>
+          <span class="policy-card-status" id="policy-card-status"></span>
+        </div>
+        <div class="policy-card-body">
+          <div class="policy-card-row">
+            <div class="policy-card-item">
+              <span class="label">Customer Name</span>
+              <span class="value" id="policy-customer-name">-</span>
+            </div>
+            <div class="policy-card-item">
+              <span class="label">Coverage Type</span>
+              <span class="value" id="policy-coverage-type">-</span>
+            </div>
+          </div>
+          <div class="policy-card-row">
+            <div class="policy-card-item">
+              <span class="label">Coverage Limit</span>
+              <span class="value" id="policy-coverage-limit">-</span>
+            </div>
+            <div class="policy-card-item">
+              <span class="label">Deductible</span>
+              <span class="value" id="policy-deductible">-</span>
+            </div>
+          </div>
+          <div class="policy-card-row">
+            <div class="policy-card-item">
+              <span class="label">Effective Period</span>
+              <span class="value" id="policy-effective-period">-</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-warning" id="policy-expired-warning" style="display:none;">
+        <span>⚠ This policy has expired. Claims submitted may not be covered.</span>
+      </div>
+    </div>
+
+    <!-- Step 2: Incident Details -->
+    <div class="step-panel" data-step="2">
+      <h2>Incident Details</h2>
+      <p class="step-description">Provide information about when and where the incident occurred.</p>
+
+      <div class="form-row">
+        <div class="form-group half">
+          <label for="incident-date">Incident Date <span class="required">*</span></label>
+          <input type="date" id="incident-date" />
+          <div class="field-error" id="incident-date-error"></div>
+        </div>
+        <div class="form-group half">
+          <label for="incident-time">Incident Time <span class="required">*</span></label>
+          <input type="time" id="incident-time" />
+          <div class="field-error" id="incident-time-error"></div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="claim-type">Claim Type <span class="required">*</span></label>
+        <select id="claim-type">
+          <option value="">Select claim type...</option>
+          <option value="100000000">Auto</option>
+          <option value="100000001">Home</option>
+          <option value="100000002">Commercial</option>
+        </select>
+        <div class="field-error" id="claim-type-error"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="incident-location">Incident Location <span class="required">*</span></label>
+        <input type="text" id="incident-location" placeholder="Enter address or location description" />
+        <div class="field-error" id="incident-location-error"></div>
+        <input type="hidden" id="incident-latitude" />
+        <input type="hidden" id="incident-longitude" />
+      </div>
+    </div>
+
+    <!-- Step 3: Damage Description -->
+    <div class="step-panel" data-step="3">
+      <h2>Describe the Damage</h2>
+      <p class="step-description">Provide a detailed description of what happened and the damage incurred.</p>
+
+      <div class="form-group">
+        <label for="description">Description <span class="required">*</span></label>
+        <textarea id="description" rows="6" maxlength="2000" placeholder="Please describe what happened and the extent of the damage..."></textarea>
+        <div class="char-counter"><span id="description-count">0</span> / 2000 characters (minimum 50)</div>
+        <div class="field-error" id="description-error"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="estimated-amount">Estimated Damage Amount <span class="required">*</span></label>
+        <div class="input-with-prefix">
+          <span class="input-prefix">$</span>
+          <input type="number" id="estimated-amount" min="0" step="0.01" placeholder="0.00" />
+        </div>
+        <div class="coverage-reminder" id="coverage-reminder"></div>
+        <div class="field-error" id="estimated-amount-error"></div>
+      </div>
+    </div>
+
+    <!-- Step 4: Document Upload -->
+    <div class="step-panel" data-step="4">
+      <h2>Upload Documents</h2>
+      <p class="step-description">Upload photos of the damage and any supporting documents.</p>
+
+      <div class="upload-section">
+        <h3>Damage Photos <span class="required">*</span></h3>
+        <p class="upload-hint">At least one photo is required. You can upload up to 10 photos.</p>
+
+        <div class="upload-zone" id="photo-upload-zone">
+          <div class="upload-zone-content">
+            <p style="font-size: 32px; margin: 0 0 12px 0;">📷</p>
+            <p>Drag photos here or <span class="upload-browse">browse</span></p>
+            <p class="upload-formats">JPG, PNG, GIF up to 25MB each</p>
+          </div>
+          <input type="file" id="photo-input" multiple accept=".jpg,.jpeg,.png,.gif" style="display:none;" />
+        </div>
+
+        <div class="upload-preview" id="photo-preview"></div>
+        <div class="field-error" id="photo-error"></div>
+      </div>
+
+      <div class="upload-section">
+        <h3>Additional Documents (Optional)</h3>
+        <p class="upload-hint">Police reports, receipts, or other supporting documents.</p>
+
+        <div class="upload-zone" id="doc-upload-zone">
+          <div class="upload-zone-content">
+            <p style="font-size: 32px; margin: 0 0 12px 0;">📄</p>
+            <p>Drag documents here or <span class="upload-browse">browse</span></p>
+            <p class="upload-formats">PDF, JPG, PNG up to 25MB each</p>
+          </div>
+          <input type="file" id="doc-input" multiple accept=".pdf,.jpg,.jpeg,.png" style="display:none;" />
+        </div>
+
+        <div class="upload-preview" id="doc-preview"></div>
+      </div>
+    </div>
+
+    <!-- Step 5: Review & Sign -->
+    <div class="step-panel" data-step="5">
+      <h2>Review & Submit</h2>
+      <p class="step-description">Please review your claim details before submitting.</p>
+
+      <div class="review-section">
+        <div class="review-header">
+          <h3>Policy Information</h3>
+          <button type="button" class="btn-edit" data-goto-step="1">Edit</button>
+        </div>
+        <div class="review-content" id="review-policy"></div>
+      </div>
+
+      <div class="review-section">
+        <div class="review-header">
+          <h3>Incident Details</h3>
+          <button type="button" class="btn-edit" data-goto-step="2">Edit</button>
+        </div>
+        <div class="review-content" id="review-incident"></div>
+      </div>
+
+      <div class="review-section">
+        <div class="review-header">
+          <h3>Damage Description</h3>
+          <button type="button" class="btn-edit" data-goto-step="3">Edit</button>
+        </div>
+        <div class="review-content" id="review-description"></div>
+      </div>
+
+      <div class="review-section">
+        <div class="review-header">
+          <h3>Uploaded Documents</h3>
+          <button type="button" class="btn-edit" data-goto-step="4">Edit</button>
+        </div>
+        <div class="review-content" id="review-documents"></div>
+      </div>
+
+      <div class="signature-section">
+        <h3>Digital Signature</h3>
+        <p>Sign below to certify that the information provided is accurate.</p>
+
+        <div class="signature-pad-container">
+          <canvas id="signature-pad" width="500" height="150"></canvas>
+          <button type="button" class="btn-clear-signature" id="clear-signature">Clear</button>
+        </div>
+        <div class="field-error" id="signature-error"></div>
+
+        <div class="consent-section">
+          <label class="checkbox-label">
+            <input type="checkbox" id="consent-checkbox" />
+            <span>I certify that the information provided is true and accurate. False information may result in claim denial or policy cancellation.</span>
+          </label>
+          <div class="field-error" id="consent-error"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Navigation Buttons -->
+  <div class="wizard-navigation">
+    <button type="button" class="btn btn-secondary" id="btn-previous" disabled>
+      ← Previous
+    </button>
+
+    <button type="button" class="btn btn-primary" id="btn-next">
+      Next →
+    </button>
+
+    <button type="button" class="btn btn-success" id="btn-submit" style="display:none;">
+      ✈ Submit Claim
+    </button>
+  </div>
+
+</div>
+
+    </div>
+  </div>
+</div>

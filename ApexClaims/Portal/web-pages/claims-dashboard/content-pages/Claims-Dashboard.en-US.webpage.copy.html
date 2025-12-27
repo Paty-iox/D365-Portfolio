@@ -1,0 +1,101 @@
+<div class="row sectionBlockLayout text-start" style="min-height: auto; padding: 8px;">
+  <div class="container" style="display: flex; flex-wrap: wrap;">
+    <div class="col-lg-12 columnBlockLayout" style="padding: 0; margin: 0; min-height: 200px;">
+
+{% include 'Portal Web Api Security' %}
+
+<div class="claims-dashboard" id="claims-dashboard">
+
+  <!-- Header -->
+  <div class="dashboard-header">
+    <div class="header-content">
+      <h1>My Claims</h1>
+      <p class="header-subtitle">View and manage your insurance claims</p>
+    </div>
+  </div>
+
+  <!-- Summary Stats -->
+  <div class="stats-container">
+    <div class="stat-card">
+      <div class="stat-content">
+        <span class="stat-value" id="stat-total">-</span>
+        <span class="stat-label">Total Claims</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-content">
+        <span class="stat-value" id="stat-open">-</span>
+        <span class="stat-label">Under Review</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-content">
+        <span class="stat-value" id="stat-approved">-</span>
+        <span class="stat-label">Approved</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-content">
+        <span class="stat-value" id="stat-denied">-</span>
+        <span class="stat-label">Denied</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-container">
+    <div class="filter-group">
+      <label for="filter-status">Filter by Status:</label>
+      <select id="filter-status">
+        <option value="">All</option>
+        <option value="1">Draft</option>
+        <option value="100000000">Submitted</option>
+        <option value="100000001">Under Review</option>
+        <option value="100000002">Approved</option>
+        <option value="100000003">Denied</option>
+        <option value="100000004">Closed</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="filter-type">Filter by Type:</label>
+      <select id="filter-type">
+        <option value="">All</option>
+        <option value="100000000">Auto</option>
+        <option value="100000001">Home</option>
+        <option value="100000002">Commercial</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Claims Table -->
+  <div class="table-container">
+    <table class="claims-table" id="claims-table">
+      <thead>
+        <tr>
+          <th data-sort="new_claimnumber">Claim # <span class="sort-icon"></span></th>
+          <th data-sort="new_claimtype">Type <span class="sort-icon"></span></th>
+          <th data-sort="statuscode">Status <span class="sort-icon"></span></th>
+          <th data-sort="new_incidentdate">Incident Date <span class="sort-icon"></span></th>
+          <th data-sort="new_estimatedamount">Est. Amount <span class="sort-icon"></span></th>
+          <th data-sort="createdon">Created <span class="sort-icon"></span></th>
+        </tr>
+      </thead>
+      <tbody id="claims-tbody">
+        <tr class="loading-row">
+          <td colspan="6">Loading claims...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" id="empty-state" style="display: none;">
+    <h3>No Claims Found</h3>
+    <p>No claims match your current filters.</p>
+  </div>
+
+</div>
+
+    </div>
+  </div>
+</div>

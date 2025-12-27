@@ -1,0 +1,414 @@
+/* Profile Page Redesign - Apex Claims Branding */
+
+/* ============================================
+   HIDE LEFT SIDEBAR COMPLETELY
+   ============================================ */
+.profile-sidebar,
+.sidebar,
+.nav-profile,
+.profile-navigation,
+.nav-sidebar,
+aside,
+aside.col-md-3,
+aside.col-md-4,
+aside.col-lg-3,
+aside.col-lg-4,
+.col-md-3:has(.nav-profile),
+.col-md-3:has(.list-group),
+.col-lg-3:has(.nav-profile),
+.col-lg-3:has(.list-group),
+[class*="sidebar"],
+.list-group.nav-profile,
+.profile-nav,
+.side-nav {
+    display: none !important;
+    width: 0 !important;
+    max-width: 0 !important;
+    flex: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+}
+
+/* Hide duplicate page title */
+.page-heading,
+h1.page-header,
+.content-wrapper > h1:first-child,
+.page-copy > h1:first-child {
+    display: none !important;
+}
+
+/* Hide the default page copy text */
+.page-copy > p {
+    display: none;
+}
+
+/* ============================================
+   CENTER MAIN CONTENT - SINGLE COLUMN LAYOUT
+   ============================================ */
+.profile-content,
+.col-md-9,
+.col-md-8,
+.col-lg-9,
+.col-lg-8,
+main,
+.content-wrapper,
+.page-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 100% !important;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+}
+
+.row:has(.profile-content),
+.row:has(.col-md-9),
+.container-fluid,
+.container {
+    max-width: 800px !important;
+    margin: 0 auto !important;
+    padding: 40px 24px !important;
+}
+
+/* Main container styling */
+.profile-page-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+/* Profile Header */
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 32px;
+    padding: 24px;
+    background: #FFFFFF;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e2e8f0;
+}
+
+.profile-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #163E93;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.profile-info h1 {
+    margin: 0 0 4px 0;
+    font-size: 24px;
+    color: #051C2A;
+    font-weight: 600;
+}
+
+.profile-info p {
+    margin: 0;
+    color: #64748b;
+    font-size: 14px;
+}
+
+/* Profile Cards */
+.profile-card {
+    background: #FFFFFF;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 24px 32px;
+    margin-bottom: 24px;
+    border: 1px solid #e2e8f0;
+}
+
+.profile-card h2 {
+    color: #051C2A;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #30A3DA;
+}
+
+/* Override default form styling */
+.crmEntityFormView {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+.crmEntityFormView table {
+    width: 100%;
+}
+
+/* Form fields */
+.crmEntityFormView .cell {
+    padding: 8px 0 !important;
+}
+
+.crmEntityFormView .cell label,
+.crmEntityFormView .cell .info label {
+    color: #051C2A !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    margin-bottom: 8px !important;
+    display: block;
+}
+
+.crmEntityFormView input[type="text"],
+.crmEntityFormView input[type="email"],
+.crmEntityFormView input[type="tel"],
+.crmEntityFormView select,
+.crmEntityFormView textarea {
+    border: 1.5px solid #cbd5e0 !important;
+    border-radius: 8px !important;
+    padding: 12px 16px !important;
+    font-size: 14px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    transition: border-color 0.2s, box-shadow 0.2s !important;
+}
+
+.crmEntityFormView input[type="text"]:focus,
+.crmEntityFormView input[type="email"]:focus,
+.crmEntityFormView input[type="tel"]:focus,
+.crmEntityFormView select:focus,
+.crmEntityFormView textarea:focus {
+    border-color: #30A3DA !important;
+    box-shadow: 0 0 0 3px rgba(48, 163, 218, 0.15) !important;
+    outline: none !important;
+}
+
+/* Hide unwanted fields */
+.crmEntityFormView .cell[data-name="parentcustomerid"],
+.crmEntityFormView .cell[data-name="jobtitle"],
+.crmEntityFormView .cell[data-name="nickname"],
+.crmEntityFormView .cell[data-name="websiteurl"],
+.crmEntityFormView .cell[data-name="adx_publicprofilecopy"],
+.crmEntityFormView .cell[data-name="preferredcontactmethodcode"],
+.crmEntityFormView .cell[data-name="adx_preferredlanguageid"],
+#parentcustomerid,
+#jobtitle,
+#nickname,
+#websiteurl,
+#adx_publicprofilecopy,
+#preferredcontactmethodcode,
+#adx_preferredlanguageid,
+.section[data-name="contact_method"],
+.section[data-name="how_contact"],
+tr:has(#parentcustomerid),
+tr:has(#jobtitle),
+tr:has(#nickname),
+tr:has(#websiteurl),
+tr:has(#adx_publicprofilecopy),
+tr:has(#preferredcontactmethodcode) {
+    display: none !important;
+}
+
+/* Hide contact method checkboxes section */
+.crmEntityFormView fieldset:has(input[type="checkbox"][name*="contact"]) {
+    display: none !important;
+}
+
+/* Style the form sections */
+fieldset {
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 0 24px 0 !important;
+}
+
+fieldset legend {
+    color: #051C2A !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    padding-bottom: 12px !important;
+    margin-bottom: 16px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    width: 100% !important;
+}
+
+/* Submit button */
+.crmEntityFormView input[type="submit"],
+.crmEntityFormView .btn-primary,
+.profile-form-actions .btn-primary {
+    background: #163E93 !important;
+    color: #FFFFFF !important;
+    border: none !important;
+    padding: 12px 24px !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    cursor: pointer !important;
+    transition: background 0.2s !important;
+}
+
+.crmEntityFormView input[type="submit"]:hover,
+.crmEntityFormView .btn-primary:hover,
+.profile-form-actions .btn-primary:hover {
+    background: #30A3DA !important;
+}
+
+/* Secondary/Cancel button */
+.btn-default,
+.btn-secondary {
+    background: #FFFFFF !important;
+    color: #051C2A !important;
+    border: 1.5px solid #cbd5e0 !important;
+    padding: 12px 24px !important;
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+}
+
+.btn-default:hover,
+.btn-secondary:hover {
+    background: #f8fafc !important;
+    border-color: #30A3DA !important;
+}
+
+/* ============================================
+   SECURITY SECTION - STYLED AS CARD
+   ============================================ */
+
+/* Target the security area and style as card */
+.set-password-link,
+.change-email-link,
+.manage-authentication-link,
+[class*="security"],
+.security-section,
+.security-links,
+fieldset:has(a[href*="password"]),
+fieldset:has(a[href*="email"]),
+fieldset:has(a[href*="authentication"]),
+.profile-security,
+div:has(> a[href*="set-password"]),
+div:has(> a[href*="change-email"]) {
+    /* Will be wrapped by JS */
+}
+
+/* Security card wrapper (added by JavaScript) */
+.security-card {
+    background: #FFFFFF;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 24px 32px;
+    margin-top: 24px;
+    border: 1px solid #e2e8f0;
+}
+
+.security-card h2 {
+    color: #051C2A;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #30A3DA;
+}
+
+.security-card ul,
+.security-card .security-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.security-card li,
+.security-card .security-item {
+    padding: 16px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.security-card li:last-child,
+.security-card .security-item:last-child {
+    border-bottom: none;
+}
+
+.security-card a {
+    color: #163E93;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
+    display: block;
+    padding: 4px 0;
+    transition: color 0.2s ease;
+}
+
+.security-card a:hover {
+    color: #30A3DA;
+}
+
+/* Style existing security links on the page */
+a[href*="set-password"],
+a[href*="change-email"],
+a[href*="manage-external-authentication"],
+a[href*="authentication"] {
+    color: #163E93 !important;
+    text-decoration: none !important;
+    font-weight: 500 !important;
+    font-size: 15px !important;
+    display: block !important;
+    padding: 12px 0 !important;
+    border-bottom: 1px solid #e2e8f0;
+    transition: color 0.2s ease !important;
+}
+
+a[href*="set-password"]:hover,
+a[href*="change-email"]:hover,
+a[href*="manage-external-authentication"]:hover,
+a[href*="authentication"]:hover {
+    color: #30A3DA !important;
+}
+
+a[href*="set-password"]:last-of-type,
+a[href*="change-email"]:last-of-type,
+a[href*="manage-external-authentication"]:last-of-type {
+    border-bottom: none;
+}
+
+/* Alert/Message styling */
+.alert {
+    border-radius: 8px !important;
+    padding: 16px !important;
+    margin-bottom: 24px !important;
+}
+
+.alert-success {
+    background: #d1fae5 !important;
+    border: 1px solid #10b981 !important;
+    color: #065f46 !important;
+}
+
+.alert-danger {
+    background: #fee2e2 !important;
+    border: 1px solid #ef4444 !important;
+    color: #991b1b !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .profile-page-container {
+        padding: 16px;
+    }
+
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .profile-card {
+        padding: 20px;
+    }
+
+    .crmEntityFormView input[type="text"],
+    .crmEntityFormView input[type="email"],
+    .crmEntityFormView input[type="tel"],
+    .crmEntityFormView select {
+        padding: 10px 12px !important;
+    }
+}

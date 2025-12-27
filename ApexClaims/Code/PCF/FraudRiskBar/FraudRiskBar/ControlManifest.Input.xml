@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest>
+  <control namespace="ApexInsurance" constructor="FraudRiskBar" version="1.0.7" display-name-key="FraudRiskBar" description-key="FraudRiskBar_Desc" control-type="standard" >
+    <external-service-usage enabled="false">
+    </external-service-usage>
+
+    <!-- Bound property for the fraud risk score -->
+    <property name="riskScore" display-name-key="Risk_Score" description-key="Risk_Score_Desc" of-type="Whole.None" usage="bound" required="true" />
+
+    <!-- Configuration properties -->
+    <property name="showLabel" display-name-key="Show_Label" description-key="Show_Label_Desc" of-type="TwoOptions" usage="input" required="false" default-value="true" />
+    <property name="showTicks" display-name-key="Show_Ticks" description-key="Show_Ticks_Desc" of-type="TwoOptions" usage="input" required="false" default-value="true" />
+    <property name="showHeader" display-name-key="Show_Header" description-key="Show_Header_Desc" of-type="TwoOptions" usage="input" required="false" default-value="true" />
+    <property name="enableAnimation" display-name-key="Enable_Animation" description-key="Enable_Animation_Desc" of-type="TwoOptions" usage="input" required="false" default-value="true" />
+    <property name="enablePulse" display-name-key="Enable_Pulse" description-key="Enable_Pulse_Desc" of-type="TwoOptions" usage="input" required="false" default-value="true" />
+    <property name="barHeight" display-name-key="Bar_Height" description-key="Bar_Height_Desc" of-type="Whole.None" usage="input" required="false" default-value="16" />
+
+    <resources>
+      <code path="index.ts" order="1"/>
+      <css path="RiskBar.css" order="1" />
+    </resources>
+
+    <feature-usage>
+      <uses-feature name="Utility" required="true" />
+    </feature-usage>
+  </control>
+</manifest>

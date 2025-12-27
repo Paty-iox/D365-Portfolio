@@ -1,0 +1,12 @@
+adx_append: false
+adx_appendto: false
+adx_create: true
+adx_delete: false
+adx_entitylogicalname: new_claimdocument
+adx_entityname: Claim Document - Customer Access
+adx_entitypermissionid: def7d296-1adf-f011-8543-000d3a326d87
+adx_parententitypermission: 5dee5276-1adf-f011-8543-000d3a326d87
+adx_parentrelationship: new_claimdocument_Claim_new_claim
+adx_read: true
+adx_scope: 756150003
+adx_write: false

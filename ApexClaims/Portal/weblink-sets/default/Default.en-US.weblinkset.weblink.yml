@@ -1,0 +1,22 @@
+- adx_disablepagevalidation: false
+  adx_displayimageonly: false
+  adx_displayorder: 1
+  adx_displaypagechildlinks: false
+  adx_name: Home
+  adx_openinnewwindow: false
+  adx_pageid: 0cce02fb-9453-4d98-b30c-d1401c8a59cb
+  adx_publishingstateid: aa217ce8-6c3d-4c37-b8c3-106ded806681
+  adx_robotsfollowlink: true
+  adx_weblinkid: 2c01cbc9-ad2c-4453-850b-d1218378eeae
+  adx_weblinksetid: 04bb0efb-56c0-4ec5-8984-6437ab9178aa
+- adx_displayimageonly: false
+  adx_displayorder: 2
+  adx_displaypagechildlinks: false
+  adx_displaypagevalidation: false
+  adx_name: New Claim
+  adx_openinnewwindow: false
+  adx_pageid: b42c895d-d955-c732-619b-d6ad360b39e3
+  adx_publishingstateid: aa217ce8-6c3d-4c37-b8c3-106ded806681
+  adx_robotsfollowlink: true
+  adx_weblinkid: 60305312-07e7-0fb1-52ea-a98253535e95
+  adx_weblinksetid: 04bb0efb-56c0-4ec5-8984-6437ab9178aa
