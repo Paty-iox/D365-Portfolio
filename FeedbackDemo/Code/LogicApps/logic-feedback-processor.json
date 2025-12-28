@@ -1,0 +1,385 @@
+{
+  "accessEndpoint": "https://prod-93.eastus.logic.azure.com:443/workflows/5357cc7758714b189407bda3d6de461a",
+  "changedTime": "2025-12-08T10:18:16.9430862Z",
+  "createdTime": "2025-12-02T03:54:52.5598575Z",
+  "definition": {
+    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+    "actions": {
+      "Build_Email_Body": {
+        "inputs": "@concat(\n  replace(body('Parse_Feedback_Data')?['autoResponse'], decodeUriComponent('%0A'), '<br>'),\n  '<br><br>---<br><strong>Feedback Reference:</strong> ',\n  outputs('Update_Dataverse_Record')?['body/new_feedbackid'],\n  '<br><strong>Submitted:</strong> ',\n  formatDateTime(body('Parse_Feedback_Data')?['submittedOn'], 'MMMM dd, yyyy ')\n)",
+        "runAfter": {
+          "Update_Dataverse_Record": [
+            "Succeeded"
+          ]
+        },
+        "type": "Compose"
+      },
+      "Parse_Feedback_Data": {
+        "inputs": {
+          "content": "@json(base64ToString(triggerBody()?['ContentData']))",
+          "schema": {
+            "properties": {
+              "aiConfidence": {
+                "properties": {
+                  "negative": {
+                    "type": "number"
+                  },
+                  "neutral": {
+                    "type": "number"
+                  },
+                  "positive": {
+                    "type": "number"
+                  }
+                },
+                "type": "object"
+              },
+              "autoResponse": {
+                "type": "string"
+              },
+              "category": {
+                "type": "string"
+              },
+              "customerEmail": {
+                "type": "string"
+              },
+              "customerName": {
+                "type": "string"
+              },
+              "detectedLanguage": {
+                "type": "string"
+              },
+              "entities": {
+                "type": "string"
+              },
+              "entitySummary": {
+                "type": "string"
+              },
+              "feedbackText": {
+                "type": "string"
+              },
+              "id": {
+                "type": "string"
+              },
+              "keyPhrases": {
+                "type": "string"
+              },
+              "languageConfidence": {
+                "type": "number"
+              },
+              "languageName": {
+                "type": "string"
+              },
+              "originalText": {
+                "type": "string"
+              },
+              "priority": {
+                "type": "string"
+              },
+              "priorityValue": {
+                "type": "integer"
+              },
+              "processedAt": {
+                "type": "string"
+              },
+              "processingLog": {
+                "type": "string"
+              },
+              "sentimentCategory": {
+                "type": "string"
+              },
+              "sentimentCategoryValue": {
+                "type": "integer"
+              },
+              "sentimentScore": {
+                "type": "number"
+              },
+              "submittedOn": {
+                "type": "string"
+              },
+              "translatedText": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "type": "object"
+          }
+        },
+        "runAfter": {},
+        "type": "ParseJson"
+      },
+      "Send_Thank_You_Email": {
+        "inputs": {
+          "body": {
+            "Body": "<p class=\"editor-paragraph\">@{outputs('Build_Email_Body')}</p>",
+            "Importance": "Normal",
+            "Subject": "Thank you for your feedback!",
+            "To": "@{body('Update_Dataverse_Record')?['new_customeremail']}"
+          },
+          "host": {
+            "connection": {
+              "name": "@parameters('$connections')['office365']['connectionId']"
+            }
+          },
+          "method": "post",
+          "path": "/v2/Mail"
+        },
+        "runAfter": {
+          "Build_Email_Body": [
+            "Succeeded"
+          ]
+        },
+        "type": "ApiConnection"
+      },
+      "Update_Dataverse_Record": {
+        "inputs": {
+          "body": {
+            "new_autoresponse": "@body('Parse_Feedback_Data')?['autoResponse']",
+            "new_detectedlanguage": "@body('Parse_Feedback_Data')?['detectedLanguage']",
+            "new_entities": "@body('Parse_Feedback_Data')?['entities']",
+            "new_languageconfidence": "@body('Parse_Feedback_Data')?['languageConfidence']",
+            "new_originaltext": "@body('Parse_Feedback_Data')?['originalText']",
+            "new_processingstages": "@body('Parse_Feedback_Data')?['processingLog']",
+            "new_sentimentcategory": "@body('Parse_Feedback_Data')?['sentimentCategoryValue']",
+            "new_sentimentscore": "@float(body('Parse_Feedback_Data')?['sentimentScore'])",
+            "new_translatedtext": "@body('Parse_Feedback_Data')?['translatedText']"
+          },
+          "headers": {
+            "accept": "application/json;odata.metadata=full",
+            "organization": "https://org22b59a4a.crm.dynamics.com",
+            "prefer": "return=representation,odata.include-annotations=*"
+          },
+          "host": {
+            "connection": {
+              "name": "@parameters('$connections')['commondataservice']['connectionId']"
+            }
+          },
+          "method": "patch",
+          "path": "/api/data/v9.1/@{encodeURIComponent(encodeURIComponent('new_customerfeedbacks'))}(@{encodeURIComponent(encodeURIComponent(body('Parse_Feedback_Data')?['id']))})"
+        },
+        "runAfter": {
+          "Parse_Feedback_Data": [
+            "Succeeded"
+          ]
+        },
+        "type": "ApiConnection"
+      }
+    },
+    "contentVersion": "1.0.0.0",
+    "outputs": {},
+    "parameters": {
+      "$connections": {
+        "defaultValue": {},
+        "type": "Object"
+      }
+    },
+    "triggers": {
+      "Processed_Feedback_Received": {
+        "evaluatedRecurrence": {
+          "frequency": "Minute",
+          "interval": 3
+        },
+        "inputs": {
+          "host": {
+            "connection": {
+              "name": "@parameters('$connections')['servicebus-1']['connectionId']"
+            }
+          },
+          "method": "get",
+          "path": "/@{encodeURIComponent(encodeURIComponent('feedback-analyzed'))}/subscriptions/@{encodeURIComponent('all-feedback')}/messages/head",
+          "queries": {
+            "subscriptionType": "Main"
+          }
+        },
+        "recurrence": {
+          "frequency": "Minute",
+          "interval": 3
+        },
+        "type": "ApiConnection"
+      }
+    }
+  },
+  "endpointsConfiguration": {
+    "connector": {
+      "outgoingIpAddresses": [
+        {
+          "address": "40.71.249.139"
+        },
+        {
+          "address": "40.71.249.205"
+        },
+        {
+          "address": "40.114.40.132"
+        },
+        {
+          "address": "40.71.11.80/28"
+        },
+        {
+          "address": "40.71.15.160/27"
+        },
+        {
+          "address": "52.188.157.160"
+        },
+        {
+          "address": "20.88.153.176/28"
+        },
+        {
+          "address": "20.88.153.192/27"
+        },
+        {
+          "address": "52.151.221.184"
+        },
+        {
+          "address": "52.151.221.119"
+        }
+      ]
+    },
+    "workflow": {
+      "accessEndpointIpAddresses": [
+        {
+          "address": "4.156.26.80"
+        },
+        {
+          "address": "4.156.25.14"
+        },
+        {
+          "address": "4.156.25.189"
+        },
+        {
+          "address": "20.242.168.44"
+        },
+        {
+          "address": "4.156.241.183"
+        },
+        {
+          "address": "4.156.243.174"
+        },
+        {
+          "address": "4.156.242.86"
+        },
+        {
+          "address": "4.156.243.165"
+        },
+        {
+          "address": "52.224.145.162"
+        },
+        {
+          "address": "4.156.242.96"
+        },
+        {
+          "address": "4.156.243.173"
+        },
+        {
+          "address": "4.156.241.195"
+        },
+        {
+          "address": "4.156.242.97"
+        },
+        {
+          "address": "4.156.242.26"
+        },
+        {
+          "address": "4.156.242.13"
+        },
+        {
+          "address": "172.212.37.35"
+        }
+      ],
+      "outgoingIpAddresses": [
+        {
+          "address": "52.226.216.187"
+        },
+        {
+          "address": "40.76.148.50"
+        },
+        {
+          "address": "20.84.29.18"
+        },
+        {
+          "address": "40.76.174.39"
+        },
+        {
+          "address": "4.156.27.7"
+        },
+        {
+          "address": "4.156.28.117"
+        },
+        {
+          "address": "4.156.25.188"
+        },
+        {
+          "address": "20.242.168.24"
+        },
+        {
+          "address": "4.156.241.165"
+        },
+        {
+          "address": "4.156.243.170"
+        },
+        {
+          "address": "4.156.242.49"
+        },
+        {
+          "address": "4.156.243.164"
+        },
+        {
+          "address": "52.224.145.30"
+        },
+        {
+          "address": "4.156.242.92"
+        },
+        {
+          "address": "4.156.243.172"
+        },
+        {
+          "address": "4.156.241.191"
+        },
+        {
+          "address": "4.156.241.47"
+        },
+        {
+          "address": "4.156.241.229"
+        },
+        {
+          "address": "4.156.242.12"
+        },
+        {
+          "address": "172.212.32.196"
+        }
+      ]
+    }
+  },
+  "id": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/resourceGroups/rg-feedback-demo/providers/Microsoft.Logic/workflows/logic-feedback-processor",
+  "location": "eastus",
+  "name": "logic-feedback-processor",
+  "parameters": {
+    "$connections": {
+      "value": {
+        "commondataservice": {
+          "connectionId": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/resourceGroups/rg-feedback-demo/providers/Microsoft.Web/connections/commondataservice",
+          "connectionName": "commondataservice",
+          "connectionProperties": {},
+          "id": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/providers/Microsoft.Web/locations/eastus/managedApis/commondataservice"
+        },
+        "office365": {
+          "connectionId": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/resourceGroups/rg-feedback-demo/providers/Microsoft.Web/connections/office365",
+          "connectionName": "office365",
+          "connectionProperties": {},
+          "id": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/providers/Microsoft.Web/locations/eastus/managedApis/office365"
+        },
+        "servicebus-1": {
+          "connectionId": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/resourceGroups/rg-feedback-demo/providers/Microsoft.Web/connections/servicebus",
+          "connectionName": "servicebus",
+          "connectionProperties": {},
+          "id": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/providers/Microsoft.Web/locations/eastus/managedApis/servicebus"
+        }
+      }
+    }
+  },
+  "provisioningState": "Succeeded",
+  "resourceGroup": "rg-feedback-demo",
+  "state": "Enabled",
+  "type": "Microsoft.Logic/workflows",
+  "version": "08584364177885409395"
+}

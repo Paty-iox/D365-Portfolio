@@ -1,0 +1,150 @@
+[
+  {
+    "config": {
+      "bindings": [
+        {
+          "authLevel": "function",
+          "direction": "in",
+          "methods": [
+            "get",
+            "post"
+          ],
+          "name": "req",
+          "type": "httpTrigger"
+        },
+        {
+          "direction": "out",
+          "name": "res",
+          "type": "http"
+        }
+      ]
+    },
+    "configHref": "https://func-feedback-demo2-ffh3exe9bxgxdmhg.eastus-01.azurewebsites.net/admin/vfs/site/wwwroot/AnalyzeTrends/function.json",
+    "files": null,
+    "functionAppId": null,
+    "href": "https://func-feedback-demo2-ffh3exe9bxgxdmhg.eastus-01.azurewebsites.net/admin/functions/AnalyzeTrends",
+    "id": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/resourceGroups/rg-feedback-demo/providers/Microsoft.Web/sites/func-feedback-demo2/functions/AnalyzeTrends",
+    "invokeUrlTemplate": "https://func-feedback-demo2-ffh3exe9bxgxdmhg.eastus-01.azurewebsites.net/api/analyzetrends",
+    "isDisabled": false,
+    "kind": null,
+    "language": "node",
+    "location": "East US",
+    "name": "func-feedback-demo2/AnalyzeTrends",
+    "resourceGroup": "rg-feedback-demo",
+    "scriptHref": "https://func-feedback-demo2-ffh3exe9bxgxdmhg.eastus-01.azurewebsites.net/admin/vfs/site/wwwroot/AnalyzeTrends/index.js",
+    "scriptRootPathHref": "https://func-feedback-demo2-ffh3exe9bxgxdmhg.eastus-01.azurewebsites.net/admin/vfs/site/wwwroot/AnalyzeTrends/",
+    "secretsFileHref": null,
+    "testData": "",
+    "testDataHref": "https://func-feedback-demo2-ffh3exe9bxgxdmhg.eastus-01.azurewebsites.net/admin/vfs/data/Functions/sampledata/AnalyzeTrends.dat",
+    "type": "Microsoft.Web/sites/functions"
+  },
+  {
+    "config": {
+      "bindings": [
+        {
+          "authLevel": "function",
+          "direction": "in",
+          "methods": [
+            "get",
+            "post"
+          ],
+          "name": "req",
+          "type": "httpTrigger"
+        },
+        {
+          "direction": "out",
+          "name": "res",
+          "type": "http"
+        }
+      ]
+    },
+    "configHref": "https://func-feedback-demo2-ffh3exe9bxgxdmhg.eastus-01.azurewebsites.net/admin/vfs/site/wwwroot/FetchFeedbackStats/function.json",
+    "files": null,
+    "functionAppId": null,
+    "href": "https://func-feedback-demo2-ffh3exe9bxgxdmhg.eastus-01.azurewebsites.net/admin/functions/FetchFeedbackStats",
+    "id": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/resourceGroups/rg-feedback-demo/providers/Microsoft.Web/sites/func-feedback-demo2/functions/FetchFeedbackStats",
+    "invokeUrlTemplate": "https://func-feedback-demo2-ffh3exe9bxgxdmhg.eastus-01.azurewebsites.net/api/fetchfeedbackstats",
+    "isDisabled": false,
+    "kind": null,
+    "language": "node",
+    "location": "East US",
+    "name": "func-feedback-demo2/FetchFeedbackStats",
+    "resourceGroup": "rg-feedback-demo",
+    "scriptHref": "https://func-feedback-demo2-ffh3exe9bxgxdmhg.eastus-01.azurewebsites.net/admin/vfs/site/wwwroot/FetchFeedbackStats/index.js",
+    "scriptRootPathHref": "https://func-feedback-demo2-ffh3exe9bxgxdmhg.eastus-01.azurewebsites.net/admin/vfs/site/wwwroot/FetchFeedbackStats/",
+    "secretsFileHref": null,
+    "testData": "",
+    "testDataHref": "https://func-feedback-demo2-ffh3exe9bxgxdmhg.eastus-01.azurewebsites.net/admin/vfs/data/Functions/sampledata/FetchFeedbackStats.dat",
+    "type": "Microsoft.Web/sites/functions"
+  },
+  {
+    "config": {
+      "bindings": [
+        {
+          "authLevel": "function",
+          "direction": "in",
+          "methods": [
+            "get",
+            "post"
+          ],
+          "name": "req",
+          "type": "httpTrigger"
+        },
+        {
+          "direction": "out",
+          "name": "res",
+          "type": "http"
+        }
+      ]
+    },
+    "configHref": "https://func-feedback-demo2-ffh3exe9bxgxdmhg.eastus-01.azurewebsites.net/admin/vfs/site/wwwroot/GenerateReport/function.json",
+    "files": null,
+    "functionAppId": null,
+    "href": "https://func-feedback-demo2-ffh3exe9bxgxdmhg.eastus-01.azurewebsites.net/admin/functions/GenerateReport",
+    "id": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/resourceGroups/rg-feedback-demo/providers/Microsoft.Web/sites/func-feedback-demo2/functions/GenerateReport",
+    "invokeUrlTemplate": "https://func-feedback-demo2-ffh3exe9bxgxdmhg.eastus-01.azurewebsites.net/api/generatereport",
+    "isDisabled": false,
+    "kind": null,
+    "language": "node",
+    "location": "East US",
+    "name": "func-feedback-demo2/GenerateReport",
+    "resourceGroup": "rg-feedback-demo",
+    "scriptHref": "https://func-feedback-demo2-ffh3exe9bxgxdmhg.eastus-01.azurewebsites.net/admin/vfs/site/wwwroot/GenerateReport/index.js",
+    "scriptRootPathHref": "https://func-feedback-demo2-ffh3exe9bxgxdmhg.eastus-01.azurewebsites.net/admin/vfs/site/wwwroot/GenerateReport/",
+    "secretsFileHref": null,
+    "testData": "",
+    "testDataHref": "https://func-feedback-demo2-ffh3exe9bxgxdmhg.eastus-01.azurewebsites.net/admin/vfs/data/Functions/sampledata/GenerateReport.dat",
+    "type": "Microsoft.Web/sites/functions"
+  },
+  {
+    "config": {
+      "bindings": [
+        {
+          "connection": "sb-feedback-demo_RootManageSharedAccessKey_SERVICEBUS",
+          "direction": "in",
+          "name": "mySbMsg",
+          "queueName": "feedback-incoming",
+          "type": "serviceBusTrigger"
+        }
+      ]
+    },
+    "configHref": "https://func-feedback-demo2-ffh3exe9bxgxdmhg.eastus-01.azurewebsites.net/admin/vfs/site/wwwroot/ProcessFeedback/function.json",
+    "files": null,
+    "functionAppId": null,
+    "href": "https://func-feedback-demo2-ffh3exe9bxgxdmhg.eastus-01.azurewebsites.net/admin/functions/ProcessFeedback",
+    "id": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/resourceGroups/rg-feedback-demo/providers/Microsoft.Web/sites/func-feedback-demo2/functions/ProcessFeedback",
+    "invokeUrlTemplate": null,
+    "isDisabled": false,
+    "kind": null,
+    "language": "node",
+    "location": "East US",
+    "name": "func-feedback-demo2/ProcessFeedback",
+    "resourceGroup": "rg-feedback-demo",
+    "scriptHref": "https://func-feedback-demo2-ffh3exe9bxgxdmhg.eastus-01.azurewebsites.net/admin/vfs/site/wwwroot/ProcessFeedback/index.js",
+    "scriptRootPathHref": "https://func-feedback-demo2-ffh3exe9bxgxdmhg.eastus-01.azurewebsites.net/admin/vfs/site/wwwroot/ProcessFeedback/",
+    "secretsFileHref": null,
+    "testData": "",
+    "testDataHref": "https://func-feedback-demo2-ffh3exe9bxgxdmhg.eastus-01.azurewebsites.net/admin/vfs/data/Functions/sampledata/ProcessFeedback.dat",
+    "type": "Microsoft.Web/sites/functions"
+  }
+]

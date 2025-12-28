@@ -1,0 +1,11 @@
+{
+  "bindings": [
+    {
+      "name": "mySbMsg",
+      "type": "serviceBusTrigger",
+      "direction": "in",
+      "queueName": "feedback-incoming",
+      "connection": "sb-feedback-demo_RootManageSharedAccessKey_SERVICEBUS"
+    }
+  ]
+}
