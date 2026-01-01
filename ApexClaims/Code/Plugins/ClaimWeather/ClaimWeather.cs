@@ -9,22 +9,10 @@ using Microsoft.Xrm.Sdk.Query;
 
 namespace ApexClaims.Plugins
 {
-    /// <summary>
-    /// Plugin to automatically populate weather conditions on a Claim record.
-    /// Calls the WeatherLookup Azure Function when coordinates and incident date are available.
-    ///
-    /// Registration:
-    /// - Table: new_claim
-    /// - Messages: Create, Update
-    /// - Filtering Attributes: new_incidentlatitude, new_incidentlongitude, new_incidentdate
-    /// - Stage: Post-Operation
-    /// - Execution Mode: Synchronous
-    /// - Execution Order: 2 (runs after ClaimGeocoder)
-    ///
-    /// Environment Variables Required:
-    /// - icp_WeatherApiUrl: Azure Function URL
-    /// - icp_WeatherApiKey: Azure Function key
-    /// </summary>
+    // Populates weather conditions on Create/Update of new_claim
+    // Register: Post-Operation, Asynchronous, filter on new_incidentlatitude, new_incidentlongitude, new_incidentdate
+    // Execution Order: 2 (runs after ClaimGeocoder)
+    // Note: Async avoids blocking user saves during external API calls
     public class ClaimWeather : IPlugin
     {
         // Fallback values for development (Environment Variables override these)

@@ -9,7 +9,8 @@ using Microsoft.Xrm.Sdk.Query;
 namespace ApexClaims.Plugins
 {
     // Geocodes incident location on Create/Update of new_claim
-    // Registered Post-Operation, Synchronous, filtering on new_incidentlocation
+    // Register: Post-Operation, Asynchronous, filter on new_incidentlocation
+    // Note: Async avoids blocking user saves during external API calls
     public class ClaimGeocoder : IPlugin
     {
         private const string DefaultGeocodeApiUrl = "https://ApexClaims-func.azurewebsites.net/api/geocodelocation";

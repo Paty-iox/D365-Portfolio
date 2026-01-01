@@ -1,0 +1,16 @@
+{
+  "name": "apexclaims-functions",
+  "version": "1.0.0",
+  "description": "Azure Functions for Apex Claims - Fraud Detection, Geocoding, Weather Lookup",
+  "main": "index.js",
+  "scripts": {
+    "start": "func start",
+    "test": "echo \"No tests configured\" && exit 0"
+  },
+  "dependencies": {
+    "uuid": "^9.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

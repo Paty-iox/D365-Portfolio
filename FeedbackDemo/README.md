@@ -16,42 +16,6 @@ An automated feedback processing platform that:
 - **Escalates Priorities** - Automatic routing based on sentiment severity
 - **Reports Trends** - Daily analytics via email and Teams
 
-## Architecture
-
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                              Dynamics 365                                   │
-│  ┌──────────────────┐    ┌──────────────────┐    ┌───────────────────────┐ │
-│  │ Customer Feedback│    │ Power Automate   │    │    Copilot Bot        │ │
-│  │     Entity       │───▶│ (Send to Queue)  │    │ (Submit/Check Status) │ │
-│  └──────────────────┘    └────────┬─────────┘    └───────────────────────┘ │
-└───────────────────────────────────┼─────────────────────────────────────────┘
-                                    │
-                                    ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                           Azure Service Bus                                 │
-│                    Queue: feedback-incoming                                 │
-└───────────────────────────────────┬─────────────────────────────────────────┘
-                                    │
-                                    ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                     Azure Function: ProcessFeedback                         │
-│  ┌─────────────┐  ┌───────────┐  ┌───────────┐  ┌─────────┐  ┌───────────┐ │
-│  │  Language   │─▶│ Translate │─▶│ Sentiment │─▶│   NER   │─▶│   GPT     │ │
-│  │  Detection  │  │ (if !en)  │  │ Analysis  │  │         │  │ Response  │ │
-│  └─────────────┘  └───────────┘  └───────────┘  └─────────┘  └───────────┘ │
-└───────────────────────────────────┬─────────────────────────────────────────┘
-                                    │
-                                    ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                    Service Bus Topic: feedback-analyzed                     │
-│  ┌───────────────────────┐              ┌───────────────────────────────┐  │
-│  │ all-feedback          │              │ negative-feedback             │  │
-│  │ (Logic App → Update)  │              │ (Flow → Teams Alert)          │  │
-│  └───────────────────────┘              └───────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
-
 ## Components
 
 ### Azure Functions (Node.js)
@@ -129,7 +93,6 @@ FeedbackDemo/
 ├── Solutions/
 │   └── DEMOSOLUTION_1_0_0_1_managed.zip
 └── Documentation/
-    ├── Technical-Design-Document.md
     └── DEMO_Customer_Feedback_Analytics_FDD_v1.0.pdf
 ```
 
@@ -192,5 +155,5 @@ FeedbackDemo/
 
 ## Documentation
 
-- [Technical Design Document](./Documentation/Technical-Design-Document.md)
+- [Solution Architecture Diagram](./Documentation/Customer%20Feedback%20Solution%20Architecture.PNG)
 - [Functional Design Document](./Documentation/DEMO_Customer_Feedback_Analytics_FDD_v1.0.pdf)

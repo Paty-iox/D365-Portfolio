@@ -15,32 +15,6 @@ A Dynamics 365-based claims management system with:
 - **Weather Integration** - Historical weather data capture for claim validation
 - **Customer Portal** - Self-service claim submission and tracking
 
-## Architecture
-
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│                         Dynamics 365                                │
-│  ┌─────────────┐    ┌─────────────┐    ┌─────────────────────────┐ │
-│  │   Claims    │    │  Policies   │    │   Model-Driven App      │ │
-│  │   Entity    │    │   Entity    │    │   (Claims Processing)   │ │
-│  └──────┬──────┘    └─────────────┘    └─────────────────────────┘ │
-│         │                                                           │
-│  ┌──────▼──────┐                       ┌─────────────────────────┐ │
-│  │   Plugins   │                       │      PCF Control        │ │
-│  │ (C# .NET)   │                       │    (Fraud Risk Bar)     │ │
-│  └──────┬──────┘                       └─────────────────────────┘ │
-└─────────┼───────────────────────────────────────────────────────────┘
-          │
-          ▼
-┌─────────────────────────────────────────────────────────────────────┐
-│                      Azure Functions                                │
-│  ┌─────────────┐    ┌─────────────┐    ┌─────────────────────────┐ │
-│  │   Fraud     │    │  Geocode    │    │       Weather           │ │
-│  │  Detection  │    │  Location   │    │       Lookup            │ │
-│  └─────────────┘    └─────────────┘    └─────────────────────────┘ │
-└─────────────────────────────────────────────────────────────────────┘
-```
-
 ## Components
 
 ### Plugins (C# .NET 4.6.2)

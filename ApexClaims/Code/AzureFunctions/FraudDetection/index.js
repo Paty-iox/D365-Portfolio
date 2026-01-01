@@ -1,9 +1,5 @@
 const { v4: uuidv4 } = require('uuid');
 
-/**
- * Fraud Detection Azure Function
- * Simulates fraud scoring for insurance claims
- */
 module.exports = async function (context, req) {
     const correlationId = req.headers['x-correlation-id'] || uuidv4();
     context.log(`FraudDetection triggered - correlationId: ${correlationId}`);
