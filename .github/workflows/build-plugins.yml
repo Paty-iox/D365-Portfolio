@@ -1,0 +1,54 @@
+name: Build Plugins
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'ApexClaims/Code/Plugins/**'
+  pull_request:
+    branches: [master]
+    paths:
+      - 'ApexClaims/Code/Plugins/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build .NET Plugins
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Setup NuGet
+        uses: nuget/setup-nuget@v2
+
+      - name: Restore ClaimGeocoder
+        run: dotnet restore
+        working-directory: ApexClaims/Code/Plugins/ClaimGeocoder
+
+      - name: Restore ClaimWeather
+        run: dotnet restore
+        working-directory: ApexClaims/Code/Plugins/ClaimWeather
+
+      - name: Build ClaimGeocoder (Release)
+        run: dotnet build --configuration Release --no-restore
+        working-directory: ApexClaims/Code/Plugins/ClaimGeocoder
+
+      - name: Build ClaimWeather (Release)
+        run: dotnet build --configuration Release --no-restore
+        working-directory: ApexClaims/Code/Plugins/ClaimWeather
+
+      - name: Upload ClaimGeocoder artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ClaimGeocoder
+          path: ApexClaims/Code/Plugins/ClaimGeocoder/bin/Release/net462/ClaimGeocoder.dll
+
+      - name: Upload ClaimWeather artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ClaimWeather
+          path: ApexClaims/Code/Plugins/ClaimWeather/bin/Release/net462/ClaimWeather.dll
