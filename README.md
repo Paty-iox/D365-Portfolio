@@ -1,5 +1,8 @@
 # Dynamics 365 & Power Platform Portfolio
 
+[![Tests](https://github.com/Paty-iox/D365-Portfolio/actions/workflows/tests.yml/badge.svg)](https://github.com/Paty-iox/D365-Portfolio/actions/workflows/tests.yml)
+[![Build Plugins](https://github.com/Paty-iox/D365-Portfolio/actions/workflows/build-plugins.yml/badge.svg)](https://github.com/Paty-iox/D365-Portfolio/actions/workflows/build-plugins.yml)
+
 A collection of end-to-end solutions demonstrating Dynamics 365, Power Platform, and Azure integration capabilities.
 
 ---
