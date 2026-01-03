@@ -105,10 +105,6 @@ module.exports = async function (context, req) {
         riskFactors.push('High-value auto claim');
     }
 
-    // 6. Random variance (-5 to +10)
-    const variance = Math.floor(Math.random() * 16) - 5;
-    riskScore += variance;
-
     // Cap score between 0 and 100
     riskScore = Math.max(0, Math.min(100, riskScore));
 
