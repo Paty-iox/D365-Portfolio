@@ -8,17 +8,12 @@ using Microsoft.Xrm.Sdk.Query;
 
 namespace ApexClaims.Plugins
 {
-    // Geocodes incident location on Create/Update of new_claim
-    // Register: Post-Operation, Asynchronous, filter on new_incidentlocation
-    // Note: Async avoids blocking user saves during external API calls
     public class ClaimGeocoder : IPlugin
     {
         private const int ApiTimeoutMs = 15000;
         private const int MaxRetries = 3;
         private const int BaseRetryDelayMs = 500;
 
-        // Configuration via Dataverse Environment Variables
-        // See ApexClaims README for setup instructions
         private const string EnvVarGeocodeUrl = "new_geocodeapiurl";
         private const string EnvVarGeocodeKey = "new_geocodeapikey";
 
@@ -151,6 +146,7 @@ namespace ApexClaims.Plugins
             return null;
         }
 
+        // HttpWebRequest used due to .NET 4.6.2 plugin runtime; revisit on upgrade
         private GeocodeApiResponse CallGeocodeApi(string apiUrl, string apiKey, string address, ITracingService trace)
         {
             Exception lastException = null;
@@ -159,7 +155,7 @@ namespace ApexClaims.Plugins
             {
                 try
                 {
-                    trace.Trace("API call attempt {0} of {1}", attempt, MaxRetries);
+                    trace.Trace("Calling GeocodeLocation function, attempt {0}/{1}", attempt, MaxRetries);
 
                     var request = (HttpWebRequest)WebRequest.Create(apiUrl);
                     request.Method = "POST";

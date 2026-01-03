@@ -1,24 +1,8 @@
 # Power BI Reports
 
-Business intelligence dashboards for data analysis and performance monitoring.
-
----
+Report expects gateway refresh if using on-prem source.
 
 ## Commerce Growth and Performance
-
-**Sales Analytics Dashboard**
-
-A Power BI report for analyzing commerce performance metrics, sales trends, and regional distribution.
-
-### Features
-
-- Sales performance tracking over time
-- Regional breakdown and comparison
-- Product category analysis
-- KPI monitoring with targets
-- Trend identification and forecasting
-
-### Files
 
 ```
 Demo Commerce Growth and Performance/
@@ -28,14 +12,7 @@ Demo Commerce Growth and Performance/
     └── DEMO_Commerce_Growth_Performance_FDD_v1.0.pdf
 ```
 
-### Usage
+Open `.pbix` in Power BI Desktop, configure data source, refresh.
 
-1. Open the `.pbix` file in Power BI Desktop
-2. Configure data source connections
-3. Refresh data
-4. Publish to Power BI Service (optional)
-
-### Documentation
-
-- [Video Walkthrough](https://youtu.be/X2voYGrieos)
-- [Functional Design Document](./Demo%20Commerce%20Growth%20and%20Performance/Documentation/DEMO_Commerce_Growth_Performance_FDD_v1.0.pdf)
+- [Video](https://youtu.be/X2voYGrieos)
+- [FDD](./Demo%20Commerce%20Growth%20and%20Performance/Documentation/DEMO_Commerce_Growth_Performance_FDD_v1.0.pdf)

@@ -2,135 +2,59 @@ const { v4: uuidv4 } = require('uuid');
 
 module.exports = async function (context, req) {
     const correlationId = req.headers['x-correlation-id'] || uuidv4();
-    context.log(`FraudDetection triggered - correlationId: ${correlationId}`);
 
-    // Validate required fields
     const requiredFields = ['claimId', 'policyId', 'claimType', 'amount', 'location', 'incidentDate', 'description'];
     const missingFields = requiredFields.filter(field => !req.body || req.body[field] === undefined || req.body[field] === null);
 
     if (missingFields.length > 0) {
-        context.log(`Validation failed - correlationId: ${correlationId}, missing: ${missingFields.join(', ')}`);
-        context.res = {
-            status: 400,
-            headers: { 'Content-Type': 'application/json' },
-            body: {
-                error: 'Missing required fields',
-                missingFields: missingFields,
-                message: `The following fields are required: ${missingFields.join(', ')}`
-            }
-        };
+        context.res = { status: 400, headers: { 'Content-Type': 'application/json' }, body: { error: 'Missing required fields', missingFields } };
         return;
     }
 
-    const { claimId, policyId, claimType, amount, location, incidentDate, description } = req.body;
+    const { claimType, amount, location, incidentDate, description } = req.body;
 
-    context.log(`Processing - correlationId: ${correlationId}, claimType: ${claimType}`);
-
-    // Calculate fraud score
-    let riskScore = 15; // Base score
+    let riskScore = 15;
     const riskFactors = [];
 
-    // Parse dates
-    // Note: daysSinceIncident calculated from submissionDate (if provided) or current date
     const incidentDateObj = new Date(incidentDate);
     const referenceDate = req.body.submissionDate ? new Date(req.body.submissionDate) : new Date();
     const dayOfWeek = incidentDateObj.getDay();
     const daysSinceIncident = Math.floor((referenceDate - incidentDateObj) / (1000 * 60 * 60 * 24));
 
-    // 1. Amount-based risk
-    if (amount > 50000) {
-        riskScore += 25;
-        riskFactors.push('High claim amount');
-    } else if (amount > 20000) {
-        riskScore += 15;
-        riskFactors.push('Elevated claim amount');
-    } else if (amount > 10000) {
-        riskScore += 5;
-    }
+    if (amount > 50000) { riskScore += 25; riskFactors.push('High claim amount'); }
+    else if (amount > 20000) { riskScore += 15; riskFactors.push('Elevated claim amount'); }
+    else if (amount > 10000) { riskScore += 5; }
 
-    // 2. Time-based risk
-    if (dayOfWeek === 0 || dayOfWeek === 6) {
-        riskScore += 10;
-        riskFactors.push('Weekend incident');
-    }
+    if (dayOfWeek === 0 || dayOfWeek === 6) { riskScore += 10; riskFactors.push('Weekend incident'); }
+    if (daysSinceIncident <= 1 && daysSinceIncident >= 0) { riskScore += 8; riskFactors.push('Rapid claim submission'); }
+    if (daysSinceIncident > 30) { riskScore += 12; riskFactors.push('Delayed reporting'); }
 
-    if (daysSinceIncident <= 1 && daysSinceIncident >= 0) {
-        riskScore += 8;
-        riskFactors.push('Rapid claim submission');
-    }
-
-    if (daysSinceIncident > 30) {
-        riskScore += 12;
-        riskFactors.push('Delayed reporting');
-    }
-
-    // 3. Location-based risk
     const locationLower = (location || '').toLowerCase();
-    if (claimType === 'Auto' && (locationLower.includes('highway') || locationLower.includes('interstate'))) {
-        riskScore += 5;
-    }
+    if (claimType === 'Auto' && (locationLower.includes('highway') || locationLower.includes('interstate'))) { riskScore += 5; }
+    if ((location || '').length < 15) { riskScore += 10; riskFactors.push('Vague location details'); }
 
-    if ((location || '').length < 15) {
-        riskScore += 10;
-        riskFactors.push('Vague location details');
-    }
-
-    // 4. Description-based risk
     const descriptionLower = (description || '').toLowerCase();
+    if ((description || '').length < 50) { riskScore += 15; riskFactors.push('Minimal incident description'); }
+    if (descriptionLower.includes('total loss') || descriptionLower.includes('totaled')) { riskScore += 10; riskFactors.push('Total loss claim'); }
+    if (descriptionLower.includes('witness') || descriptionLower.includes('police report')) { riskScore -= 10; }
 
-    if ((description || '').length < 50) {
-        riskScore += 15;
-        riskFactors.push('Minimal incident description');
-    }
+    if (claimType === 'Commercial') { riskScore += 5; }
+    if (claimType === 'Auto' && amount > 30000) { riskScore += 8; riskFactors.push('High-value auto claim'); }
 
-    if (descriptionLower.includes('total loss') || descriptionLower.includes('totaled')) {
-        riskScore += 10;
-        riskFactors.push('Total loss claim');
-    }
-
-    if (descriptionLower.includes('witness') || descriptionLower.includes('police report')) {
-        riskScore -= 10;
-    }
-
-    // 5. Claim type modifiers
-    if (claimType === 'Commercial') {
-        riskScore += 5;
-    }
-
-    if (claimType === 'Auto' && amount > 30000) {
-        riskScore += 8;
-        riskFactors.push('High-value auto claim');
-    }
-
-    // Cap score between 0 and 100
     riskScore = Math.max(0, Math.min(100, riskScore));
 
-    // Determine recommendation
-    let recommendation;
-    if (riskScore <= 30) {
-        recommendation = 'Proceed';
-    } else if (riskScore <= 60) {
-        recommendation = 'Review';
-    } else {
-        recommendation = 'Investigate';
-    }
-
-    // Generate response
-    const assessmentId = uuidv4();
-    const response = {
-        riskScore: riskScore,
-        riskFactors: riskFactors,
-        recommendation: recommendation,
-        assessmentId: assessmentId,
-        correlationId: correlationId,
-        timestamp: new Date().toISOString()
-    };
-
-    context.log(`Complete - correlationId: ${correlationId}, score: ${riskScore}, recommendation: ${recommendation}`);
+    let recommendation = riskScore <= 30 ? 'Proceed' : riskScore <= 60 ? 'Review' : 'Investigate';
 
     context.res = {
         status: 200,
         headers: { 'Content-Type': 'application/json' },
-        body: response
+        body: {
+            riskScore,
+            riskFactors,
+            recommendation,
+            assessmentId: uuidv4(),
+            correlationId,
+            timestamp: new Date().toISOString()
+        }
     };
 };

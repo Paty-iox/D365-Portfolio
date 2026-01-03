@@ -9,20 +9,15 @@ using Microsoft.Xrm.Sdk.Query;
 
 namespace ApexClaims.Plugins
 {
-    // Populates weather conditions on Create/Update of new_claim
-    // Register: Post-Operation, Asynchronous, filter on new_incidentlatitude, new_incidentlongitude, new_incidentdate
-    // Execution Order: 2 (runs after ClaimGeocoder)
-    // Note: Async avoids blocking user saves during external API calls
     public class ClaimWeather : IPlugin
     {
         private const int ApiTimeoutMs = 15000;
+        private const int MaxRetries = 3;
+        private const int BaseRetryDelayMs = 500;
 
-        // Configuration via Dataverse Environment Variables
-        // See ApexClaims README for setup instructions
         private const string EnvVarWeatherUrl = "new_weatherapiurl";
         private const string EnvVarWeatherKey = "new_weatherapikey";
 
-        // Field names
         private const string IncidentLatitudeField = "new_incidentlatitude";
         private const string IncidentLongitudeField = "new_incidentlongitude";
         private const string IncidentDateField = "new_incidentdate";
@@ -31,26 +26,22 @@ namespace ApexClaims.Plugins
 
         public void Execute(IServiceProvider serviceProvider)
         {
-            // Get services
-            IPluginExecutionContext context = (IPluginExecutionContext)serviceProvider.GetService(typeof(IPluginExecutionContext));
-            IOrganizationServiceFactory serviceFactory = (IOrganizationServiceFactory)serviceProvider.GetService(typeof(IOrganizationServiceFactory));
-            IOrganizationService service = serviceFactory.CreateOrganizationService(context.UserId);
-            ITracingService trace = (ITracingService)serviceProvider.GetService(typeof(ITracingService));
+            var context = (IPluginExecutionContext)serviceProvider.GetService(typeof(IPluginExecutionContext));
+            var serviceFactory = (IOrganizationServiceFactory)serviceProvider.GetService(typeof(IOrganizationServiceFactory));
+            var service = serviceFactory.CreateOrganizationService(context.UserId);
+            var trace = (ITracingService)serviceProvider.GetService(typeof(ITracingService));
 
             try
             {
-                trace.Trace("ClaimWeather: Plugin execution started");
+                trace.Trace("ClaimWeather started");
 
-                // Validate context
                 if (!ValidateContext(context, trace))
                 {
                     return;
                 }
 
-                // Get target entity
                 Entity target = (Entity)context.InputParameters["Target"];
 
-                // For Update, only proceed if relevant fields changed
                 if (context.MessageName.Equals("Update", StringComparison.OrdinalIgnoreCase))
                 {
                     if (!target.Contains(IncidentLatitudeField) &&
@@ -62,7 +53,6 @@ namespace ApexClaims.Plugins
                     }
                 }
 
-                // Retrieve current record to get all values (including those set by ClaimGeocoder)
                 Entity claim = service.Retrieve(ClaimEntityName, target.Id, new ColumnSet(
                     IncidentLatitudeField,
                     IncidentLongitudeField,
@@ -70,43 +60,36 @@ namespace ApexClaims.Plugins
                     WeatherConditionsField
                 ));
 
-                // Get coordinate and date values
                 decimal? latitude = claim.GetAttributeValue<decimal?>(IncidentLatitudeField);
                 decimal? longitude = claim.GetAttributeValue<decimal?>(IncidentLongitudeField);
                 DateTime? incidentDate = claim.GetAttributeValue<DateTime?>(IncidentDateField);
 
-                trace.Trace("ClaimWeather: Checking values - HasLat: {0}, HasLon: {1}, HasDate: {2}",
-                    latitude.HasValue, longitude.HasValue, incidentDate.HasValue);
-
-                // Validate coordinates with proper range check (0,0 is valid - Gulf of Guinea)
                 if (!latitude.HasValue || !longitude.HasValue)
                 {
                     trace.Trace("ClaimWeather: Missing coordinates, skipping weather lookup");
                     return;
                 }
 
-                // Validate coordinate ranges
                 if (latitude.Value < -90m || latitude.Value > 90m ||
                     longitude.Value < -180m || longitude.Value > 180m)
                 {
-                    trace.Trace("ClaimWeather: Invalid coordinate range, skipping weather lookup");
+                    trace.Trace("ClaimWeather: Invalid coordinate range");
                     return;
                 }
 
                 if (!incidentDate.HasValue)
                 {
-                    trace.Trace("ClaimWeather: Missing incident date, skipping weather lookup");
+                    trace.Trace("ClaimWeather: Missing incident date");
                     return;
                 }
 
-                // Check if date is in the future
+                // Weather API uses UTC; late-evening local times may return previous day's data
                 if (incidentDate.Value.Date > DateTime.UtcNow.Date)
                 {
                     trace.Trace("ClaimWeather: Incident date is in the future, skipping weather lookup");
                     return;
                 }
 
-                // Get API configuration from Environment Variables
                 string apiUrl = GetEnvironmentVariable(service, EnvVarWeatherUrl, trace);
                 string apiKey = GetEnvironmentVariable(service, EnvVarWeatherKey, trace);
 
@@ -116,13 +99,10 @@ namespace ApexClaims.Plugins
                     return;
                 }
 
-                // Call weather API
-                WeatherApiResponse weatherResult = CallWeatherApi(apiUrl, apiKey, latitude.Value, longitude.Value, incidentDate.Value, trace);
+                var weatherResult = CallWeatherApi(apiUrl, apiKey, latitude.Value, longitude.Value, incidentDate.Value, trace);
 
-                // Update record if we got conditions
                 if (weatherResult != null && weatherResult.Success && !string.IsNullOrEmpty(weatherResult.Conditions))
                 {
-                    // Check if value changed before updating
                     string existingConditions = claim.GetAttributeValue<string>(WeatherConditionsField);
                     if (existingConditions != weatherResult.Conditions)
                     {
@@ -144,21 +124,18 @@ namespace ApexClaims.Plugins
             }
             catch (Exception ex)
             {
-                // Log the error but don't throw - we don't want to block the user from saving
                 trace.Trace("ClaimWeather: Error - {0}", ex.Message);
             }
         }
 
         private bool ValidateContext(IPluginExecutionContext context, ITracingService trace)
         {
-            // Check entity name
             if (!context.PrimaryEntityName.Equals(ClaimEntityName, StringComparison.OrdinalIgnoreCase))
             {
                 trace.Trace("ClaimWeather: Wrong entity - {0}", context.PrimaryEntityName);
                 return false;
             }
 
-            // Check message
             string message = context.MessageName;
             if (!message.Equals("Create", StringComparison.OrdinalIgnoreCase) &&
                 !message.Equals("Update", StringComparison.OrdinalIgnoreCase))
@@ -167,10 +144,9 @@ namespace ApexClaims.Plugins
                 return false;
             }
 
-            // Check for target entity
             if (!context.InputParameters.Contains("Target") || !(context.InputParameters["Target"] is Entity))
             {
-                trace.Trace("ClaimWeather: No target entity found");
+                trace.Trace("ClaimWeather: No target entity");
                 return false;
             }
 
@@ -224,73 +200,96 @@ namespace ApexClaims.Plugins
             return null;
         }
 
+        // HttpWebRequest used due to .NET 4.6.2 plugin runtime; revisit on upgrade
         private WeatherApiResponse CallWeatherApi(string apiUrl, string apiKey, decimal latitude, decimal longitude, DateTime date, ITracingService trace)
         {
-            try
+            Exception lastException = null;
+
+            for (int attempt = 1; attempt <= MaxRetries; attempt++)
             {
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(apiUrl);
-                request.Method = "POST";
-                request.ContentType = "application/json";
-                request.Timeout = ApiTimeoutMs;
-
-                // Use header for API key instead of query string
-                request.Headers.Add("x-functions-key", apiKey);
-
-                // Build JSON body using serializer
-                var requestBody = new WeatherApiRequest
+                try
                 {
-                    Latitude = latitude,
-                    Longitude = longitude,
-                    Date = date.ToString("yyyy-MM-dd")
-                };
-                byte[] bodyBytes = SerializeToJson(requestBody);
-                request.ContentLength = bodyBytes.Length;
+                    trace.Trace("Calling WeatherLookup function, attempt {0}/{1}", attempt, MaxRetries);
 
-                trace.Trace("ClaimWeather: Sending request to weather API");
+                    var request = (HttpWebRequest)WebRequest.Create(apiUrl);
+                    request.Method = "POST";
+                    request.ContentType = "application/json";
+                    request.Timeout = ApiTimeoutMs;
+                    request.Headers.Add("x-functions-key", apiKey);
 
-                using (Stream requestStream = request.GetRequestStream())
-                {
-                    requestStream.Write(bodyBytes, 0, bodyBytes.Length);
-                }
-
-                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-                using (Stream responseStream = response.GetResponseStream())
-                {
-                    trace.Trace("ClaimWeather: Response received - Status: {0}", response.StatusCode);
-                    return DeserializeFromJson<WeatherApiResponse>(responseStream);
-                }
-            }
-            catch (WebException webEx)
-            {
-                trace.Trace("ClaimWeather: Web error - {0}", webEx.Message);
-
-                // Try to parse error response
-                if (webEx.Response != null)
-                {
-                    try
+                    var requestBody = new WeatherApiRequest
                     {
-                        using (Stream errorStream = webEx.Response.GetResponseStream())
+                        Latitude = latitude,
+                        Longitude = longitude,
+                        Date = date.ToString("yyyy-MM-dd")
+                    };
+                    byte[] bodyBytes = SerializeToJson(requestBody);
+                    request.ContentLength = bodyBytes.Length;
+
+                    using (Stream requestStream = request.GetRequestStream())
+                    {
+                        requestStream.Write(bodyBytes, 0, bodyBytes.Length);
+                    }
+
+                    using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                    using (Stream responseStream = response.GetResponseStream())
+                    {
+                        trace.Trace("ClaimWeather: Response received - Status: {0}", response.StatusCode);
+                        return DeserializeFromJson<WeatherApiResponse>(responseStream);
+                    }
+                }
+                catch (WebException webEx)
+                {
+                    lastException = webEx;
+                    trace.Trace("Web error (attempt {0}): {1}", attempt, webEx.Message);
+
+                    if (webEx.Response != null)
+                    {
+                        try
                         {
-                            var errorResponse = DeserializeFromJson<WeatherApiResponse>(errorStream);
-                            if (errorResponse != null)
+                            using (Stream errorStream = webEx.Response.GetResponseStream())
                             {
-                                return errorResponse;
+                                var errorResponse = DeserializeFromJson<WeatherApiResponse>(errorStream);
+                                if (errorResponse != null) return errorResponse;
                             }
                         }
+                        catch { }
                     }
-                    catch (Exception parseEx)
-                    {
-                        trace.Trace("ClaimWeather: Failed to parse error response - {0}", parseEx.Message);
-                    }
+
+                    if (!IsTransientError(webEx)) break;
+                }
+                catch (Exception ex)
+                {
+                    lastException = ex;
+                    trace.Trace("API error (attempt {0}): {1}", attempt, ex.Message);
                 }
 
-                return null;
+                if (attempt < MaxRetries)
+                {
+                    int delayMs = BaseRetryDelayMs * (int)Math.Pow(2, attempt - 1);
+                    trace.Trace("Retrying in {0}ms", delayMs);
+                    System.Threading.Thread.Sleep(delayMs);
+                }
             }
-            catch (Exception ex)
+
+            trace.Trace("All retry attempts exhausted: {0}", lastException?.Message ?? "Unknown");
+            return null;
+        }
+
+        private bool IsTransientError(WebException webEx)
+        {
+            if (webEx.Status == WebExceptionStatus.Timeout ||
+                webEx.Status == WebExceptionStatus.ConnectFailure ||
+                webEx.Status == WebExceptionStatus.NameResolutionFailure)
+                return true;
+
+            if (webEx.Response is HttpWebResponse httpResponse)
             {
-                trace.Trace("ClaimWeather: API call error - {0}", ex.Message);
-                return null;
+                int statusCode = (int)httpResponse.StatusCode;
+                return statusCode >= 500 && statusCode < 600;
             }
+
+            return false;
         }
 
         private byte[] SerializeToJson<T>(T obj)

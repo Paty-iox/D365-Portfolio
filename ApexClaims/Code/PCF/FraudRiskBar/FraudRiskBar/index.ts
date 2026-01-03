@@ -9,7 +9,6 @@ export class FraudRiskBar implements ComponentFramework.StandardControl<IInputs,
     private context: ComponentFramework.Context<IInputs>;
 
     constructor() {
-        // Empty constructor
     }
 
     public init(
@@ -22,14 +21,12 @@ export class FraudRiskBar implements ComponentFramework.StandardControl<IInputs,
         this.notifyOutputChanged = notifyOutputChanged;
         this.context = context;
 
-        // Enable tracking of container resize
         context.mode.trackContainerResize(true);
     }
 
     public updateView(context: ComponentFramework.Context<IInputs>): void {
         this.context = context;
 
-        // Get property values with defaults
         const score = context.parameters.riskScore.raw;
         const showLabel = context.parameters.showLabel?.raw ?? true;
         const showTicks = context.parameters.showTicks?.raw ?? true;
@@ -38,7 +35,6 @@ export class FraudRiskBar implements ComponentFramework.StandardControl<IInputs,
         const enablePulse = context.parameters.enablePulse?.raw ?? true;
         const barHeight = context.parameters.barHeight?.raw ?? 16;
 
-        // Check if control is disabled
         const isDisabled = context.mode.isControlDisabled;
 
         const props: RiskBarProps = {
@@ -52,7 +48,6 @@ export class FraudRiskBar implements ComponentFramework.StandardControl<IInputs,
             disabled: isDisabled
         };
 
-        // Render React component into container
         ReactDOM.render(
             React.createElement(RiskBar, props),
             this.container
@@ -64,7 +59,6 @@ export class FraudRiskBar implements ComponentFramework.StandardControl<IInputs,
     }
 
     public destroy(): void {
-        // Unmount React component
         ReactDOM.unmountComponentAtNode(this.container);
     }
 }

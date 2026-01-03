@@ -37,14 +37,10 @@ export const RiskBar: React.FC<RiskBarProps> = ({
 
     const clampedScore = clampScore(score);
     const riskLevel = getRiskLevel(clampedScore);
-    // Use actual score for immediate color updates
     const fillColor = clampedScore !== null ? getFillColor(clampedScore) : "#9CA3AF";
     const showCriticalPulse = enablePulse && isCritical(clampedScore);
-
-    // Responsive behavior - hide ticks/labels when container is too narrow
     const isMinimal = containerWidth < 200;
 
-    // Observe container width
     React.useEffect(() => {
         if (!containerRef.current) return;
 
@@ -58,7 +54,6 @@ export const RiskBar: React.FC<RiskBarProps> = ({
         return () => resizeObserver.disconnect();
     }, []);
 
-    // Update score immediately, animate bar width
     React.useEffect(() => {
         if (clampedScore === null) {
             setDisplayScore(null);
@@ -66,7 +61,6 @@ export const RiskBar: React.FC<RiskBarProps> = ({
             return;
         }
 
-        // Score updates immediately - no lag
         setDisplayScore(clampedScore);
 
         if (!enableAnimation) {
@@ -74,7 +68,6 @@ export const RiskBar: React.FC<RiskBarProps> = ({
             return;
         }
 
-        // Only animate the bar width
         const startWidth = animatedWidth;
         const duration = 200;
         const startTime = performance.now();
@@ -97,15 +90,11 @@ export const RiskBar: React.FC<RiskBarProps> = ({
 
         animationId = requestAnimationFrame(animate);
 
-        // Cleanup: cancel animation if score changes mid-animation
         return () => {
-            if (animationId) {
-                cancelAnimationFrame(animationId);
-            }
+            if (animationId) cancelAnimationFrame(animationId);
         };
     }, [clampedScore, enableAnimation]);
 
-    // Track background (gray)
     const trackBackground = "#E5E7EB";
 
     const containerStyle: React.CSSProperties = {
@@ -197,7 +186,6 @@ export const RiskBar: React.FC<RiskBarProps> = ({
             aria-label={getAriaLabel(clampedScore)}
             tabIndex={0}
         >
-            {/* Header row: Risk Label and Score */}
             {!isMinimal && (showLabel || showHeader) && (
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "6px" }}>
                     {showLabel ? (
@@ -211,7 +199,6 @@ export const RiskBar: React.FC<RiskBarProps> = ({
                 </div>
             )}
 
-            {/* Progress Bar */}
             <div style={{ ...trackStyle, ...pulseStyle }} className="fraud-risk-track">
                 {clampedScore !== null ? (
                     <div style={fillStyle} className="fraud-risk-fill" />
@@ -220,7 +207,6 @@ export const RiskBar: React.FC<RiskBarProps> = ({
                 )}
             </div>
 
-            {/* Tick Marks */}
             {showTicks && !isMinimal && (
                 <div style={ticksContainerStyle}>
                     {TICK_MARKS.map((tick) => (

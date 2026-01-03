@@ -12,14 +12,12 @@ module.exports = async function (context, mySbMsg) {
     let textToAnalyze = feedback.feedbackText;
 
     try {
-        // Language detection
         const languageResult = await detectLanguage(feedback.feedbackText, context);
         enrichedFeedback.detectedLanguage = languageResult.language;
         enrichedFeedback.languageConfidence = languageResult.confidence;
         enrichedFeedback.languageName = languageResult.languageName;
         processingLog.stages.push({ stage: 1, name: 'Language Detection', status: 'Success', result: languageResult, timestamp: new Date().toISOString() });
 
-        // Translation (if needed)
         if (languageResult.language !== 'en' && languageResult.confidence > 0.5) {
             const translationResult = await translateText(feedback.feedbackText, languageResult.language, context);
             enrichedFeedback.originalText = feedback.feedbackText;
@@ -32,7 +30,6 @@ module.exports = async function (context, mySbMsg) {
             processingLog.stages.push({ stage: 2, name: 'Translation', status: 'Skipped', result: { reason: 'Already in English' }, timestamp: new Date().toISOString() });
         }
 
-        // Sentiment analysis
         const sentimentResult = await analyzeSentiment(textToAnalyze, context);
         const categoryMap = {
             'positive': { label: 'Positive', value: 100000000 },
@@ -42,7 +39,6 @@ module.exports = async function (context, mySbMsg) {
         const sentimentInfo = categoryMap[sentimentResult.sentiment] || categoryMap['neutral'];
         const confidenceScore = sentimentResult.confidenceScores[sentimentResult.sentiment] || 0.5;
 
-        // Priority based on sentiment
         let priority = 'Medium';
         let priorityValue = 100000001;
         if (sentimentResult.sentiment === 'negative' && confidenceScore > 0.7) {
@@ -65,13 +61,11 @@ module.exports = async function (context, mySbMsg) {
         enrichedFeedback.aiConfidence = sentimentResult.confidenceScores;
         processingLog.stages.push({ stage: 3, name: 'Sentiment Analysis', status: 'Success', result: { sentiment: sentimentInfo.label, confidence: confidenceScore, priority: priority }, timestamp: new Date().toISOString() });
 
-        // Entity extraction
         const entityResult = await extractEntities(textToAnalyze, context);
         enrichedFeedback.entities = JSON.stringify(entityResult.entities);
         enrichedFeedback.entitySummary = entityResult.summary;
         processingLog.stages.push({ stage: 4, name: 'Entity Extraction', status: 'Success', result: entityResult, timestamp: new Date().toISOString() });
 
-        // Auto-response
         const autoResponse = await generateAutoResponse(feedback.customerName, textToAnalyze, sentimentInfo.label, entityResult.entities, context);
         enrichedFeedback.autoResponse = autoResponse;
         processingLog.stages.push({ stage: 5, name: 'Auto-Response Generation', status: 'Success', result: { responseLength: autoResponse.length }, timestamp: new Date().toISOString() });
@@ -89,7 +83,6 @@ module.exports = async function (context, mySbMsg) {
         context.log.error('Pipeline error:', error);
         processingLog.stages.push({ stage: 'Error', name: 'Pipeline Failure', status: 'Failed', error: error.message, timestamp: new Date().toISOString() });
 
-        // Fallback to keyword matching
         const fallbackResult = basicSentiment(feedback.feedbackText);
         enrichedFeedback = {
             ...feedback,
@@ -309,6 +302,7 @@ async function makeOpenAIRequest(url, apiKey, body, context) {
     });
 }
 
+// Namespace/topic are demo defaults; set to your tenant before deploying
 async function sendToServiceBusTopic(enrichedFeedback, context) {
     const namespace = 'sb-feedback-demo';
     const topicName = 'feedback-analyzed';

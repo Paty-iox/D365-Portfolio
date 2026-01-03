@@ -3,72 +3,46 @@
 [![Tests](https://github.com/Paty-iox/D365-Portfolio/actions/workflows/tests.yml/badge.svg)](https://github.com/Paty-iox/D365-Portfolio/actions/workflows/tests.yml)
 [![Build Plugins](https://github.com/Paty-iox/D365-Portfolio/actions/workflows/build-plugins.yml/badge.svg)](https://github.com/Paty-iox/D365-Portfolio/actions/workflows/build-plugins.yml)
 
-A collection of end-to-end solutions demonstrating Dynamics 365, Power Platform, and Azure integration capabilities.
+Power Platform projects with Dataverse plugins, Azure Functions, PCF controls, and AI integrations.
+
+> All projects are original demos, not derived from client or employer work.
 
 ---
 
 ## Projects
 
 ### [Apex Claims](./ApexClaims/)
-**Insurance Claims Management System**
-
 [![Demo Video](https://img.shields.io/badge/Demo-YouTube-red?logo=youtube)](https://youtu.be/v14AGGMQdQw)
 
-An insurance claims processing solution with fraud detection, geolocation services, and weather data integration.
+Claims processing with fraud scoring, geocoding, and weather lookup.
 
 | Component | Technology |
 |-----------|------------|
-| Custom Entities | Claims, Policies, Incidents |
-| Plugins | C# (.NET 4.6.2) - Geocoding, Weather lookup |
-| PCF Control | React/TypeScript - Fraud Risk visualization |
-| Azure Functions | Node.js - Fraud scoring, Geocoding, Weather API |
-| Web Resources | JavaScript forms, Azure Maps integration |
-| Portal | Power Pages - Customer self-service |
-
-**Key Features:**
-- Real-time fraud risk scoring with configurable thresholds
-- Automatic incident location geocoding via Azure Maps
-- Weather conditions capture at time of incident
-- Interactive risk visualization component
-- Customer portal for claim submission and tracking
+| Plugins | C# .NET 4.6.2 |
+| PCF Control | React/TypeScript |
+| Azure Functions | Node.js |
+| Portal | Power Pages |
 
 ---
 
 ### [Feedback Demo](./FeedbackDemo/)
-**AI-Powered Customer Feedback Analytics**
-
 [![Demo Video](https://img.shields.io/badge/Demo-YouTube-red?logo=youtube)](https://youtu.be/3y7FADlBmLs)
 
-A feedback processing platform using Azure AI services for sentiment analysis, language translation, and automated response generation.
+Feedback processing with sentiment analysis, translation, and auto-responses.
 
 | Component | Technology |
 |-----------|------------|
-| Custom Entities | Customer Feedback, Activity Log |
-| Azure Functions | Node.js - AI processing pipeline |
-| Logic Apps | Dataverse updates, Email/Teams notifications |
-| Azure AI | Cognitive Services, Translator, OpenAI |
-| Copilot | Feedback submission and status lookup bot |
-| Cloud Flows | Service Bus integration, Teams alerts |
-
-**Key Features:**
-- Multilingual support with automatic translation
-- Sentiment analysis with priority escalation
-- GPT-powered auto-response generation
-- Daily analytics reports via email and Teams
-- Copilot bot for customer self-service
+| Azure Functions | Node.js |
+| Logic Apps | Dataverse/Email/Teams |
+| Azure AI | Cognitive Services, OpenAI |
+| Copilot | Feedback bot |
 
 ---
 
 ### [Power BI Reports](./PBI/)
-**Business Intelligence Dashboards**
-
 [![Demo Video](https://img.shields.io/badge/Demo-YouTube-red?logo=youtube)](https://youtu.be/X2voYGrieos)
 
-Power BI reports for business analytics and performance monitoring.
-
-| Report | Description |
-|--------|-------------|
-| Commerce Growth & Performance | Sales trends, regional analysis, KPI tracking |
+Commerce performance dashboard.
 
 ---
 
@@ -76,60 +50,32 @@ Power BI reports for business analytics and performance monitoring.
 
 ```
 D365-Portfolio/
-│
-├── ApexClaims/                 # Insurance Claims Management
+├── ApexClaims/
 │   ├── Code/
-│   │   ├── AzureFunctions/     # Node.js - Fraud, Geocoding, Weather
-│   │   ├── PCF/                # React/TypeScript - Fraud Risk Gauge
-│   │   ├── Plugins/            # C# .NET 4.6.2
-│   │   └── WebResources/       # JavaScript form scripts
-│   ├── Documentation/
-│   ├── Portal/                 # Power Pages
+│   │   ├── AzureFunctions/
+│   │   ├── PCF/
+│   │   ├── Plugins/
+│   │   └── WebResources/
+│   ├── Portal/
 │   └── Solutions/
-│
-├── FeedbackDemo/               # AI-Powered Feedback Platform
+├── FeedbackDemo/
 │   ├── Code/
-│   │   ├── Functions/          # Node.js - AI processing
-│   │   ├── Infrastructure/     # ARM/Bicep templates
+│   │   ├── Functions/
 │   │   └── LogicApps/
-│   ├── Documentation/
 │   └── Solutions/
-│
-├── PBI/                        # Power BI Dashboards
-│
-├── docs/adr/                   # Architecture Decision Records
-│
-└── .github/workflows/          # CI/CD pipelines
+├── PBI/
+├── docs/adr/
+└── .github/workflows/
 ```
 
-## Technologies Used
+## Tech Stack
 
-**Microsoft Power Platform**
-- Dynamics 365 Customer Engagement
-- Power Apps (Model-driven)
-- Power Automate (Cloud Flows)
-- Power Pages
-- Copilot Studio
-- Power BI
+**Power Platform:** D365 CE, Model-driven Apps, Power Automate, Power Pages, Copilot Studio, Power BI
 
-**Azure Services**
-- Azure Functions (Node.js, Consumption Plan)
-- Azure Logic Apps
-- Azure Cognitive Services (Text Analytics, Translator)
-- Azure OpenAI Service
-- Azure Service Bus
-- Azure Maps
+**Azure:** Functions, Logic Apps, Cognitive Services, OpenAI, Service Bus, Maps
 
-**Development**
-- C# / .NET Framework 4.6.2 (Plugins)
-- TypeScript / React (PCF Controls)
-- JavaScript (Web Resources, Azure Functions)
-- Power Platform CLI (pac)
+**Dev:** C# .NET 4.6.2, TypeScript/React, JavaScript, pac CLI
 
 ## Author
 
-**Patrick Y** - Dynamics 365 Consultant
-
-- Solutions Architecture
-- Power Platform Development
-- Azure Integration
+**Patrick Y**
