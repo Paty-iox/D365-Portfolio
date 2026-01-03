@@ -42,7 +42,7 @@ Feedback processing with sentiment analysis, translation, and auto-responses.
 ### [Power BI Reports](./PBI/)
 [![Demo Video](https://img.shields.io/badge/Demo-YouTube-red?logo=youtube)](https://youtu.be/X2voYGrieos)
 
-Commerce performance dashboard.
+Commerce performance dashboard using [UK E-Commerce dataset](https://www.kaggle.com/datasets/atharvaarya25/e-commerce-analysis-uk).
 
 ---
 

@@ -4,6 +4,8 @@ Report expects gateway refresh if using on-prem source.
 
 ## Commerce Growth and Performance
 
+Dataset: https://www.kaggle.com/datasets/atharvaarya25/e-commerce-analysis-uk
+
 ```
 Demo Commerce Growth and Performance/
 ├── Report/
