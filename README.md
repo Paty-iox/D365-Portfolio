@@ -70,26 +70,33 @@ Power BI reports for business analytics and performance monitoring.
 
 ```
 D365-Portfolio/
-├── ApexClaims/           # Insurance claims solution
-│   ├── Code/
-│   │   ├── AzureFunctions/
-│   │   ├── Plugins/
-│   │   ├── PCF/
-│   │   └── WebResources/
-│   ├── Portal/
-│   ├── Solutions/
-│   └── Documentation/
 │
-├── FeedbackDemo/         # Customer feedback solution
+├── ApexClaims/                     # Insurance claims solution
 │   ├── Code/
-│   │   ├── Functions/
-│   │   ├── LogicApps/
-│   │   └── Infrastructure/
-│   ├── Solutions/
-│   └── Documentation/
+│   │   ├── AzureFunctions/         # Node.js - Fraud, Geocoding, Weather
+│   │   ├── PCF/                    # React/TypeScript controls
+│   │   ├── Plugins/                # C# .NET 4.6.2 plugins
+│   │   └── WebResources/           # JavaScript form scripts
+│   ├── Documentation/
+│   ├── Portal/                     # Power Pages site
+│   └── Solutions/                  # Dataverse solutions
 │
-└── PBI/                  # Power BI reports
-    └── Demo Commerce Growth and Performance/
+├── FeedbackDemo/                   # Customer feedback solution
+│   ├── Code/
+│   │   ├── Functions/              # Node.js AI processing
+│   │   ├── Infrastructure/         # ARM/Bicep templates
+│   │   └── LogicApps/              # Logic App definitions
+│   ├── Documentation/
+│   └── Solutions/
+│
+├── PBI/                            # Power BI reports
+│   └── Demo Commerce Growth and Performance/
+│
+├── docs/
+│   └── adr/                        # Architecture Decision Records
+│
+└── .github/
+    └── workflows/                  # CI/CD pipelines
 ```
 
 ## Technologies Used
