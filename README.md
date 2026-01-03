@@ -77,41 +77,29 @@ Power BI reports for business analytics and performance monitoring.
 ```
 D365-Portfolio/
 │
-├── ApexClaims/             →  Insurance Claims Management System
-│   │                          Fraud detection, geocoding, weather integration
-│   │
-│   │                          Tech: C# Plugins, React/TypeScript PCF,
-│   │                                Node.js Functions, Power Pages, Azure Maps
+├── ApexClaims/                 # Insurance Claims Management
 │   ├── Code/
-│   │   ├── AzureFunctions/       Node.js - Fraud scoring, Geocoding, Weather API
-│   │   ├── PCF/                  React/TypeScript - Fraud Risk Gauge control
-│   │   ├── Plugins/              C# .NET 4.6.2 - ClaimGeocoder, ClaimWeather
-│   │   └── WebResources/         JavaScript - Form scripts, map integration
+│   │   ├── AzureFunctions/     # Node.js - Fraud, Geocoding, Weather
+│   │   ├── PCF/                # React/TypeScript - Fraud Risk Gauge
+│   │   ├── Plugins/            # C# .NET 4.6.2
+│   │   └── WebResources/       # JavaScript form scripts
 │   ├── Documentation/
-│   ├── Portal/                   Power Pages - Customer self-service portal
-│   └── Solutions/                Dataverse solution packages
+│   ├── Portal/                 # Power Pages
+│   └── Solutions/
 │
-├── FeedbackDemo/           →  AI-Powered Customer Feedback Platform
-│   │                          Sentiment analysis, translation, auto-responses
-│   │
-│   │                          Tech: Azure OpenAI, Cognitive Services,
-│   │                                Logic Apps, Power Automate, Copilot Studio
+├── FeedbackDemo/               # AI-Powered Feedback Platform
 │   ├── Code/
-│   │   ├── Functions/            Node.js - AI processing pipeline
-│   │   ├── Infrastructure/       ARM/Bicep - Azure resource templates
-│   │   └── LogicApps/            JSON - Workflow definitions
+│   │   ├── Functions/          # Node.js - AI processing
+│   │   ├── Infrastructure/     # ARM/Bicep templates
+│   │   └── LogicApps/
 │   ├── Documentation/
 │   └── Solutions/
 │
-├── PBI/                    →  Power BI Dashboards
-│   │                          Sales analytics and KPI reporting
-│   │
-│   │                          Tech: Power BI, DAX, Power Query
-│   └── Demo Commerce Growth and Performance/
+├── PBI/                        # Power BI Dashboards
 │
-├── docs/adr/               →  Architecture Decision Records
+├── docs/adr/                   # Architecture Decision Records
 │
-└── .github/workflows/      →  CI/CD (Tests, Plugin Builds)
+└── .github/workflows/          # CI/CD pipelines
 ```
 
 ## Technologies Used
