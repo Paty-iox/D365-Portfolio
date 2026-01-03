@@ -27,6 +27,8 @@ An automated feedback processing platform that:
 | AnalyzeTrends | HTTP | Compares current vs previous period, generates alerts |
 | GenerateReport | HTTP | Creates HTML email and Teams summary |
 
+> **Note:** `FetchFeedbackStats` and `AnalyzeTrends` use static demo data for portfolio demonstration. In production, replace with Dataverse Web API queries. See code comments for implementation guidance.
+
 **AI Processing Pipeline:**
 1. Language Detection (Azure Text Analytics)
 2. Translation to English (Azure Translator) - if non-English

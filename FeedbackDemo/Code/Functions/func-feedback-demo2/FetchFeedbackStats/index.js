@@ -1,5 +1,9 @@
 // Returns feedback statistics for the dashboard
-// Currently using demo data - swap out with Dataverse queries for production
+//
+// ============================================================
+// DEMO/PORTFOLIO MODE: Static sample data for demonstration
+// PRODUCTION: Replace with Dataverse Web API queries
+// ============================================================
 
 module.exports = async function (context, req) {
     context.log('Fetch Feedback Stats');
@@ -9,7 +13,10 @@ module.exports = async function (context, req) {
 
     context.log('Date range:', startDate, 'to', endDate);
 
-    // Demo data - replace with actual Dataverse query
+    // ----------------------------------------------------------
+    // DEMO DATA - Replace with Dataverse query in production
+    // Example: GET /api/data/v9.2/new_feedbacks?$filter=...
+    // ----------------------------------------------------------
     const stats = {
         dateRange: { start: startDate, end: endDate },
         totalFeedback: 47,

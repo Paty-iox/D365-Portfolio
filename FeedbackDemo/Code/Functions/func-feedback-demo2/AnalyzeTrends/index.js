@@ -1,5 +1,10 @@
 // Compares current period stats against previous period
 // Generates alerts for spikes and insights for the report
+//
+// ============================================================
+// DEMO/PORTFOLIO MODE: Uses static baseline for demonstration
+// PRODUCTION: Query previous period from Dataverse
+// ============================================================
 
 module.exports = async function (context, req) {
     context.log('Analyze Trends');
@@ -11,7 +16,10 @@ module.exports = async function (context, req) {
         return;
     }
 
-    // Previous period baseline - in production this would come from Dataverse
+    // ----------------------------------------------------------
+    // DEMO DATA - Replace with Dataverse query in production
+    // Example: Query previous period stats for comparison
+    // ----------------------------------------------------------
     const previousPeriod = {
         totalFeedback: 42,
         bySentiment: { positive: 25, neutral: 10, negative: 7 },
