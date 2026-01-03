@@ -13,10 +13,10 @@ namespace ApexClaims.Plugins
     // Note: Async avoids blocking user saves during external API calls
     public class ClaimGeocoder : IPlugin
     {
-        private const string DefaultGeocodeApiUrl = "https://ApexClaims-func.azurewebsites.net/api/geocodelocation";
-        private const string DefaultGeocodeApiKey = "YOUR_FUNCTION_KEY_HERE";
         private const int ApiTimeoutMs = 15000;
 
+        // Configuration via Dataverse Environment Variables
+        // See ApexClaims README for setup instructions
         private const string EnvVarGeocodeUrl = "new_geocodeapiurl";
         private const string EnvVarGeocodeKey = "new_geocodeapikey";
 
@@ -56,8 +56,14 @@ namespace ApexClaims.Plugins
                     return;
                 }
 
-                string apiUrl = GetEnvironmentVariable(service, EnvVarGeocodeUrl, trace) ?? DefaultGeocodeApiUrl;
-                string apiKey = GetEnvironmentVariable(service, EnvVarGeocodeKey, trace) ?? DefaultGeocodeApiKey;
+                string apiUrl = GetEnvironmentVariable(service, EnvVarGeocodeUrl, trace);
+                string apiKey = GetEnvironmentVariable(service, EnvVarGeocodeKey, trace);
+
+                if (string.IsNullOrEmpty(apiUrl) || string.IsNullOrEmpty(apiKey))
+                {
+                    trace.Trace("Geocoding skipped: Environment variables {0} and {1} must be configured", EnvVarGeocodeUrl, EnvVarGeocodeKey);
+                    return;
+                }
 
                 trace.Trace("Geocoding location");
                 var geocodeResult = CallGeocodeApi(apiUrl, apiKey, location, trace);

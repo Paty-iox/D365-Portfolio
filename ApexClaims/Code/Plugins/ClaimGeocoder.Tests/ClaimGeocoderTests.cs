@@ -154,7 +154,7 @@ namespace ApexClaims.Plugins.Tests
         }
 
         [Fact]
-        public void Execute_CreateMessage_ProcessesLocation()
+        public void Execute_MissingEnvironmentVariables_SkipsGeocoding()
         {
             // Arrange
             var claimId = Guid.NewGuid();
@@ -168,18 +168,19 @@ namespace ApexClaims.Plugins.Tests
             _contextMock.Setup(c => c.InputParameters).Returns(inputParams);
             _contextMock.Setup(c => c.UserId).Returns(Guid.NewGuid());
 
-            // Mock empty environment variables (will use defaults)
+            // Mock empty environment variables - not configured
             _serviceMock
                 .Setup(s => s.RetrieveMultiple(It.IsAny<Microsoft.Xrm.Sdk.Query.QueryBase>()))
                 .Returns(new EntityCollection());
 
             var plugin = new ClaimGeocoder();
 
-            // Act - plugin will try to call external API which will fail in test
+            // Act
             plugin.Execute(_serviceProviderMock.Object);
 
-            // Assert - verify tracing shows geocoding attempt
-            _traceMock.Verify(t => t.Trace(It.Is<string>(msg => msg.Contains("Geocoding")), It.IsAny<object[]>()), Times.Once);
+            // Assert - should skip with message about missing config
+            _traceMock.Verify(t => t.Trace(It.Is<string>(msg => msg.Contains("must be configured")), It.IsAny<object[]>()), Times.Once);
+            _serviceMock.Verify(s => s.Update(It.IsAny<Entity>()), Times.Never);
         }
 
         [Theory]

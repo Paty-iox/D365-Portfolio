@@ -16,11 +16,9 @@ ApexInsurance.ClaimForm = (function () {
     // Web resource control name (must match what's configured in the form)
     var WEB_RESOURCE_NAME = "WebResource_ClaimLocationMap";
 
-    // Environment variable for Azure Maps key
+    // Configuration via Dataverse Environment Variables
+    // See ApexClaims README for setup instructions
     var ENV_VAR_AZURE_MAPS_KEY = "new_azuremapskey";
-
-    // Fallback key for development (replace with your Azure Maps key)
-    var DEFAULT_AZURE_MAPS_KEY = "YOUR_AZURE_MAPS_KEY_HERE";
 
     // Cached Azure Maps key
     var cachedAzureMapsKey = null;
@@ -47,20 +45,18 @@ ApexInsurance.ClaimForm = (function () {
                             cachedAzureMapsKey = result.entities[0].value;
                             resolve(cachedAzureMapsKey);
                         } else {
-                            console.warn("ApexInsurance.ClaimForm: Azure Maps key not found in environment variables, using fallback");
-                            cachedAzureMapsKey = DEFAULT_AZURE_MAPS_KEY;
-                            resolve(cachedAzureMapsKey);
+                            console.warn("ApexInsurance.ClaimForm: Azure Maps key not configured. Set environment variable: " + ENV_VAR_AZURE_MAPS_KEY);
+                            resolve(null);
                         }
                     },
                     function (error) {
                         console.error("ApexInsurance.ClaimForm: Error retrieving Azure Maps key - " + error.message);
-                        cachedAzureMapsKey = DEFAULT_AZURE_MAPS_KEY;
-                        resolve(cachedAzureMapsKey);
+                        resolve(null);
                     }
                 );
             } catch (error) {
                 console.error("ApexInsurance.ClaimForm: Error in getAzureMapsKey - " + error.message);
-                resolve(DEFAULT_AZURE_MAPS_KEY);
+                resolve(null);
             }
         });
     }

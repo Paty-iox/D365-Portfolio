@@ -149,15 +149,34 @@ ApexClaims/
 
 ## Configuration
 
-### Environment Variables
+All secrets and API keys are configured via Dataverse Environment Variables - no hardcoded values in code.
 
-| Variable | Description |
-|----------|-------------|
-| new_geocodeapiurl | Azure Function URL for geocoding |
-| new_geocodeapikey | Azure Function key |
-| new_weatherapiurl | Weather API endpoint |
-| new_weatherapikey | Weather API key |
-| new_fraudapiurl | Fraud detection endpoint |
+### Dataverse Environment Variables
+
+| Variable | Type | Description |
+|----------|------|-------------|
+| `new_geocodeapiurl` | Text | Azure Function URL for geocoding |
+| `new_geocodeapikey` | Text | Azure Function key for geocoding |
+| `new_weatherapiurl` | Text | Azure Function URL for weather lookup |
+| `new_weatherapikey` | Text | Azure Function key for weather |
+| `new_fraudapiurl` | Text | Azure Function URL for fraud detection |
+| `new_azuremapskey` | Text | Azure Maps subscription key |
+
+### Azure Functions Local Development
+
+Copy `local.settings.json.sample` to `local.settings.json` and add your keys:
+
+```bash
+cd Code/AzureFunctions
+cp local.settings.json.sample local.settings.json
+# Edit local.settings.json with your Azure Maps key
+```
+
+### Important Notes
+
+- Plugins gracefully skip processing if environment variables are not configured
+- Web resources display warnings in console if keys are missing
+- Never commit actual API keys to source control
 
 ## Documentation
 

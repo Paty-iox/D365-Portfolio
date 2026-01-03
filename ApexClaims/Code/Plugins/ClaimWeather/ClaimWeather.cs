@@ -15,12 +15,10 @@ namespace ApexClaims.Plugins
     // Note: Async avoids blocking user saves during external API calls
     public class ClaimWeather : IPlugin
     {
-        // Fallback values for development (Environment Variables override these)
-        private const string DefaultWeatherApiUrl = "https://ApexClaims-func.azurewebsites.net/api/WeatherLookup";
-        private const string DefaultWeatherApiKey = "YOUR_FUNCTION_KEY_HERE";
         private const int ApiTimeoutMs = 15000;
 
-        // Environment Variable schema names
+        // Configuration via Dataverse Environment Variables
+        // See ApexClaims README for setup instructions
         private const string EnvVarWeatherUrl = "new_weatherapiurl";
         private const string EnvVarWeatherKey = "new_weatherapikey";
 
@@ -109,8 +107,14 @@ namespace ApexClaims.Plugins
                 }
 
                 // Get API configuration from Environment Variables
-                string apiUrl = GetEnvironmentVariable(service, EnvVarWeatherUrl, trace) ?? DefaultWeatherApiUrl;
-                string apiKey = GetEnvironmentVariable(service, EnvVarWeatherKey, trace) ?? DefaultWeatherApiKey;
+                string apiUrl = GetEnvironmentVariable(service, EnvVarWeatherUrl, trace);
+                string apiKey = GetEnvironmentVariable(service, EnvVarWeatherKey, trace);
+
+                if (string.IsNullOrEmpty(apiUrl) || string.IsNullOrEmpty(apiKey))
+                {
+                    trace.Trace("ClaimWeather: Skipped - Environment variables {0} and {1} must be configured", EnvVarWeatherUrl, EnvVarWeatherKey);
+                    return;
+                }
 
                 // Call weather API
                 WeatherApiResponse weatherResult = CallWeatherApi(apiUrl, apiKey, latitude.Value, longitude.Value, incidentDate.Value, trace);
