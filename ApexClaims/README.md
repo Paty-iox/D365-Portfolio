@@ -27,7 +27,7 @@ A Dynamics 365-based claims management system with:
 **Registration:**
 - Entity: `new_claim`
 - Stage: Post-Operation
-- Mode: Synchronous
+- Mode: Asynchronous
 
 ### Azure Functions (Node.js)
 
