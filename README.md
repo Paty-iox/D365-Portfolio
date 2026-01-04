@@ -68,7 +68,7 @@ D365-Portfolio/
 └── .github/workflows/
 ```
 
-## Tech Stack
+## Stack
 
 **Power Platform:** D365 CE, Model-driven Apps, Power Automate, Power Pages, Copilot Studio, Power BI
 
