@@ -1,0 +1,8 @@
+{
+  "enabledMcpjsonServers": [
+    "voice-input",
+    "obsidian",
+    "dataverse"
+  ],
+  "enableAllProjectMcpServers": true
+}
