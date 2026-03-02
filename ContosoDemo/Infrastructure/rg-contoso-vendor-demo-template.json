@@ -1,0 +1,2020 @@
+WARNING: Export template operation completed with errors. Some resources were not exported. Please see details for more information.
+ERROR: Could not get resources of the type 'Microsoft.Sql/servers/databases/advisors'. Resources of this type will not be exported.
+ERROR: Could not get resources of the type 'Microsoft.Sql/servers/databases/workloadGroups'. Resources of this type will not be exported.
+ERROR: Could not get resources of the type 'Microsoft.Sql/servers/databases/dataMaskingPolicies'. Resources of this type will not be exported.
+ERROR: Could not get resources of the type 'Microsoft.Web/sites/certificates'. Resources of this type will not be exported.
+ERROR: Could not get resources of the type 'Microsoft.Web/sites/sitecontainers'. Resources of this type will not be exported.
+ERROR: Could not get resources of the type 'Microsoft.Web/sites/hybridconnection'. Resources of this type will not be exported.
+ERROR: Could not get resources of the type 'microsoft.insights/components/pricingPlans'. Resources of this type will not be exported.
+ERROR: Could not get resources of the type 'microsoft.insights/components/myanalyticsItems'. Resources of this type will not be exported.
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "actiongroups_application_insights_smart_detection_externalid": {
+      "type": "String"
+    },
+    "components_func_contoso_erp_api_name": {
+      "type": "String"
+    },
+    "networkInterfaces_PAD_Demo_VMVMNic_name": {
+      "type": "String"
+    },
+    "networkSecurityGroups_PAD_Demo_VMNSG_name": {
+      "type": "String"
+    },
+    "publicIPAddresses_PAD_Demo_VMPublicIP_name": {
+      "type": "String"
+    },
+    "serverfarms_AustraliaEastPlan_name": {
+      "type": "String"
+    },
+    "servers_sql_contoso_demo_abc123_name": {
+      "type": "String"
+    },
+    "sites_func_contoso_erp_api_name": {
+      "type": "String"
+    },
+    "smartdetectoralertrules_failure_anomalies___func_contoso_erp_api_name": {
+      "type": "String"
+    },
+    "storageAccounts_stcontosoerpfunc_name": {
+      "type": "String"
+    },
+    "virtualMachines_PAD_Demo_VM_name": {
+      "type": "String"
+    },
+    "virtualNetworks_PAD_Demo_VMVNET_name": {
+      "type": "String"
+    },
+    "vulnerabilityAssessments_Default_storageContainerPath": {
+      "type": "SecureString"
+    },
+    "workspaces_DefaultWorkspace_6002b2af_9f03_4eae_848a_b292aa75cfcc_EAU_externalid": {
+      "type": "String"
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "2020-02-02",
+      "kind": "web",
+      "location": "australiaeast",
+      "name": "[parameters('components_func_contoso_erp_api_name')]",
+      "properties": {
+        "Application_Type": "web",
+        "IngestionMode": "LogAnalytics",
+        "RetentionInDays": 90,
+        "WorkspaceResourceId": "[parameters('workspaces_DefaultWorkspace_6002b2af_9f03_4eae_848a_b292aa75cfcc_EAU_externalid')]",
+        "publicNetworkAccessForIngestion": "Enabled",
+        "publicNetworkAccessForQuery": "Enabled"
+      },
+      "type": "microsoft.insights/components"
+    },
+    {
+      "apiVersion": "2024-07-01",
+      "location": "australiaeast",
+      "name": "[parameters('networkSecurityGroups_PAD_Demo_VMNSG_name')]",
+      "properties": {
+        "securityRules": [
+          {
+            "id": "[resourceId('Microsoft.Network/networkSecurityGroups/securityRules', parameters('networkSecurityGroups_PAD_Demo_VMNSG_name'), 'rdp')]",
+            "name": "rdp",
+            "properties": {
+              "access": "Allow",
+              "destinationAddressPrefix": "*",
+              "destinationAddressPrefixes": [],
+              "destinationPortRange": "3389",
+              "destinationPortRanges": [],
+              "direction": "Inbound",
+              "priority": 1000,
+              "protocol": "Tcp",
+              "sourceAddressPrefix": "*",
+              "sourceAddressPrefixes": [],
+              "sourcePortRange": "*",
+              "sourcePortRanges": []
+            },
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules"
+          }
+        ]
+      },
+      "type": "Microsoft.Network/networkSecurityGroups"
+    },
+    {
+      "apiVersion": "2024-07-01",
+      "location": "australiaeast",
+      "name": "[parameters('publicIPAddresses_PAD_Demo_VMPublicIP_name')]",
+      "properties": {
+        "idleTimeoutInMinutes": 4,
+        "ipAddress": "4.197.78.154",
+        "ipTags": [],
+        "publicIPAddressVersion": "IPv4",
+        "publicIPAllocationMethod": "Static"
+      },
+      "sku": {
+        "name": "Standard",
+        "tier": "Regional"
+      },
+      "type": "Microsoft.Network/publicIPAddresses"
+    },
+    {
+      "apiVersion": "2024-07-01",
+      "location": "australiaeast",
+      "name": "[parameters('virtualNetworks_PAD_Demo_VMVNET_name')]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "10.0.0.0/16"
+          ]
+        },
+        "enableDdosProtection": false,
+        "privateEndpointVNetPolicies": "Disabled",
+        "subnets": [
+          {
+            "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_PAD_Demo_VMVNET_name'), 'PAD-Demo-VMSubnet')]",
+            "name": "PAD-Demo-VMSubnet",
+            "properties": {
+              "addressPrefix": "10.0.0.0/24",
+              "delegations": [],
+              "privateEndpointNetworkPolicies": "Disabled",
+              "privateLinkServiceNetworkPolicies": "Enabled"
+            },
+            "type": "Microsoft.Network/virtualNetworks/subnets"
+          }
+        ],
+        "virtualNetworkPeerings": []
+      },
+      "type": "Microsoft.Network/virtualNetworks"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "kind": "v12.0",
+      "location": "australiaeast",
+      "name": "[parameters('servers_sql_contoso_demo_abc123_name')]",
+      "properties": {
+        "administratorLogin": "patrick.yifan96@outlook.com",
+        "administrators": {
+          "administratorType": "ActiveDirectory",
+          "login": "Patrick Y",
+          "principalType": "Group",
+          "sid": "713ec573-c44e-4f5a-9103-8e396a424210",
+          "tenantId": "048a23d6-1bd0-47af-a143-d32be5c20faf"
+        },
+        "minimalTlsVersion": "1.2",
+        "publicNetworkAccess": "Enabled",
+        "restrictOutboundNetworkAccess": "Disabled",
+        "version": "12.0"
+      },
+      "type": "Microsoft.Sql/servers"
+    },
+    {
+      "apiVersion": "2025-01-01",
+      "kind": "StorageV2",
+      "location": "australiaeast",
+      "name": "[parameters('storageAccounts_stcontosoerpfunc_name')]",
+      "properties": {
+        "accessTier": "Hot",
+        "allowBlobPublicAccess": false,
+        "allowCrossTenantReplication": false,
+        "encryption": {
+          "keySource": "Microsoft.Storage",
+          "services": {
+            "blob": {
+              "enabled": true,
+              "keyType": "Account"
+            },
+            "file": {
+              "enabled": true,
+              "keyType": "Account"
+            }
+          }
+        },
+        "minimumTlsVersion": "TLS1_0",
+        "networkAcls": {
+          "bypass": "AzureServices",
+          "defaultAction": "Allow",
+          "ipRules": [],
+          "virtualNetworkRules": []
+        },
+        "supportsHttpsTrafficOnly": true
+      },
+      "sku": {
+        "name": "Standard_LRS",
+        "tier": "Standard"
+      },
+      "type": "Microsoft.Storage/storageAccounts"
+    },
+    {
+      "apiVersion": "2024-11-01",
+      "kind": "functionapp",
+      "location": "Australia East",
+      "name": "[parameters('serverfarms_AustraliaEastPlan_name')]",
+      "properties": {
+        "asyncScalingEnabled": false,
+        "elasticScaleEnabled": false,
+        "hyperV": false,
+        "isSpot": false,
+        "isXenon": false,
+        "maximumElasticWorkerCount": 1,
+        "perSiteScaling": false,
+        "reserved": false,
+        "targetWorkerCount": 0,
+        "targetWorkerSizeId": 0,
+        "zoneRedundant": false
+      },
+      "sku": {
+        "capacity": 0,
+        "family": "Y",
+        "name": "Y1",
+        "size": "Y1",
+        "tier": "Dynamic"
+      },
+      "type": "Microsoft.Web/serverfarms"
+    },
+    {
+      "apiVersion": "2021-04-01",
+      "dependsOn": [
+        "[resourceId('microsoft.insights/components', parameters('components_func_contoso_erp_api_name'))]"
+      ],
+      "location": "global",
+      "name": "[parameters('smartdetectoralertrules_failure_anomalies___func_contoso_erp_api_name')]",
+      "properties": {
+        "actionGroups": {
+          "groupIds": [
+            "[parameters('actiongroups_application_insights_smart_detection_externalid')]"
+          ]
+        },
+        "description": "Failure Anomalies notifies you of an unusual rise in the rate of failed HTTP requests or dependency calls.",
+        "detector": {
+          "id": "FailureAnomaliesDetector"
+        },
+        "frequency": "PT1M",
+        "scope": [
+          "[resourceId('microsoft.insights/components', parameters('components_func_contoso_erp_api_name'))]"
+        ],
+        "severity": "Sev3",
+        "state": "Enabled"
+      },
+      "type": "microsoft.alertsmanagement/smartdetectoralertrules"
+    },
+    {
+      "apiVersion": "2024-11-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_PAD_Demo_VMVMNic_name'))]"
+      ],
+      "location": "australiaeast",
+      "name": "[parameters('virtualMachines_PAD_Demo_VM_name')]",
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "Standard_D2s_v3"
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_PAD_Demo_VMVMNic_name'))]"
+            }
+          ]
+        },
+        "osProfile": {
+          "adminUsername": "padadmin",
+          "allowExtensionOperations": true,
+          "computerName": "[parameters('virtualMachines_PAD_Demo_VM_name')]",
+          "requireGuestProvisionSignal": true,
+          "secrets": [],
+          "windowsConfiguration": {
+            "enableAutomaticUpdates": true,
+            "patchSettings": {
+              "assessmentMode": "ImageDefault",
+              "patchMode": "AutomaticByOS"
+            },
+            "provisionVMAgent": true
+          }
+        },
+        "securityProfile": {
+          "securityType": "TrustedLaunch",
+          "uefiSettings": {
+            "secureBootEnabled": true,
+            "vTpmEnabled": true
+          }
+        },
+        "storageProfile": {
+          "dataDisks": [],
+          "diskControllerType": "SCSI",
+          "imageReference": {
+            "offer": "windows-11",
+            "publisher": "MicrosoftWindowsDesktop",
+            "sku": "win11-23h2-pro",
+            "version": "latest"
+          },
+          "osDisk": {
+            "caching": "ReadWrite",
+            "createOption": "FromImage",
+            "deleteOption": "Detach",
+            "managedDisk": {
+              "id": "[resourceId('Microsoft.Compute/disks', concat(parameters('virtualMachines_PAD_Demo_VM_name'), '_OsDisk_1_f309c671005840c88869849762b8f62c'))]"
+            },
+            "name": "[concat(parameters('virtualMachines_PAD_Demo_VM_name'), '_OsDisk_1_f309c671005840c88869849762b8f62c')]",
+            "osType": "Windows"
+          }
+        }
+      },
+      "type": "Microsoft.Compute/virtualMachines"
+    },
+    {
+      "apiVersion": "2018-05-01-preview",
+      "dependsOn": [
+        "[resourceId('microsoft.insights/components', parameters('components_func_contoso_erp_api_name'))]"
+      ],
+      "location": "australiaeast",
+      "name": "[concat(parameters('components_func_contoso_erp_api_name'), '/degradationindependencyduration')]",
+      "properties": {
+        "customEmails": [],
+        "enabled": true,
+        "ruleDefinitions": {
+          "Description": "Smart Detection rules notify you of performance anomaly issues.",
+          "DisplayName": "Degradation in dependency duration",
+          "HelpUrl": "https://docs.microsoft.com/en-us/azure/application-insights/app-insights-proactive-performance-diagnostics",
+          "IsEnabledByDefault": true,
+          "IsHidden": false,
+          "IsInPreview": false,
+          "Name": "degradationindependencyduration",
+          "SupportsEmailNotifications": true
+        },
+        "sendEmailsToSubscriptionOwners": true
+      },
+      "type": "microsoft.insights/components/ProactiveDetectionConfigs"
+    },
+    {
+      "apiVersion": "2018-05-01-preview",
+      "dependsOn": [
+        "[resourceId('microsoft.insights/components', parameters('components_func_contoso_erp_api_name'))]"
+      ],
+      "location": "australiaeast",
+      "name": "[concat(parameters('components_func_contoso_erp_api_name'), '/degradationinserverresponsetime')]",
+      "properties": {
+        "customEmails": [],
+        "enabled": true,
+        "ruleDefinitions": {
+          "Description": "Smart Detection rules notify you of performance anomaly issues.",
+          "DisplayName": "Degradation in server response time",
+          "HelpUrl": "https://docs.microsoft.com/en-us/azure/application-insights/app-insights-proactive-performance-diagnostics",
+          "IsEnabledByDefault": true,
+          "IsHidden": false,
+          "IsInPreview": false,
+          "Name": "degradationinserverresponsetime",
+          "SupportsEmailNotifications": true
+        },
+        "sendEmailsToSubscriptionOwners": true
+      },
+      "type": "microsoft.insights/components/ProactiveDetectionConfigs"
+    },
+    {
+      "apiVersion": "2018-05-01-preview",
+      "dependsOn": [
+        "[resourceId('microsoft.insights/components', parameters('components_func_contoso_erp_api_name'))]"
+      ],
+      "location": "australiaeast",
+      "name": "[concat(parameters('components_func_contoso_erp_api_name'), '/digestMailConfiguration')]",
+      "properties": {
+        "customEmails": [],
+        "enabled": true,
+        "ruleDefinitions": {
+          "Description": "This rule describes the digest mail preferences",
+          "DisplayName": "Digest Mail Configuration",
+          "HelpUrl": "www.homail.com",
+          "IsEnabledByDefault": true,
+          "IsHidden": true,
+          "IsInPreview": false,
+          "Name": "digestMailConfiguration",
+          "SupportsEmailNotifications": true
+        },
+        "sendEmailsToSubscriptionOwners": true
+      },
+      "type": "microsoft.insights/components/ProactiveDetectionConfigs"
+    },
+    {
+      "apiVersion": "2018-05-01-preview",
+      "dependsOn": [
+        "[resourceId('microsoft.insights/components', parameters('components_func_contoso_erp_api_name'))]"
+      ],
+      "location": "australiaeast",
+      "name": "[concat(parameters('components_func_contoso_erp_api_name'), '/extension_billingdatavolumedailyspikeextension')]",
+      "properties": {
+        "customEmails": [],
+        "enabled": true,
+        "ruleDefinitions": {
+          "Description": "This detection rule automatically analyzes the billing data generated by your application, and can warn you about an unusual increase in your application's billing costs",
+          "DisplayName": "Abnormal rise in daily data volume (preview)",
+          "HelpUrl": "https://github.com/Microsoft/ApplicationInsights-Home/tree/master/SmartDetection/billing-data-volume-daily-spike.md",
+          "IsEnabledByDefault": true,
+          "IsHidden": false,
+          "IsInPreview": true,
+          "Name": "extension_billingdatavolumedailyspikeextension",
+          "SupportsEmailNotifications": false
+        },
+        "sendEmailsToSubscriptionOwners": true
+      },
+      "type": "microsoft.insights/components/ProactiveDetectionConfigs"
+    },
+    {
+      "apiVersion": "2018-05-01-preview",
+      "dependsOn": [
+        "[resourceId('microsoft.insights/components', parameters('components_func_contoso_erp_api_name'))]"
+      ],
+      "location": "australiaeast",
+      "name": "[concat(parameters('components_func_contoso_erp_api_name'), '/extension_canaryextension')]",
+      "properties": {
+        "customEmails": [],
+        "enabled": true,
+        "ruleDefinitions": {
+          "Description": "Canary extension",
+          "DisplayName": "Canary extension",
+          "HelpUrl": "https://github.com/Microsoft/ApplicationInsights-Home/blob/master/SmartDetection/",
+          "IsEnabledByDefault": true,
+          "IsHidden": true,
+          "IsInPreview": true,
+          "Name": "extension_canaryextension",
+          "SupportsEmailNotifications": false
+        },
+        "sendEmailsToSubscriptionOwners": true
+      },
+      "type": "microsoft.insights/components/ProactiveDetectionConfigs"
+    },
+    {
+      "apiVersion": "2018-05-01-preview",
+      "dependsOn": [
+        "[resourceId('microsoft.insights/components', parameters('components_func_contoso_erp_api_name'))]"
+      ],
+      "location": "australiaeast",
+      "name": "[concat(parameters('components_func_contoso_erp_api_name'), '/extension_exceptionchangeextension')]",
+      "properties": {
+        "customEmails": [],
+        "enabled": true,
+        "ruleDefinitions": {
+          "Description": "This detection rule automatically analyzes the exceptions thrown in your application, and can warn you about unusual patterns in your exception telemetry.",
+          "DisplayName": "Abnormal rise in exception volume (preview)",
+          "HelpUrl": "https://github.com/Microsoft/ApplicationInsights-Home/blob/master/SmartDetection/abnormal-rise-in-exception-volume.md",
+          "IsEnabledByDefault": true,
+          "IsHidden": false,
+          "IsInPreview": true,
+          "Name": "extension_exceptionchangeextension",
+          "SupportsEmailNotifications": false
+        },
+        "sendEmailsToSubscriptionOwners": true
+      },
+      "type": "microsoft.insights/components/ProactiveDetectionConfigs"
+    },
+    {
+      "apiVersion": "2018-05-01-preview",
+      "dependsOn": [
+        "[resourceId('microsoft.insights/components', parameters('components_func_contoso_erp_api_name'))]"
+      ],
+      "location": "australiaeast",
+      "name": "[concat(parameters('components_func_contoso_erp_api_name'), '/extension_memoryleakextension')]",
+      "properties": {
+        "customEmails": [],
+        "enabled": true,
+        "ruleDefinitions": {
+          "Description": "This detection rule automatically analyzes the memory consumption of each process in your application, and can warn you about potential memory leaks or increased memory consumption.",
+          "DisplayName": "Potential memory leak detected (preview)",
+          "HelpUrl": "https://github.com/Microsoft/ApplicationInsights-Home/tree/master/SmartDetection/memory-leak.md",
+          "IsEnabledByDefault": true,
+          "IsHidden": false,
+          "IsInPreview": true,
+          "Name": "extension_memoryleakextension",
+          "SupportsEmailNotifications": false
+        },
+        "sendEmailsToSubscriptionOwners": true
+      },
+      "type": "microsoft.insights/components/ProactiveDetectionConfigs"
+    },
+    {
+      "apiVersion": "2018-05-01-preview",
+      "dependsOn": [
+        "[resourceId('microsoft.insights/components', parameters('components_func_contoso_erp_api_name'))]"
+      ],
+      "location": "australiaeast",
+      "name": "[concat(parameters('components_func_contoso_erp_api_name'), '/extension_securityextensionspackage')]",
+      "properties": {
+        "customEmails": [],
+        "enabled": true,
+        "ruleDefinitions": {
+          "Description": "This detection rule automatically analyzes the telemetry generated by your application and detects potential security issues.",
+          "DisplayName": "Potential security issue detected (preview)",
+          "HelpUrl": "https://github.com/Microsoft/ApplicationInsights-Home/blob/master/SmartDetection/application-security-detection-pack.md",
+          "IsEnabledByDefault": true,
+          "IsHidden": false,
+          "IsInPreview": true,
+          "Name": "extension_securityextensionspackage",
+          "SupportsEmailNotifications": false
+        },
+        "sendEmailsToSubscriptionOwners": true
+      },
+      "type": "microsoft.insights/components/ProactiveDetectionConfigs"
+    },
+    {
+      "apiVersion": "2018-05-01-preview",
+      "dependsOn": [
+        "[resourceId('microsoft.insights/components', parameters('components_func_contoso_erp_api_name'))]"
+      ],
+      "location": "australiaeast",
+      "name": "[concat(parameters('components_func_contoso_erp_api_name'), '/extension_traceseveritydetector')]",
+      "properties": {
+        "customEmails": [],
+        "enabled": true,
+        "ruleDefinitions": {
+          "Description": "This detection rule automatically analyzes the trace logs emitted from your application, and can warn you about unusual patterns in the severity of your trace telemetry.",
+          "DisplayName": "Degradation in trace severity ratio (preview)",
+          "HelpUrl": "https://github.com/Microsoft/ApplicationInsights-Home/blob/master/SmartDetection/degradation-in-trace-severity-ratio.md",
+          "IsEnabledByDefault": true,
+          "IsHidden": false,
+          "IsInPreview": true,
+          "Name": "extension_traceseveritydetector",
+          "SupportsEmailNotifications": false
+        },
+        "sendEmailsToSubscriptionOwners": true
+      },
+      "type": "microsoft.insights/components/ProactiveDetectionConfigs"
+    },
+    {
+      "apiVersion": "2018-05-01-preview",
+      "dependsOn": [
+        "[resourceId('microsoft.insights/components', parameters('components_func_contoso_erp_api_name'))]"
+      ],
+      "location": "australiaeast",
+      "name": "[concat(parameters('components_func_contoso_erp_api_name'), '/longdependencyduration')]",
+      "properties": {
+        "customEmails": [],
+        "enabled": true,
+        "ruleDefinitions": {
+          "Description": "Smart Detection rules notify you of performance anomaly issues.",
+          "DisplayName": "Long dependency duration",
+          "HelpUrl": "https://docs.microsoft.com/en-us/azure/application-insights/app-insights-proactive-performance-diagnostics",
+          "IsEnabledByDefault": true,
+          "IsHidden": false,
+          "IsInPreview": false,
+          "Name": "longdependencyduration",
+          "SupportsEmailNotifications": true
+        },
+        "sendEmailsToSubscriptionOwners": true
+      },
+      "type": "microsoft.insights/components/ProactiveDetectionConfigs"
+    },
+    {
+      "apiVersion": "2018-05-01-preview",
+      "dependsOn": [
+        "[resourceId('microsoft.insights/components', parameters('components_func_contoso_erp_api_name'))]"
+      ],
+      "location": "australiaeast",
+      "name": "[concat(parameters('components_func_contoso_erp_api_name'), '/migrationToAlertRulesCompleted')]",
+      "properties": {
+        "customEmails": [],
+        "enabled": false,
+        "ruleDefinitions": {
+          "Description": "A configuration that controls the migration state of Smart Detection to Smart Alerts",
+          "DisplayName": "Migration To Alert Rules Completed",
+          "HelpUrl": "https://docs.microsoft.com/en-us/azure/application-insights/app-insights-proactive-performance-diagnostics",
+          "IsEnabledByDefault": false,
+          "IsHidden": true,
+          "IsInPreview": true,
+          "Name": "migrationToAlertRulesCompleted",
+          "SupportsEmailNotifications": false
+        },
+        "sendEmailsToSubscriptionOwners": true
+      },
+      "type": "microsoft.insights/components/ProactiveDetectionConfigs"
+    },
+    {
+      "apiVersion": "2018-05-01-preview",
+      "dependsOn": [
+        "[resourceId('microsoft.insights/components', parameters('components_func_contoso_erp_api_name'))]"
+      ],
+      "location": "australiaeast",
+      "name": "[concat(parameters('components_func_contoso_erp_api_name'), '/slowpageloadtime')]",
+      "properties": {
+        "customEmails": [],
+        "enabled": true,
+        "ruleDefinitions": {
+          "Description": "Smart Detection rules notify you of performance anomaly issues.",
+          "DisplayName": "Slow page load time",
+          "HelpUrl": "https://docs.microsoft.com/en-us/azure/application-insights/app-insights-proactive-performance-diagnostics",
+          "IsEnabledByDefault": true,
+          "IsHidden": false,
+          "IsInPreview": false,
+          "Name": "slowpageloadtime",
+          "SupportsEmailNotifications": true
+        },
+        "sendEmailsToSubscriptionOwners": true
+      },
+      "type": "microsoft.insights/components/ProactiveDetectionConfigs"
+    },
+    {
+      "apiVersion": "2018-05-01-preview",
+      "dependsOn": [
+        "[resourceId('microsoft.insights/components', parameters('components_func_contoso_erp_api_name'))]"
+      ],
+      "location": "australiaeast",
+      "name": "[concat(parameters('components_func_contoso_erp_api_name'), '/slowserverresponsetime')]",
+      "properties": {
+        "customEmails": [],
+        "enabled": true,
+        "ruleDefinitions": {
+          "Description": "Smart Detection rules notify you of performance anomaly issues.",
+          "DisplayName": "Slow server response time",
+          "HelpUrl": "https://docs.microsoft.com/en-us/azure/application-insights/app-insights-proactive-performance-diagnostics",
+          "IsEnabledByDefault": true,
+          "IsHidden": false,
+          "IsInPreview": false,
+          "Name": "slowserverresponsetime",
+          "SupportsEmailNotifications": true
+        },
+        "sendEmailsToSubscriptionOwners": true
+      },
+      "type": "microsoft.insights/components/ProactiveDetectionConfigs"
+    },
+    {
+      "apiVersion": "2024-07-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_PAD_Demo_VMNSG_name'))]"
+      ],
+      "name": "[concat(parameters('networkSecurityGroups_PAD_Demo_VMNSG_name'), '/rdp')]",
+      "properties": {
+        "access": "Allow",
+        "destinationAddressPrefix": "*",
+        "destinationAddressPrefixes": [],
+        "destinationPortRange": "3389",
+        "destinationPortRanges": [],
+        "direction": "Inbound",
+        "priority": 1000,
+        "protocol": "Tcp",
+        "sourceAddressPrefix": "*",
+        "sourceAddressPrefixes": [],
+        "sourcePortRange": "*",
+        "sourcePortRanges": []
+      },
+      "type": "Microsoft.Network/networkSecurityGroups/securityRules"
+    },
+    {
+      "apiVersion": "2024-07-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_PAD_Demo_VMVNET_name'))]"
+      ],
+      "name": "[concat(parameters('virtualNetworks_PAD_Demo_VMVNET_name'), '/PAD-Demo-VMSubnet')]",
+      "properties": {
+        "addressPrefix": "10.0.0.0/24",
+        "delegations": [],
+        "privateEndpointNetworkPolicies": "Disabled",
+        "privateLinkServiceNetworkPolicies": "Enabled"
+      },
+      "type": "Microsoft.Network/virtualNetworks/subnets"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/ActiveDirectory')]",
+      "properties": {
+        "administratorType": "ActiveDirectory",
+        "login": "Patrick Y",
+        "sid": "713ec573-c44e-4f5a-9103-8e396a424210",
+        "tenantId": "048a23d6-1bd0-47af-a143-d32be5c20faf"
+      },
+      "type": "Microsoft.Sql/servers/administrators"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/Default')]",
+      "properties": {
+        "state": "Disabled"
+      },
+      "type": "Microsoft.Sql/servers/advancedThreatProtectionSettings"
+    },
+    {
+      "apiVersion": "2014-04-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/CreateIndex')]",
+      "properties": {
+        "autoExecuteValue": "Disabled"
+      },
+      "type": "Microsoft.Sql/servers/advisors"
+    },
+    {
+      "apiVersion": "2014-04-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/DbParameterization')]",
+      "properties": {
+        "autoExecuteValue": "Disabled"
+      },
+      "type": "Microsoft.Sql/servers/advisors"
+    },
+    {
+      "apiVersion": "2014-04-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/DefragmentIndex')]",
+      "properties": {
+        "autoExecuteValue": "Disabled"
+      },
+      "type": "Microsoft.Sql/servers/advisors"
+    },
+    {
+      "apiVersion": "2014-04-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/DropIndex')]",
+      "properties": {
+        "autoExecuteValue": "Disabled"
+      },
+      "type": "Microsoft.Sql/servers/advisors"
+    },
+    {
+      "apiVersion": "2014-04-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/ForceLastGoodPlan')]",
+      "properties": {
+        "autoExecuteValue": "Enabled"
+      },
+      "type": "Microsoft.Sql/servers/advisors"
+    },
+    {
+      "apiVersion": "2014-04-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "location": "Australia East",
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/Default')]",
+      "properties": {
+        "auditingState": "Disabled"
+      },
+      "type": "Microsoft.Sql/servers/auditingPolicies"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/Default')]",
+      "properties": {
+        "auditActionsAndGroups": [],
+        "isAzureMonitorTargetEnabled": false,
+        "isManagedIdentityInUse": false,
+        "isStorageSecondaryKeyInUse": false,
+        "retentionDays": 0,
+        "state": "Disabled",
+        "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000"
+      },
+      "type": "Microsoft.Sql/servers/auditingSettings"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/Default')]",
+      "properties": {
+        "azureADOnlyAuthentication": false
+      },
+      "type": "Microsoft.Sql/servers/azureADOnlyAuthentications"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "location": "australiaeast",
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/default')]",
+      "properties": {
+        "connectionType": "Default"
+      },
+      "type": "Microsoft.Sql/servers/connectionPolicies"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "kind": "v12.0,user,vcore,serverless",
+      "location": "australiaeast",
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/ContosoERP')]",
+      "properties": {
+        "autoPauseDelay": 60,
+        "availabilityZone": "NoPreference",
+        "catalogCollation": "SQL_Latin1_General_CP1_CI_AS",
+        "collation": "SQL_Latin1_General_CP1_CI_AS",
+        "isLedgerOn": false,
+        "maintenanceConfigurationId": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default",
+        "maxSizeBytes": 34359738368,
+        "minCapacity": 0.5,
+        "readScale": "Disabled",
+        "requestedBackupStorageRedundancy": "Local",
+        "zoneRedundant": false
+      },
+      "sku": {
+        "capacity": 1,
+        "family": "Gen5",
+        "name": "GP_S_Gen5",
+        "tier": "GeneralPurpose"
+      },
+      "type": "Microsoft.Sql/servers/databases"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/master/Default')]",
+      "properties": {
+        "state": "Disabled"
+      },
+      "type": "Microsoft.Sql/servers/databases/advancedThreatProtectionSettings"
+    },
+    {
+      "apiVersion": "2014-04-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "location": "Australia East",
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/master/Default')]",
+      "properties": {
+        "auditingState": "Disabled"
+      },
+      "type": "Microsoft.Sql/servers/databases/auditingPolicies"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/master/Default')]",
+      "properties": {
+        "isAzureMonitorTargetEnabled": false,
+        "retentionDays": 0,
+        "state": "Disabled",
+        "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000"
+      },
+      "type": "Microsoft.Sql/servers/databases/auditingSettings"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/master/Default')]",
+      "properties": {
+        "isAzureMonitorTargetEnabled": false,
+        "retentionDays": 0,
+        "state": "Disabled",
+        "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000"
+      },
+      "type": "Microsoft.Sql/servers/databases/extendedAuditingSettings"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/master/Default')]",
+      "properties": {
+        "state": "Disabled"
+      },
+      "type": "Microsoft.Sql/servers/databases/geoBackupPolicies"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/master/Current')]",
+      "properties": {},
+      "type": "Microsoft.Sql/servers/databases/ledgerDigestUploads"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/master/Default')]",
+      "properties": {
+        "disabledAlerts": [
+          ""
+        ],
+        "emailAccountAdmins": false,
+        "emailAddresses": [
+          ""
+        ],
+        "retentionDays": 0,
+        "state": "Disabled"
+      },
+      "type": "Microsoft.Sql/servers/databases/securityAlertPolicies"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/master/Current')]",
+      "properties": {
+        "state": "Disabled"
+      },
+      "type": "Microsoft.Sql/servers/databases/transparentDataEncryption"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/master/Default')]",
+      "properties": {
+        "recurringScans": {
+          "emailSubscriptionAdmins": true,
+          "isEnabled": false
+        }
+      },
+      "type": "Microsoft.Sql/servers/databases/vulnerabilityAssessments"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/Default')]",
+      "properties": {
+        "isAzureMonitorTargetEnabled": false,
+        "isManagedIdentityInUse": false,
+        "state": "Disabled",
+        "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000"
+      },
+      "type": "Microsoft.Sql/servers/devOpsAuditingSettings"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "kind": "servicemanaged",
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/current')]",
+      "properties": {
+        "autoRotationEnabled": false,
+        "serverKeyName": "ServiceManaged",
+        "serverKeyType": "ServiceManaged"
+      },
+      "type": "Microsoft.Sql/servers/encryptionProtector"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/Default')]",
+      "properties": {
+        "auditActionsAndGroups": [],
+        "isAzureMonitorTargetEnabled": false,
+        "isManagedIdentityInUse": false,
+        "isStorageSecondaryKeyInUse": false,
+        "retentionDays": 0,
+        "state": "Disabled",
+        "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000"
+      },
+      "type": "Microsoft.Sql/servers/extendedAuditingSettings"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/AllowAllWindowsAzureIps')]",
+      "properties": {
+        "endIpAddress": "0.0.0.0",
+        "startIpAddress": "0.0.0.0"
+      },
+      "type": "Microsoft.Sql/servers/firewallRules"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/AllowAzureServices')]",
+      "properties": {
+        "endIpAddress": "0.0.0.0",
+        "startIpAddress": "0.0.0.0"
+      },
+      "type": "Microsoft.Sql/servers/firewallRules"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/ClientIPAddress_2026-1-7_17-57-34')]",
+      "properties": {
+        "endIpAddress": "175.32.79.66",
+        "startIpAddress": "175.32.79.66"
+      },
+      "type": "Microsoft.Sql/servers/firewallRules"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "kind": "servicemanaged",
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/ServiceManaged')]",
+      "properties": {
+        "serverKeyType": "ServiceManaged"
+      },
+      "type": "Microsoft.Sql/servers/keys"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/Default')]",
+      "properties": {
+        "disabledAlerts": [
+          ""
+        ],
+        "emailAccountAdmins": false,
+        "emailAddresses": [
+          ""
+        ],
+        "retentionDays": 0,
+        "state": "Disabled"
+      },
+      "type": "Microsoft.Sql/servers/securityAlertPolicies"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/Default')]",
+      "properties": {
+        "state": "Disabled"
+      },
+      "type": "Microsoft.Sql/servers/sqlVulnerabilityAssessments"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/Default')]",
+      "properties": {
+        "recurringScans": {
+          "emailSubscriptionAdmins": true,
+          "isEnabled": false
+        },
+        "storageContainerPath": "[parameters('vulnerabilityAssessments_Default_storageContainerPath')]"
+      },
+      "type": "Microsoft.Sql/servers/vulnerabilityAssessments"
+    },
+    {
+      "apiVersion": "2025-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_stcontosoerpfunc_name'))]"
+      ],
+      "name": "[concat(parameters('storageAccounts_stcontosoerpfunc_name'), '/default')]",
+      "properties": {
+        "cors": {
+          "corsRules": []
+        },
+        "deleteRetentionPolicy": {
+          "allowPermanentDelete": false,
+          "enabled": false
+        }
+      },
+      "sku": {
+        "name": "Standard_LRS",
+        "tier": "Standard"
+      },
+      "type": "Microsoft.Storage/storageAccounts/blobServices"
+    },
+    {
+      "apiVersion": "2025-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_stcontosoerpfunc_name'))]"
+      ],
+      "name": "[concat(parameters('storageAccounts_stcontosoerpfunc_name'), '/default')]",
+      "properties": {
+        "cors": {
+          "corsRules": []
+        },
+        "protocolSettings": {
+          "smb": {}
+        },
+        "shareDeleteRetentionPolicy": {
+          "days": 7,
+          "enabled": true
+        }
+      },
+      "sku": {
+        "name": "Standard_LRS",
+        "tier": "Standard"
+      },
+      "type": "Microsoft.Storage/storageAccounts/fileServices"
+    },
+    {
+      "apiVersion": "2025-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_stcontosoerpfunc_name'))]"
+      ],
+      "name": "[concat(parameters('storageAccounts_stcontosoerpfunc_name'), '/default')]",
+      "properties": {
+        "cors": {
+          "corsRules": []
+        }
+      },
+      "type": "Microsoft.Storage/storageAccounts/queueServices"
+    },
+    {
+      "apiVersion": "2025-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_stcontosoerpfunc_name'))]"
+      ],
+      "name": "[concat(parameters('storageAccounts_stcontosoerpfunc_name'), '/default')]",
+      "properties": {
+        "cors": {
+          "corsRules": []
+        }
+      },
+      "type": "Microsoft.Storage/storageAccounts/tableServices"
+    },
+    {
+      "apiVersion": "2024-11-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_AustraliaEastPlan_name'))]"
+      ],
+      "identity": {
+        "type": "SystemAssigned"
+      },
+      "kind": "functionapp",
+      "location": "Australia East",
+      "name": "[parameters('sites_func_contoso_erp_api_name')]",
+      "properties": {
+        "clientAffinityEnabled": false,
+        "clientAffinityProxyEnabled": false,
+        "clientCertEnabled": false,
+        "clientCertMode": "Required",
+        "containerSize": 1536,
+        "customDomainVerificationId": "B01235CDE279E7C2C6176A359CB777FFADF50054B9CFE3678E901B276D03C4E5",
+        "dailyMemoryTimeQuota": 0,
+        "dnsConfiguration": {},
+        "enabled": true,
+        "endToEndEncryptionEnabled": false,
+        "hostNameSslStates": [
+          {
+            "hostType": "Standard",
+            "name": "[concat(parameters('sites_func_contoso_erp_api_name'), '.azurewebsites.net')]",
+            "sslState": "Disabled"
+          },
+          {
+            "hostType": "Repository",
+            "name": "[concat(parameters('sites_func_contoso_erp_api_name'), '.scm.azurewebsites.net')]",
+            "sslState": "Disabled"
+          }
+        ],
+        "hostNamesDisabled": false,
+        "httpsOnly": false,
+        "hyperV": false,
+        "ipMode": "IPv4",
+        "isXenon": false,
+        "keyVaultReferenceIdentity": "SystemAssigned",
+        "outboundVnetRouting": {
+          "allTraffic": false,
+          "applicationTraffic": false,
+          "backupRestoreTraffic": false,
+          "contentShareTraffic": false,
+          "imagePullTraffic": false
+        },
+        "publicNetworkAccess": "Enabled",
+        "redundancyMode": "None",
+        "reserved": false,
+        "scmSiteAlsoStopped": false,
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_AustraliaEastPlan_name'))]",
+        "siteConfig": {
+          "acrUseManagedIdentityCreds": false,
+          "alwaysOn": false,
+          "functionAppScaleLimit": 200,
+          "http20Enabled": true,
+          "minimumElasticInstanceCount": 1,
+          "numberOfWorkers": 1
+        },
+        "storageAccountRequired": false
+      },
+      "tags": {
+        "hidden-link: /app-insights-resource-id": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/resourceGroups/rg-contoso-vendor-demo/providers/microsoft.insights/components/func-contoso-erp-api"
+      },
+      "type": "Microsoft.Web/sites"
+    },
+    {
+      "apiVersion": "2024-11-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_func_contoso_erp_api_name'))]"
+      ],
+      "location": "Australia East",
+      "name": "[concat(parameters('sites_func_contoso_erp_api_name'), '/ftp')]",
+      "properties": {
+        "allow": false
+      },
+      "tags": {
+        "hidden-link: /app-insights-resource-id": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/resourceGroups/rg-contoso-vendor-demo/providers/microsoft.insights/components/func-contoso-erp-api"
+      },
+      "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies"
+    },
+    {
+      "apiVersion": "2024-11-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_func_contoso_erp_api_name'))]"
+      ],
+      "location": "Australia East",
+      "name": "[concat(parameters('sites_func_contoso_erp_api_name'), '/scm')]",
+      "properties": {
+        "allow": false
+      },
+      "tags": {
+        "hidden-link: /app-insights-resource-id": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/resourceGroups/rg-contoso-vendor-demo/providers/microsoft.insights/components/func-contoso-erp-api"
+      },
+      "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies"
+    },
+    {
+      "apiVersion": "2024-11-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_func_contoso_erp_api_name'))]"
+      ],
+      "location": "Australia East",
+      "name": "[concat(parameters('sites_func_contoso_erp_api_name'), '/web')]",
+      "properties": {
+        "acrUseManagedIdentityCreds": false,
+        "alwaysOn": false,
+        "autoHealEnabled": false,
+        "azureStorageAccounts": {},
+        "cors": {
+          "allowedOrigins": [
+            "https://admin.powerplatform.microsoft.com",
+            "https://make.powerapps.com",
+            "*"
+          ],
+          "supportCredentials": false
+        },
+        "defaultDocuments": [
+          "Default.htm",
+          "Default.html",
+          "Default.asp",
+          "index.htm",
+          "index.html",
+          "iisstart.htm",
+          "default.aspx",
+          "index.php"
+        ],
+        "detailedErrorLoggingEnabled": false,
+        "experiments": {
+          "rampUpRules": []
+        },
+        "ftpsState": "FtpsOnly",
+        "functionAppScaleLimit": 200,
+        "functionsRuntimeScaleMonitoringEnabled": false,
+        "http20Enabled": true,
+        "http20ProxyFlag": 0,
+        "httpLoggingEnabled": false,
+        "ipSecurityRestrictions": [
+          {
+            "action": "Allow",
+            "description": "Allow all access",
+            "ipAddress": "Any",
+            "name": "Allow all",
+            "priority": 2147483647
+          }
+        ],
+        "loadBalancing": "LeastRequests",
+        "localMySqlEnabled": false,
+        "logsDirectorySizeLimit": 35,
+        "managedPipelineMode": "Integrated",
+        "managedServiceIdentityId": 120828,
+        "minTlsVersion": "1.2",
+        "minimumElasticInstanceCount": 1,
+        "netFrameworkVersion": "v8.0",
+        "numberOfWorkers": 1,
+        "preWarmedInstanceCount": 0,
+        "publicNetworkAccess": "Enabled",
+        "publishingUsername": "REDACTED",
+        "remoteDebuggingEnabled": false,
+        "remoteDebuggingVersion": "VS2022",
+        "requestTracingEnabled": false,
+        "scmIpSecurityRestrictions": [
+          {
+            "action": "Allow",
+            "description": "Allow all access",
+            "ipAddress": "Any",
+            "name": "Allow all",
+            "priority": 2147483647
+          }
+        ],
+        "scmIpSecurityRestrictionsUseMain": false,
+        "scmMinTlsVersion": "1.2",
+        "scmType": "None",
+        "use32BitWorkerProcess": false,
+        "virtualApplications": [
+          {
+            "physicalPath": "site\\wwwroot",
+            "preloadEnabled": false,
+            "virtualPath": "/"
+          }
+        ],
+        "vnetPrivatePortsCount": 0,
+        "vnetRouteAllEnabled": false,
+        "webSocketsEnabled": false
+      },
+      "tags": {
+        "hidden-link: /app-insights-resource-id": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/resourceGroups/rg-contoso-vendor-demo/providers/microsoft.insights/components/func-contoso-erp-api"
+      },
+      "type": "Microsoft.Web/sites/config"
+    },
+    {
+      "apiVersion": "2024-11-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_func_contoso_erp_api_name'))]"
+      ],
+      "location": "Australia East",
+      "name": "[concat(parameters('sites_func_contoso_erp_api_name'), '/3480b7089bab41e184b38b1abca38546')]",
+      "properties": {
+        "active": false,
+        "author": "N/A",
+        "author_email": "N/A",
+        "deployer": "az_cli_functions",
+        "end_time": "2026-01-08T08:26:11.3641322Z",
+        "message": "Created via a push deployment",
+        "start_time": "2026-01-08T08:26:09.9734917Z",
+        "status": 4
+      },
+      "type": "Microsoft.Web/sites/deployments"
+    },
+    {
+      "apiVersion": "2024-11-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_func_contoso_erp_api_name'))]"
+      ],
+      "location": "Australia East",
+      "name": "[concat(parameters('sites_func_contoso_erp_api_name'), '/7a8301cb20e34169b94a87f305219f38')]",
+      "properties": {
+        "active": false,
+        "author": "N/A",
+        "author_email": "N/A",
+        "deployer": "az_cli_functions",
+        "end_time": "2026-01-08T06:39:04.4311874Z",
+        "message": "Created via a push deployment",
+        "start_time": "2026-01-08T06:39:03.1655225Z",
+        "status": 4
+      },
+      "type": "Microsoft.Web/sites/deployments"
+    },
+    {
+      "apiVersion": "2024-11-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_func_contoso_erp_api_name'))]"
+      ],
+      "location": "Australia East",
+      "name": "[concat(parameters('sites_func_contoso_erp_api_name'), '/9005cb26768e4341a7b3ec973b0c2590')]",
+      "properties": {
+        "active": false,
+        "author": "N/A",
+        "author_email": "N/A",
+        "deployer": "az_cli_functions",
+        "end_time": "2026-01-08T07:22:57.7666896Z",
+        "message": "Created via a push deployment",
+        "start_time": "2026-01-08T07:22:56.4073176Z",
+        "status": 4
+      },
+      "type": "Microsoft.Web/sites/deployments"
+    },
+    {
+      "apiVersion": "2024-11-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_func_contoso_erp_api_name'))]"
+      ],
+      "location": "Australia East",
+      "name": "[concat(parameters('sites_func_contoso_erp_api_name'), '/ae02c858d30f43d69207222df3d4ec99')]",
+      "properties": {
+        "active": false,
+        "author": "N/A",
+        "author_email": "N/A",
+        "deployer": "az_cli_functions",
+        "end_time": "2026-01-08T07:15:33.6695286Z",
+        "message": "Created via a push deployment",
+        "start_time": "2026-01-08T07:15:32.3726745Z",
+        "status": 4
+      },
+      "type": "Microsoft.Web/sites/deployments"
+    },
+    {
+      "apiVersion": "2024-11-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_func_contoso_erp_api_name'))]"
+      ],
+      "location": "Australia East",
+      "name": "[concat(parameters('sites_func_contoso_erp_api_name'), '/b09e25db5dd34e1c8da8ee997dd9f7fb')]",
+      "properties": {
+        "active": false,
+        "author": "N/A",
+        "author_email": "N/A",
+        "deployer": "az_cli_functions",
+        "end_time": "2026-01-08T08:21:11.3614726Z",
+        "message": "Created via a push deployment",
+        "start_time": "2026-01-08T08:21:09.6427026Z",
+        "status": 4
+      },
+      "type": "Microsoft.Web/sites/deployments"
+    },
+    {
+      "apiVersion": "2024-11-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_func_contoso_erp_api_name'))]"
+      ],
+      "location": "Australia East",
+      "name": "[concat(parameters('sites_func_contoso_erp_api_name'), '/c16308ef25c749d18a37912060b6843a')]",
+      "properties": {
+        "active": false,
+        "author": "N/A",
+        "author_email": "N/A",
+        "deployer": "az_cli_functions",
+        "end_time": "2026-01-08T07:26:24.5441867Z",
+        "message": "Created via a push deployment",
+        "start_time": "2026-01-08T07:26:23.2785693Z",
+        "status": 4
+      },
+      "type": "Microsoft.Web/sites/deployments"
+    },
+    {
+      "apiVersion": "2024-11-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_func_contoso_erp_api_name'))]"
+      ],
+      "location": "Australia East",
+      "name": "[concat(parameters('sites_func_contoso_erp_api_name'), '/c294e102d7a54a579a8c433e1de45cea')]",
+      "properties": {
+        "active": false,
+        "author": "N/A",
+        "author_email": "N/A",
+        "deployer": "az_cli_functions",
+        "end_time": "2026-01-08T07:58:28.1833434Z",
+        "message": "Created via a push deployment",
+        "start_time": "2026-01-08T07:58:26.8858532Z",
+        "status": 4
+      },
+      "type": "Microsoft.Web/sites/deployments"
+    },
+    {
+      "apiVersion": "2024-11-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_func_contoso_erp_api_name'))]"
+      ],
+      "location": "Australia East",
+      "name": "[concat(parameters('sites_func_contoso_erp_api_name'), '/cd4c3507e62a4013ae2a485f2f5b885e')]",
+      "properties": {
+        "active": false,
+        "author": "N/A",
+        "author_email": "N/A",
+        "deployer": "az_cli_functions",
+        "end_time": "2026-01-08T08:13:01.2076353Z",
+        "message": "Created via a push deployment",
+        "start_time": "2026-01-08T08:12:59.8013524Z",
+        "status": 4
+      },
+      "type": "Microsoft.Web/sites/deployments"
+    },
+    {
+      "apiVersion": "2024-11-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_func_contoso_erp_api_name'))]"
+      ],
+      "location": "Australia East",
+      "name": "[concat(parameters('sites_func_contoso_erp_api_name'), '/ce56fdab8cc2461d80a108548b0c1fc2')]",
+      "properties": {
+        "active": false,
+        "author": "N/A",
+        "author_email": "N/A",
+        "deployer": "ZipDeploy",
+        "end_time": "2026-01-08T06:00:27.3533586Z",
+        "message": "Created via a push deployment",
+        "start_time": "2026-01-08T06:00:25.9158434Z",
+        "status": 4
+      },
+      "type": "Microsoft.Web/sites/deployments"
+    },
+    {
+      "apiVersion": "2024-11-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_func_contoso_erp_api_name'))]"
+      ],
+      "location": "Australia East",
+      "name": "[concat(parameters('sites_func_contoso_erp_api_name'), '/ea60c913079241d997c86d671e7a2514')]",
+      "properties": {
+        "active": true,
+        "author": "N/A",
+        "author_email": "N/A",
+        "deployer": "az_cli_functions",
+        "end_time": "2026-01-08T08:36:58.9335499Z",
+        "message": "Created via a push deployment",
+        "start_time": "2026-01-08T08:36:57.6522771Z",
+        "status": 4
+      },
+      "type": "Microsoft.Web/sites/deployments"
+    },
+    {
+      "apiVersion": "2024-11-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_func_contoso_erp_api_name'))]"
+      ],
+      "location": "Australia East",
+      "name": "[concat(parameters('sites_func_contoso_erp_api_name'), '/GetComplianceById')]",
+      "properties": {
+        "config": {
+          "bindings": [
+            {
+              "authLevel": "Anonymous",
+              "direction": "In",
+              "methods": [
+                "get"
+              ],
+              "name": "req",
+              "route": "odata/ComplianceRegistry({id})",
+              "type": "httpTrigger"
+            },
+            {
+              "direction": "Out",
+              "name": "$return",
+              "type": "http"
+            }
+          ],
+          "entryPoint": "ContosoErpODataApi.Functions.ODataFunctions.GetComplianceById",
+          "functionDirectory": "",
+          "language": "dotnet-isolated",
+          "name": "GetComplianceById",
+          "scriptFile": "ContosoErpODataApi.dll"
+        },
+        "href": "https://func-contoso-erp-api.azurewebsites.net/admin/functions/GetComplianceById",
+        "invoke_url_template": "https://func-contoso-erp-api.azurewebsites.net/api/odata/complianceregistry({id})",
+        "isDisabled": false,
+        "language": "dotnet-isolated",
+        "script_href": "https://func-contoso-erp-api.azurewebsites.net/admin/vfs/site/wwwroot/ContosoErpODataApi.dll",
+        "test_data_href": "https://func-contoso-erp-api.azurewebsites.net/admin/vfs/data/Functions/sampledata/GetComplianceById.dat"
+      },
+      "type": "Microsoft.Web/sites/functions"
+    },
+    {
+      "apiVersion": "2024-11-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_func_contoso_erp_api_name'))]"
+      ],
+      "location": "Australia East",
+      "name": "[concat(parameters('sites_func_contoso_erp_api_name'), '/GetComplianceRecords')]",
+      "properties": {
+        "config": {
+          "bindings": [
+            {
+              "authLevel": "Anonymous",
+              "direction": "In",
+              "methods": [
+                "get"
+              ],
+              "name": "req",
+              "route": "odata/ComplianceRegistry",
+              "type": "httpTrigger"
+            },
+            {
+              "direction": "Out",
+              "name": "$return",
+              "type": "http"
+            }
+          ],
+          "entryPoint": "ContosoErpODataApi.Functions.ODataFunctions.GetComplianceRecords",
+          "functionDirectory": "",
+          "language": "dotnet-isolated",
+          "name": "GetComplianceRecords",
+          "scriptFile": "ContosoErpODataApi.dll"
+        },
+        "href": "https://func-contoso-erp-api.azurewebsites.net/admin/functions/GetComplianceRecords",
+        "invoke_url_template": "https://func-contoso-erp-api.azurewebsites.net/api/odata/complianceregistry",
+        "isDisabled": false,
+        "language": "dotnet-isolated",
+        "script_href": "https://func-contoso-erp-api.azurewebsites.net/admin/vfs/site/wwwroot/ContosoErpODataApi.dll",
+        "test_data_href": "https://func-contoso-erp-api.azurewebsites.net/admin/vfs/data/Functions/sampledata/GetComplianceRecords.dat"
+      },
+      "type": "Microsoft.Web/sites/functions"
+    },
+    {
+      "apiVersion": "2024-11-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_func_contoso_erp_api_name'))]"
+      ],
+      "location": "Australia East",
+      "name": "[concat(parameters('sites_func_contoso_erp_api_name'), '/GetMetadata')]",
+      "properties": {
+        "config": {
+          "bindings": [
+            {
+              "authLevel": "Anonymous",
+              "direction": "In",
+              "methods": [
+                "get"
+              ],
+              "name": "req",
+              "route": "odata/$metadata",
+              "type": "httpTrigger"
+            },
+            {
+              "direction": "Out",
+              "name": "$return",
+              "type": "http"
+            }
+          ],
+          "entryPoint": "ContosoErpODataApi.Functions.ODataFunctions.GetMetadata",
+          "functionDirectory": "",
+          "language": "dotnet-isolated",
+          "name": "GetMetadata",
+          "scriptFile": "ContosoErpODataApi.dll"
+        },
+        "href": "https://func-contoso-erp-api.azurewebsites.net/admin/functions/GetMetadata",
+        "invoke_url_template": "https://func-contoso-erp-api.azurewebsites.net/api/odata/$metadata",
+        "isDisabled": false,
+        "language": "dotnet-isolated",
+        "script_href": "https://func-contoso-erp-api.azurewebsites.net/admin/vfs/site/wwwroot/ContosoErpODataApi.dll",
+        "test_data_href": "https://func-contoso-erp-api.azurewebsites.net/admin/vfs/data/Functions/sampledata/GetMetadata.dat"
+      },
+      "type": "Microsoft.Web/sites/functions"
+    },
+    {
+      "apiVersion": "2024-11-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_func_contoso_erp_api_name'))]"
+      ],
+      "location": "Australia East",
+      "name": "[concat(parameters('sites_func_contoso_erp_api_name'), '/GetVendorById')]",
+      "properties": {
+        "config": {
+          "bindings": [
+            {
+              "authLevel": "Anonymous",
+              "direction": "In",
+              "methods": [
+                "get"
+              ],
+              "name": "req",
+              "route": "odata/VendorMaster({id})",
+              "type": "httpTrigger"
+            },
+            {
+              "direction": "Out",
+              "name": "$return",
+              "type": "http"
+            }
+          ],
+          "entryPoint": "ContosoErpODataApi.Functions.ODataFunctions.GetVendorById",
+          "functionDirectory": "",
+          "language": "dotnet-isolated",
+          "name": "GetVendorById",
+          "scriptFile": "ContosoErpODataApi.dll"
+        },
+        "href": "https://func-contoso-erp-api.azurewebsites.net/admin/functions/GetVendorById",
+        "invoke_url_template": "https://func-contoso-erp-api.azurewebsites.net/api/odata/vendormaster({id})",
+        "isDisabled": false,
+        "language": "dotnet-isolated",
+        "script_href": "https://func-contoso-erp-api.azurewebsites.net/admin/vfs/site/wwwroot/ContosoErpODataApi.dll",
+        "test_data_href": "https://func-contoso-erp-api.azurewebsites.net/admin/vfs/data/Functions/sampledata/GetVendorById.dat"
+      },
+      "type": "Microsoft.Web/sites/functions"
+    },
+    {
+      "apiVersion": "2024-11-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_func_contoso_erp_api_name'))]"
+      ],
+      "location": "Australia East",
+      "name": "[concat(parameters('sites_func_contoso_erp_api_name'), '/GetVendors')]",
+      "properties": {
+        "config": {
+          "bindings": [
+            {
+              "authLevel": "Anonymous",
+              "direction": "In",
+              "methods": [
+                "get"
+              ],
+              "name": "req",
+              "route": "odata/VendorMaster",
+              "type": "httpTrigger"
+            },
+            {
+              "direction": "Out",
+              "name": "$return",
+              "type": "http"
+            }
+          ],
+          "entryPoint": "ContosoErpODataApi.Functions.ODataFunctions.GetVendors",
+          "functionDirectory": "",
+          "language": "dotnet-isolated",
+          "name": "GetVendors",
+          "scriptFile": "ContosoErpODataApi.dll"
+        },
+        "href": "https://func-contoso-erp-api.azurewebsites.net/admin/functions/GetVendors",
+        "invoke_url_template": "https://func-contoso-erp-api.azurewebsites.net/api/odata/vendormaster",
+        "isDisabled": false,
+        "language": "dotnet-isolated",
+        "script_href": "https://func-contoso-erp-api.azurewebsites.net/admin/vfs/site/wwwroot/ContosoErpODataApi.dll",
+        "test_data_href": "https://func-contoso-erp-api.azurewebsites.net/admin/vfs/data/Functions/sampledata/GetVendors.dat"
+      },
+      "type": "Microsoft.Web/sites/functions"
+    },
+    {
+      "apiVersion": "2024-11-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_func_contoso_erp_api_name'))]"
+      ],
+      "location": "Australia East",
+      "name": "[concat(parameters('sites_func_contoso_erp_api_name'), '/', parameters('sites_func_contoso_erp_api_name'), '.azurewebsites.net')]",
+      "properties": {
+        "hostNameType": "Verified",
+        "siteName": "func-contoso-erp-api"
+      },
+      "type": "Microsoft.Web/sites/hostNameBindings"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_sql_contoso_demo_abc123_name'), 'ContosoERP')]",
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/ContosoERP/Default')]",
+      "properties": {
+        "state": "Disabled"
+      },
+      "type": "Microsoft.Sql/servers/databases/advancedThreatProtectionSettings"
+    },
+    {
+      "apiVersion": "2014-04-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_sql_contoso_demo_abc123_name'), 'ContosoERP')]",
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "location": "Australia East",
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/ContosoERP/Default')]",
+      "properties": {
+        "auditingState": "Disabled"
+      },
+      "type": "Microsoft.Sql/servers/databases/auditingPolicies"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_sql_contoso_demo_abc123_name'), 'ContosoERP')]",
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/ContosoERP/Default')]",
+      "properties": {
+        "isAzureMonitorTargetEnabled": false,
+        "retentionDays": 0,
+        "state": "Disabled",
+        "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000"
+      },
+      "type": "Microsoft.Sql/servers/databases/auditingSettings"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_sql_contoso_demo_abc123_name'), 'ContosoERP')]",
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/ContosoERP/default')]",
+      "properties": {
+        "monthlyRetention": "PT0S",
+        "weekOfYear": 0,
+        "weeklyRetention": "PT0S",
+        "yearlyRetention": "PT0S"
+      },
+      "type": "Microsoft.Sql/servers/databases/backupLongTermRetentionPolicies"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_sql_contoso_demo_abc123_name'), 'ContosoERP')]",
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/ContosoERP/default')]",
+      "properties": {
+        "diffBackupIntervalInHours": 12,
+        "retentionDays": 7
+      },
+      "type": "Microsoft.Sql/servers/databases/backupShortTermRetentionPolicies"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_sql_contoso_demo_abc123_name'), 'ContosoERP')]",
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/ContosoERP/Default')]",
+      "properties": {
+        "isAzureMonitorTargetEnabled": false,
+        "retentionDays": 0,
+        "state": "Disabled",
+        "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000"
+      },
+      "type": "Microsoft.Sql/servers/databases/extendedAuditingSettings"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_sql_contoso_demo_abc123_name'), 'ContosoERP')]",
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/ContosoERP/Default')]",
+      "properties": {
+        "state": "Disabled"
+      },
+      "type": "Microsoft.Sql/servers/databases/geoBackupPolicies"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_sql_contoso_demo_abc123_name'), 'ContosoERP')]",
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/ContosoERP/Current')]",
+      "properties": {},
+      "type": "Microsoft.Sql/servers/databases/ledgerDigestUploads"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_sql_contoso_demo_abc123_name'), 'ContosoERP')]",
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/ContosoERP/Default')]",
+      "properties": {
+        "disabledAlerts": [
+          ""
+        ],
+        "emailAccountAdmins": false,
+        "emailAddresses": [
+          ""
+        ],
+        "retentionDays": 0,
+        "state": "Disabled"
+      },
+      "type": "Microsoft.Sql/servers/databases/securityAlertPolicies"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_sql_contoso_demo_abc123_name'), 'ContosoERP')]",
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/ContosoERP/Current')]",
+      "properties": {
+        "state": "Enabled"
+      },
+      "type": "Microsoft.Sql/servers/databases/transparentDataEncryption"
+    },
+    {
+      "apiVersion": "2024-05-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_sql_contoso_demo_abc123_name'), 'ContosoERP')]",
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/ContosoERP/Default')]",
+      "properties": {
+        "recurringScans": {
+          "emailSubscriptionAdmins": true,
+          "isEnabled": false
+        }
+      },
+      "type": "Microsoft.Sql/servers/databases/vulnerabilityAssessments"
+    },
+    {
+      "apiVersion": "2025-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_stcontosoerpfunc_name'), 'default')]",
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_stcontosoerpfunc_name'))]"
+      ],
+      "name": "[concat(parameters('storageAccounts_stcontosoerpfunc_name'), '/default/azure-webjobs-hosts')]",
+      "properties": {
+        "defaultEncryptionScope": "$account-encryption-key",
+        "denyEncryptionScopeOverride": false,
+        "immutableStorageWithVersioning": {
+          "enabled": false
+        },
+        "publicAccess": "None"
+      },
+      "type": "Microsoft.Storage/storageAccounts/blobServices/containers"
+    },
+    {
+      "apiVersion": "2025-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_stcontosoerpfunc_name'), 'default')]",
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_stcontosoerpfunc_name'))]"
+      ],
+      "name": "[concat(parameters('storageAccounts_stcontosoerpfunc_name'), '/default/azure-webjobs-secrets')]",
+      "properties": {
+        "defaultEncryptionScope": "$account-encryption-key",
+        "denyEncryptionScopeOverride": false,
+        "immutableStorageWithVersioning": {
+          "enabled": false
+        },
+        "publicAccess": "None"
+      },
+      "type": "Microsoft.Storage/storageAccounts/blobServices/containers"
+    },
+    {
+      "apiVersion": "2025-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts/fileServices', parameters('storageAccounts_stcontosoerpfunc_name'), 'default')]",
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_stcontosoerpfunc_name'))]"
+      ],
+      "name": "[concat(parameters('storageAccounts_stcontosoerpfunc_name'), '/default/func-contoso-erp-apia3861ef10df0')]",
+      "properties": {
+        "accessTier": "TransactionOptimized",
+        "enabledProtocols": "SMB",
+        "shareQuota": 102400
+      },
+      "type": "Microsoft.Storage/storageAccounts/fileServices/shares"
+    },
+    {
+      "apiVersion": "2025-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts/tableServices', parameters('storageAccounts_stcontosoerpfunc_name'), 'default')]",
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_stcontosoerpfunc_name'))]"
+      ],
+      "name": "[concat(parameters('storageAccounts_stcontosoerpfunc_name'), '/default/AzureFunctionsDiagnosticEvents202601')]",
+      "properties": {},
+      "type": "Microsoft.Storage/storageAccounts/tableServices/tables"
+    },
+    {
+      "apiVersion": "2025-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts/tableServices', parameters('storageAccounts_stcontosoerpfunc_name'), 'default')]",
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_stcontosoerpfunc_name'))]"
+      ],
+      "name": "[concat(parameters('storageAccounts_stcontosoerpfunc_name'), '/default/AzureFunctionsDiagnosticEvents202602')]",
+      "properties": {},
+      "type": "Microsoft.Storage/storageAccounts/tableServices/tables"
+    },
+    {
+      "apiVersion": "2024-07-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_PAD_Demo_VMPublicIP_name'))]",
+        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_PAD_Demo_VMVNET_name'), 'PAD-Demo-VMSubnet')]",
+        "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_PAD_Demo_VMNSG_name'))]"
+      ],
+      "kind": "Regular",
+      "location": "australiaeast",
+      "name": "[parameters('networkInterfaces_PAD_Demo_VMVMNic_name')]",
+      "properties": {
+        "auxiliaryMode": "None",
+        "auxiliarySku": "None",
+        "disableTcpStateTracking": false,
+        "dnsSettings": {
+          "dnsServers": []
+        },
+        "enableAcceleratedNetworking": false,
+        "enableIPForwarding": false,
+        "ipConfigurations": [
+          {
+            "id": "[concat(resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_PAD_Demo_VMVMNic_name')), '/ipConfigurations/ipconfigPAD-Demo-VM')]",
+            "name": "ipconfigPAD-Demo-VM",
+            "properties": {
+              "primary": true,
+              "privateIPAddress": "10.0.0.4",
+              "privateIPAddressVersion": "IPv4",
+              "privateIPAllocationMethod": "Dynamic",
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_PAD_Demo_VMPublicIP_name'))]"
+              },
+              "subnet": {
+                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_PAD_Demo_VMVNET_name'), 'PAD-Demo-VMSubnet')]"
+              }
+            },
+            "type": "Microsoft.Network/networkInterfaces/ipConfigurations"
+          }
+        ],
+        "networkSecurityGroup": {
+          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_PAD_Demo_VMNSG_name'))]"
+        },
+        "nicType": "Standard"
+      },
+      "type": "Microsoft.Network/networkInterfaces"
+    }
+  ],
+  "variables": {}
+}
