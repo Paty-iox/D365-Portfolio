@@ -18,7 +18,7 @@ public class ComplianceDataService : IComplianceDataService
         new() { registry_id = 10, vendor_number = "V000010", sam_status = "Active", sam_expiry = new DateTimeOffset(2026, 1, 31, 0, 0, 0, TimeSpan.Zero), osha_violation_count = 0, osha_last_inspection = new DateTimeOffset(2024, 2, 28, 0, 0, 0, TimeSpan.Zero), debarred = false },
         new() { registry_id = 11, vendor_number = "V000011", sam_status = "Expired", sam_expiry = new DateTimeOffset(2024, 3, 15, 0, 0, 0, TimeSpan.Zero), osha_violation_count = 1, osha_last_inspection = new DateTimeOffset(2023, 8, 20, 0, 0, 0, TimeSpan.Zero), debarred = false },
         new() { registry_id = 12, vendor_number = "V000012", sam_status = "Active", sam_expiry = new DateTimeOffset(2025, 7, 10, 0, 0, 0, TimeSpan.Zero), osha_violation_count = 0, osha_last_inspection = new DateTimeOffset(2024, 5, 15, 0, 0, 0, TimeSpan.Zero), debarred = false },
-        new() { registry_id = 13, vendor_number = "V000013", sam_status = "Active", sam_expiry = new DateTimeOffset(2025, 10, 25, 0, 0, 0, TimeSpan.Zero), osha_violation_count = 0, osha_last_inspection = new DateTimeOffset(2024, 8, 30, 0, 0, 0, TimeSpan.Zero), debarred = true },
+        new() { registry_id = 13, vendor_number = "V000013", sam_status = "Active", sam_expiry = new DateTimeOffset(2025, 10, 25, 0, 0, 0, TimeSpan.Zero), osha_violation_count = 0, osha_last_inspection = new DateTimeOffset(2024, 8, 30, 0, 0, 0, TimeSpan.Zero), debarred = false },
         new() { registry_id = 14, vendor_number = "V000014", sam_status = "Active", sam_expiry = new DateTimeOffset(2026, 2, 28, 0, 0, 0, TimeSpan.Zero), osha_violation_count = 0, osha_last_inspection = new DateTimeOffset(2024, 11, 5, 0, 0, 0, TimeSpan.Zero), debarred = false }
     };
 

@@ -82,7 +82,7 @@ namespace Contoso.VendorRisk.Plugins.Services
 
                 // TODO: Add additional config validation:
                 // - Ensure all deduction values are non-negative
-                // - Verify thresholds are in descending order (Low > Medium > High > 0)
+                // - Verify thresholds are in ascending order (Low < Medium < High < Critical)
                 // - Check tenure years are in descending order (Established > Mature > Growing > New)
                 // - Validate review days are positive integers
                 // - Consider implementing a separate validation plugin on contoso_apiconfig PreCreate/PreUpdate
@@ -167,19 +167,22 @@ namespace Contoso.VendorRisk.Plugins.Services
                 (tenureScore * (_config.Weights.Tenure ?? 0)) +
                 (documentationScore * (_config.Weights.Documentation ?? 0));
 
-            // Apply missing vendor number penalty to final score
-            var finalScore = Math.Max(Math.Round(weightedScore - missingVendorNumberPenalty, 2), 0);
+            // Apply missing vendor number penalty to health score
+            var healthScore = Math.Max(Math.Round(weightedScore - missingVendorNumberPenalty, 2), 0);
 
-            // CRITICAL: Debarred vendors must have RiskScore forced to 0
-            // This ensures downstream systems using numeric scores don't treat debarred vendors as acceptable
+            // Invert: convert health score (higher=safer) to risk score (higher=riskier)
+            var riskScore = Math.Min(Math.Round(100m - healthScore, 2), 100m);
+
+            // CRITICAL: Debarred vendors must have RiskScore forced to 100 (maximum risk)
+            // This ensures downstream systems using numeric scores treat debarred vendors as highest risk
             if (registryData?.Debarred == true)
             {
-                _tracingService.Trace("Vendor is DEBARRED - forcing RiskScore to 0 (was {0})", finalScore);
-                result.RiskScore = 0;
+                _tracingService.Trace("Vendor is DEBARRED - forcing RiskScore to 100 (was {0})", riskScore);
+                result.RiskScore = 100;
             }
             else
             {
-                result.RiskScore = finalScore;
+                result.RiskScore = riskScore;
             }
 
             result.RiskCategory = DetermineRiskCategory(result.RiskScore, registryData);
@@ -777,10 +780,10 @@ namespace Contoso.VendorRisk.Plugins.Services
             if (registry?.Debarred == true)
                 return "Critical";
 
-            if (score >= (_config.Thresholds.Low ?? 80m)) return "Low";
-            if (score >= (_config.Thresholds.Medium ?? 60m)) return "Medium";
-            if (score >= (_config.Thresholds.High ?? 40m)) return "High";
-            return "Critical";
+            if (score >= (_config.Thresholds.Critical ?? 80m)) return "Critical";
+            if (score >= (_config.Thresholds.High ?? 60m)) return "High";
+            if (score >= (_config.Thresholds.Medium ?? 40m)) return "Medium";
+            return "Low";
         }
 
         private DateTime CalculateNextReviewDate(string riskCategory, DateTime assessmentDate)

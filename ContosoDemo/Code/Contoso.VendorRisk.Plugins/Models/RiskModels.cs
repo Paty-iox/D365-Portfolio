@@ -153,7 +153,7 @@ namespace Contoso.VendorRisk.Plugins.Models
             return new RiskScoringConfig
             {
                 Weights = new WeightsConfig { Compliance = 0.35m, Payment = 0.25m, Tenure = 0.20m, Documentation = 0.20m },
-                Thresholds = new ThresholdsConfig { Low = 80m, Medium = 60m, High = 40m },
+                Thresholds = new ThresholdsConfig { Critical = 80m, High = 60m, Medium = 40m, Low = 0m },
                 Deductions = new DeductionsConfig
                 {
                     ExpiredDocumentPer = 15, ExpiredDocumentMax = 45,
@@ -195,6 +195,7 @@ namespace Contoso.VendorRisk.Plugins.Models
                 Thresholds.Low = Thresholds.Low ?? defaults.Thresholds.Low;
                 Thresholds.Medium = Thresholds.Medium ?? defaults.Thresholds.Medium;
                 Thresholds.High = Thresholds.High ?? defaults.Thresholds.High;
+                Thresholds.Critical = Thresholds.Critical ?? defaults.Thresholds.Critical;
             }
 
             if (Deductions == null) Deductions = defaults.Deductions;
@@ -282,6 +283,7 @@ namespace Contoso.VendorRisk.Plugins.Models
         public decimal? Low { get; set; }
         public decimal? Medium { get; set; }
         public decimal? High { get; set; }
+        public decimal? Critical { get; set; }
     }
 
     public class DeductionsConfig
