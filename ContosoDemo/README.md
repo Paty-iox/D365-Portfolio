@@ -50,7 +50,7 @@ cd Code/ContosoErpODataApi && func azure functionapp publish <function-app-name>
 pac plugin push --solution ContosoVendorDemo
 ```
 
-Solution file: `Solutions/ContosoVendorDemo_1_0_0_1.zip`
+Solution file: `Solutions/ContosoVendorDemo_1_0_0_3.zip`
 
 ## Documentation
 
