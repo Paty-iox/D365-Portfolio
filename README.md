@@ -39,6 +39,21 @@ Feedback processing with sentiment analysis, translation, and auto-responses.
 
 ---
 
+### [Contoso Vendor Risk](./ContosoDemo/)
+
+Vendor risk management with multi-factor scoring, compliance tracking, and ERP integration via virtual tables.
+
+| Component | Technology |
+|-----------|------------|
+| Plugins | C# .NET 4.6.2 |
+| Azure Functions | .NET 8 Isolated (OData v4) |
+| Cloud Flows | Power Automate (4 flows, 3 Copilot skills) |
+| Desktop Flow | Power Automate Desktop (RPA) |
+| UI | Model-driven App, Canvas App |
+| Infrastructure | Azure SQL, ARM Template |
+
+---
+
 ### [Power BI Reports](./PBI/)
 [![Demo Video](https://img.shields.io/badge/Demo-YouTube-red?logo=youtube)](https://youtu.be/X2voYGrieos)
 
@@ -58,6 +73,13 @@ D365-Portfolio/
 │   │   └── WebResources/
 │   ├── Portal/
 │   └── Solutions/
+├── ContosoDemo/
+│   ├── Code/
+│   │   ├── Contoso.VendorRisk.Plugins/
+│   │   └── ContosoErpODataApi/
+│   ├── Documentation/
+│   ├── Infrastructure/
+│   └── Solutions/
 ├── FeedbackDemo/
 │   ├── Code/
 │   │   ├── Functions/
@@ -70,11 +92,11 @@ D365-Portfolio/
 
 ## Stack
 
-**Power Platform:** D365 CE, Model-driven Apps, Power Automate, Power Pages, Copilot Studio, Power BI
+**Power Platform:** D365 CE, Model-driven Apps, Canvas Apps, Power Automate, Power Automate Desktop (RPA), Power Pages, Copilot Studio, Power BI
 
-**Azure:** Functions, Logic Apps, Cognitive Services, OpenAI, Service Bus, Maps
+**Azure:** Functions, Logic Apps, SQL Database, Cognitive Services, OpenAI, Service Bus, Maps, ARM Templates
 
-**Dev:** C# .NET 4.6.2, TypeScript/React, JavaScript, pac CLI
+**Dev:** C# .NET 4.6.2, .NET 8 Isolated, TypeScript/React, JavaScript, OData v4, pac CLI
 
 ## Author
 
