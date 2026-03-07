@@ -1,12 +1,3 @@
-WARNING: Export template operation completed with errors. Some resources were not exported. Please see details for more information.
-ERROR: Could not get resources of the type 'Microsoft.Sql/servers/databases/advisors'. Resources of this type will not be exported.
-ERROR: Could not get resources of the type 'Microsoft.Sql/servers/databases/workloadGroups'. Resources of this type will not be exported.
-ERROR: Could not get resources of the type 'Microsoft.Sql/servers/databases/dataMaskingPolicies'. Resources of this type will not be exported.
-ERROR: Could not get resources of the type 'Microsoft.Web/sites/certificates'. Resources of this type will not be exported.
-ERROR: Could not get resources of the type 'Microsoft.Web/sites/sitecontainers'. Resources of this type will not be exported.
-ERROR: Could not get resources of the type 'Microsoft.Web/sites/hybridconnection'. Resources of this type will not be exported.
-ERROR: Could not get resources of the type 'microsoft.insights/components/pricingPlans'. Resources of this type will not be exported.
-ERROR: Could not get resources of the type 'microsoft.insights/components/myanalyticsItems'. Resources of this type will not be exported.
 {
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
@@ -309,8 +300,10 @@ ERROR: Could not get resources of the type 'microsoft.insights/components/myanal
             "caching": "ReadWrite",
             "createOption": "FromImage",
             "deleteOption": "Detach",
+            "diskSizeGB": 128,
             "managedDisk": {
-              "id": "[resourceId('Microsoft.Compute/disks', concat(parameters('virtualMachines_PAD_Demo_VM_name'), '_OsDisk_1_f309c671005840c88869849762b8f62c'))]"
+              "id": "[resourceId('Microsoft.Compute/disks', concat(parameters('virtualMachines_PAD_Demo_VM_name'), '_OsDisk_1_f309c671005840c88869849762b8f62c'))]",
+              "storageAccountType": "StandardSSD_LRS"
             },
             "name": "[concat(parameters('virtualMachines_PAD_Demo_VM_name'), '_OsDisk_1_f309c671005840c88869849762b8f62c')]",
             "osType": "Windows"
@@ -318,6 +311,25 @@ ERROR: Could not get resources of the type 'microsoft.insights/components/myanal
         }
       },
       "type": "Microsoft.Compute/virtualMachines"
+    },
+    {
+      "apiVersion": "2024-11-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_PAD_Demo_VM_name'))]"
+      ],
+      "location": "australiaeast",
+      "name": "[concat(parameters('virtualMachines_PAD_Demo_VM_name'), '/enablevmaccess')]",
+      "properties": {
+        "autoUpgradeMinorVersion": false,
+        "protectedSettings": {},
+        "publisher": "Microsoft.Compute",
+        "settings": {
+          "UserName": "padadmin"
+        },
+        "type": "VMAccessAgent",
+        "typeHandlerVersion": "2.4"
+      },
+      "type": "Microsoft.Compute/virtualMachines/extensions"
     },
     {
       "apiVersion": "2018-05-01-preview",
@@ -1348,6 +1360,25 @@ ERROR: Could not get resources of the type 'microsoft.insights/components/myanal
         "[resourceId('Microsoft.Web/sites', parameters('sites_func_contoso_erp_api_name'))]"
       ],
       "location": "Australia East",
+      "name": "[concat(parameters('sites_func_contoso_erp_api_name'), '/04083894f30546da9d06a7c424e52c61')]",
+      "properties": {
+        "active": true,
+        "author": "N/A",
+        "author_email": "N/A",
+        "deployer": "az_cli_functions",
+        "end_time": "2026-03-06T21:11:17.3570815Z",
+        "message": "Created via a push deployment",
+        "start_time": "2026-03-06T21:11:16.0289512Z",
+        "status": 4
+      },
+      "type": "Microsoft.Web/sites/deployments"
+    },
+    {
+      "apiVersion": "2024-11-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_func_contoso_erp_api_name'))]"
+      ],
+      "location": "Australia East",
       "name": "[concat(parameters('sites_func_contoso_erp_api_name'), '/3480b7089bab41e184b38b1abca38546')]",
       "properties": {
         "active": false,
@@ -1500,28 +1531,9 @@ ERROR: Could not get resources of the type 'microsoft.insights/components/myanal
         "[resourceId('Microsoft.Web/sites', parameters('sites_func_contoso_erp_api_name'))]"
       ],
       "location": "Australia East",
-      "name": "[concat(parameters('sites_func_contoso_erp_api_name'), '/ce56fdab8cc2461d80a108548b0c1fc2')]",
-      "properties": {
-        "active": false,
-        "author": "N/A",
-        "author_email": "N/A",
-        "deployer": "ZipDeploy",
-        "end_time": "2026-01-08T06:00:27.3533586Z",
-        "message": "Created via a push deployment",
-        "start_time": "2026-01-08T06:00:25.9158434Z",
-        "status": 4
-      },
-      "type": "Microsoft.Web/sites/deployments"
-    },
-    {
-      "apiVersion": "2024-11-01",
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('sites_func_contoso_erp_api_name'))]"
-      ],
-      "location": "Australia East",
       "name": "[concat(parameters('sites_func_contoso_erp_api_name'), '/ea60c913079241d997c86d671e7a2514')]",
       "properties": {
-        "active": true,
+        "active": false,
         "author": "N/A",
         "author_email": "N/A",
         "deployer": "az_cli_functions",
@@ -1768,6 +1780,66 @@ ERROR: Could not get resources of the type 'microsoft.insights/components/myanal
         "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_sql_contoso_demo_abc123_name'), 'ContosoERP')]",
         "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
       ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/ContosoERP/CreateIndex')]",
+      "properties": {
+        "autoExecuteValue": "Disabled"
+      },
+      "type": "Microsoft.Sql/servers/databases/advisors"
+    },
+    {
+      "apiVersion": "2014-04-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_sql_contoso_demo_abc123_name'), 'ContosoERP')]",
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/ContosoERP/DbParameterization')]",
+      "properties": {
+        "autoExecuteValue": "Disabled"
+      },
+      "type": "Microsoft.Sql/servers/databases/advisors"
+    },
+    {
+      "apiVersion": "2014-04-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_sql_contoso_demo_abc123_name'), 'ContosoERP')]",
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/ContosoERP/DefragmentIndex')]",
+      "properties": {
+        "autoExecuteValue": "Disabled"
+      },
+      "type": "Microsoft.Sql/servers/databases/advisors"
+    },
+    {
+      "apiVersion": "2014-04-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_sql_contoso_demo_abc123_name'), 'ContosoERP')]",
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/ContosoERP/DropIndex')]",
+      "properties": {
+        "autoExecuteValue": "Disabled"
+      },
+      "type": "Microsoft.Sql/servers/databases/advisors"
+    },
+    {
+      "apiVersion": "2014-04-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_sql_contoso_demo_abc123_name'), 'ContosoERP')]",
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
+      "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/ContosoERP/ForceLastGoodPlan')]",
+      "properties": {
+        "autoExecuteValue": "Enabled"
+      },
+      "type": "Microsoft.Sql/servers/databases/advisors"
+    },
+    {
+      "apiVersion": "2014-04-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_sql_contoso_demo_abc123_name'), 'ContosoERP')]",
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_sql_contoso_demo_abc123_name'))]"
+      ],
       "location": "Australia East",
       "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/ContosoERP/Default')]",
       "properties": {
@@ -1967,6 +2039,16 @@ ERROR: Could not get resources of the type 'microsoft.insights/components/myanal
         "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_stcontosoerpfunc_name'))]"
       ],
       "name": "[concat(parameters('storageAccounts_stcontosoerpfunc_name'), '/default/AzureFunctionsDiagnosticEvents202602')]",
+      "properties": {},
+      "type": "Microsoft.Storage/storageAccounts/tableServices/tables"
+    },
+    {
+      "apiVersion": "2025-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts/tableServices', parameters('storageAccounts_stcontosoerpfunc_name'), 'default')]",
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_stcontosoerpfunc_name'))]"
+      ],
+      "name": "[concat(parameters('storageAccounts_stcontosoerpfunc_name'), '/default/AzureFunctionsDiagnosticEvents202603')]",
       "properties": {},
       "type": "Microsoft.Storage/storageAccounts/tableServices/tables"
     },
