@@ -50,8 +50,8 @@ cd Code/ContosoErpODataApi && func azure functionapp publish <function-app-name>
 pac plugin push --solution ContosoVendorDemo
 ```
 
-Solution file: `Solutions/ContosoVendorDemo_1_0_0_3.zip`
+Solution file: `Solutions/ContosoVendorDemo_1_0_0_4.zip`
 
 ## Documentation
 
-- [FDD (Word)](./DEMO_Contoso_Vendor_%20Risk_FDD_v1.0.docx)
+- [FDD (PDF)](./Documentation/DEMO_Contoso_Vendor_Risk_FDD_v1.1.pdf)
