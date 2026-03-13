@@ -40,6 +40,7 @@ Feedback processing with sentiment analysis, translation, and auto-responses.
 ---
 
 ### [Contoso Vendor Risk](./ContosoDemo/)
+[![Demo Video](https://img.shields.io/badge/Demo-YouTube-red?logo=youtube)](https://www.youtube.com/watch?v=RmbmR1eiafc)
 
 Vendor risk management with multi-factor scoring, compliance tracking, and ERP integration via virtual tables.
 

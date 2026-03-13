@@ -1,4 +1,5 @@
 # Contoso Vendor Risk
+[![Demo Video](https://img.shields.io/badge/Demo-YouTube-red?logo=youtube)](https://www.youtube.com/watch?v=RmbmR1eiafc)
 
 Vendor risk assessment and compliance management with multi-factor scoring, bulk validation, and ERP integration via virtual tables.
 
