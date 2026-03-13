@@ -1,4 +1,5 @@
 # Power BI Reports
+[![Demo Video](https://img.shields.io/badge/Demo-YouTube-red?logo=youtube)](https://youtu.be/X2voYGrieos)
 
 Report expects gateway refresh if using on-prem source.
 

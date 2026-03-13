@@ -1,4 +1,5 @@
 # Customer Feedback Analytics
+[![Demo Video](https://img.shields.io/badge/Demo-YouTube-red?logo=youtube)](https://youtu.be/3y7FADlBmLs)
 
 Feedback processing with sentiment analysis, translation, and auto-responses.
 

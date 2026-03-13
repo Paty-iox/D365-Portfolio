@@ -1,4 +1,5 @@
 # Apex Claims
+[![Demo Video](https://img.shields.io/badge/Demo-YouTube-red?logo=youtube)](https://youtu.be/v14AGGMQdQw)
 
 Claims processing with fraud scoring, geocoding, and weather lookup.
 
