@@ -55,4 +55,6 @@ Solution file: `Solutions/ContosoVendorDemo_1_0_0_4.zip`
 
 ## Documentation
 
-- [FDD (PDF)](./Documentation/DEMO_Contoso_Vendor_Risk_FDD_v1.1.pdf)
+- [Video](https://www.youtube.com/watch?v=RmbmR1eiafc)
+- [Architecture](./Documentation/Contoso%20Vendor%20Risk%20Solution%20Architecture.png)
+- [FDD](./Documentation/DEMO_Contoso_Vendor_Risk_FDD_v1.1.pdf)
