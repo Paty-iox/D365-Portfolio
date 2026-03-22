@@ -1,0 +1,30 @@
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+dist/
+build/
+
+# Virtual environment
+.venv/
+
+# Vector database (large - rebuilt by ingest.py)
+chroma_db/
+
+# Documentation (large - fetched by fetch_docs.py)
+docs/
+
+# Test artifacts
+test_results*.json
+
+# IDE and editor
+.claude/
+.DS_Store
+*.swp
+*.swo
+
+# Streamlit secrets
+.streamlit/secrets.toml

@@ -55,6 +55,21 @@ Vendor risk management with multi-factor scoring, compliance tracking, and ERP i
 
 ---
 
+### [RAG Knowledge Base](./RAGKnowledgeBase/)
+
+RAG retrieval system for Microsoft Dynamics 365, Power Platform, and Azure documentation. Hybrid search with re-ranking, conversation memory, and a Streamlit web UI.
+
+| Component | Technology |
+|-----------|------------|
+| RAG Pipeline | LangChain, ChromaDB |
+| Search | Hybrid (Vector + BM25), FlashRank Re-ranker |
+| LLM | OpenAI (gpt-4o-mini) or Ollama (local) |
+| Embeddings | OpenAI text-embedding-3-small |
+| UI | Streamlit |
+| Memory | ConversationBufferWindowMemory |
+
+---
+
 ### [Power BI Reports](./PBI/)
 [![Demo Video](https://img.shields.io/badge/Demo-YouTube-red?logo=youtube)](https://youtu.be/X2voYGrieos)
 
@@ -86,6 +101,13 @@ D365-Portfolio/
 │   │   ├── Functions/
 │   │   └── LogicApps/
 │   └── Solutions/
+├── RAGKnowledgeBase/
+│   ├── app.py
+│   ├── config.py
+│   ├── query.py
+│   ├── ingest.py
+│   ├── fetch_docs.py
+│   └── test_*.py
 ├── PBI/
 ├── docs/adr/
 └── .github/workflows/
@@ -97,7 +119,9 @@ D365-Portfolio/
 
 **Azure:** Functions, Logic Apps, SQL Database, Cognitive Services, OpenAI, Service Bus, Maps, ARM Templates
 
-**Dev:** C# .NET 4.6.2, .NET 8 Isolated, TypeScript/React, JavaScript, OData v4, pac CLI
+**AI/ML:** LangChain, ChromaDB, FlashRank, OpenAI API, Ollama
+
+**Dev:** C# .NET 4.6.2, .NET 8 Isolated, TypeScript/React, JavaScript, Python, OData v4, pac CLI
 
 ## Author
 
