@@ -112,12 +112,9 @@ Click **Save**.
 ## Configuration
 
 ### Azure Maps Key
-The Azure Maps key is embedded in the HTML file. If you need to update it:
+The key is not stored in the HTML file. `new_ClaimFormScripts.js` reads it at runtime from the Dataverse environment variable `new_azuremapskey` and passes it to the map with `postMessage`.
 
-1. Open `new_ClaimLocationMap.html`
-2. Find the line: `var AZURE_MAPS_KEY = '...'`
-3. Replace with your new key
-4. Re-upload the web resource
+To set or change the key, update the environment variable value in the solution. See [config.example.md](./config.example.md).
 
 ### Web Resource Control Name
 The JavaScript expects the web resource control to be named `WebResource_ClaimLocationMap`. If you use a different name:
@@ -149,8 +146,12 @@ The JavaScript expects the web resource control to be named `WebResource_ClaimLo
 ## Files Structure
 
 ```
-src/webresources/
+Code/WebResources/
 ├── new_ClaimLocationMap.html    # Azure Maps iframe
 ├── new_ClaimFormScripts.js      # Form event handlers
+├── scripts/
+│   └── new_policy_form.js       # Policy form script
+├── upload-webresources.ps1      # Upload helper
+├── config.example.md            # Environment variable setup
 └── README.md                    # This file
 ```

@@ -41,7 +41,7 @@
     "vulnerabilityAssessments_Default_storageContainerPath": {
       "type": "SecureString"
     },
-    "workspaces_DefaultWorkspace_6002b2af_9f03_4eae_848a_b292aa75cfcc_EAU_externalid": {
+    "workspaces_DefaultWorkspace_00000000_0000_0000_0000_000000000000_EAU_externalid": {
       "type": "String"
     }
   },
@@ -55,7 +55,7 @@
         "Application_Type": "web",
         "IngestionMode": "LogAnalytics",
         "RetentionInDays": 90,
-        "WorkspaceResourceId": "[parameters('workspaces_DefaultWorkspace_6002b2af_9f03_4eae_848a_b292aa75cfcc_EAU_externalid')]",
+        "WorkspaceResourceId": "[parameters('workspaces_DefaultWorkspace_00000000_0000_0000_0000_000000000000_EAU_externalid')]",
         "publicNetworkAccessForIngestion": "Enabled",
         "publicNetworkAccessForQuery": "Enabled"
       },
@@ -96,7 +96,7 @@
       "name": "[parameters('publicIPAddresses_PAD_Demo_VMPublicIP_name')]",
       "properties": {
         "idleTimeoutInMinutes": 4,
-        "ipAddress": "4.197.78.154",
+        "ipAddress": "203.0.113.20",
         "ipTags": [],
         "publicIPAddressVersion": "IPv4",
         "publicIPAllocationMethod": "Static"
@@ -142,13 +142,13 @@
       "location": "australiaeast",
       "name": "[parameters('servers_sql_contoso_demo_abc123_name')]",
       "properties": {
-        "administratorLogin": "patrick.yifan96@outlook.com",
+        "administratorLogin": "admin@contoso.com",
         "administrators": {
           "administratorType": "ActiveDirectory",
           "login": "Patrick Y",
           "principalType": "Group",
-          "sid": "713ec573-c44e-4f5a-9103-8e396a424210",
-          "tenantId": "048a23d6-1bd0-47af-a143-d32be5c20faf"
+          "sid": "00000000-0000-0000-0000-000000000000",
+          "tenantId": "00000000-0000-0000-0000-000000000000"
         },
         "minimalTlsVersion": "1.2",
         "publicNetworkAccess": "Enabled",
@@ -688,8 +688,8 @@
       "properties": {
         "administratorType": "ActiveDirectory",
         "login": "Patrick Y",
-        "sid": "713ec573-c44e-4f5a-9103-8e396a424210",
-        "tenantId": "048a23d6-1bd0-47af-a143-d32be5c20faf"
+        "sid": "00000000-0000-0000-0000-000000000000",
+        "tenantId": "00000000-0000-0000-0000-000000000000"
       },
       "type": "Microsoft.Sql/servers/administrators"
     },
@@ -825,7 +825,7 @@
         "catalogCollation": "SQL_Latin1_General_CP1_CI_AS",
         "collation": "SQL_Latin1_General_CP1_CI_AS",
         "isLedgerOn": false,
-        "maintenanceConfigurationId": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default",
+        "maintenanceConfigurationId": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default",
         "maxSizeBytes": 34359738368,
         "minCapacity": 0.5,
         "readScale": "Disabled",
@@ -1031,8 +1031,8 @@
       ],
       "name": "[concat(parameters('servers_sql_contoso_demo_abc123_name'), '/ClientIPAddress_2026-1-7_17-57-34')]",
       "properties": {
-        "endIpAddress": "175.32.79.66",
-        "startIpAddress": "175.32.79.66"
+        "endIpAddress": "203.0.113.10",
+        "startIpAddress": "203.0.113.10"
       },
       "type": "Microsoft.Sql/servers/firewallRules"
     },
@@ -1181,7 +1181,7 @@
         "clientCertEnabled": false,
         "clientCertMode": "Required",
         "containerSize": 1536,
-        "customDomainVerificationId": "B01235CDE279E7C2C6176A359CB777FFADF50054B9CFE3678E901B276D03C4E5",
+        "customDomainVerificationId": "REDACTED",
         "dailyMemoryTimeQuota": 0,
         "dnsConfiguration": {},
         "enabled": true,
@@ -1227,7 +1227,7 @@
         "storageAccountRequired": false
       },
       "tags": {
-        "hidden-link: /app-insights-resource-id": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/resourceGroups/rg-contoso-vendor-demo/providers/microsoft.insights/components/func-contoso-erp-api"
+        "hidden-link: /app-insights-resource-id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-contoso-vendor-demo/providers/microsoft.insights/components/func-contoso-erp-api"
       },
       "type": "Microsoft.Web/sites"
     },
@@ -1242,7 +1242,7 @@
         "allow": false
       },
       "tags": {
-        "hidden-link: /app-insights-resource-id": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/resourceGroups/rg-contoso-vendor-demo/providers/microsoft.insights/components/func-contoso-erp-api"
+        "hidden-link: /app-insights-resource-id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-contoso-vendor-demo/providers/microsoft.insights/components/func-contoso-erp-api"
       },
       "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies"
     },
@@ -1257,7 +1257,7 @@
         "allow": false
       },
       "tags": {
-        "hidden-link: /app-insights-resource-id": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/resourceGroups/rg-contoso-vendor-demo/providers/microsoft.insights/components/func-contoso-erp-api"
+        "hidden-link: /app-insights-resource-id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-contoso-vendor-demo/providers/microsoft.insights/components/func-contoso-erp-api"
       },
       "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies"
     },
@@ -1350,7 +1350,7 @@
         "webSocketsEnabled": false
       },
       "tags": {
-        "hidden-link: /app-insights-resource-id": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/resourceGroups/rg-contoso-vendor-demo/providers/microsoft.insights/components/func-contoso-erp-api"
+        "hidden-link: /app-insights-resource-id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-contoso-vendor-demo/providers/microsoft.insights/components/func-contoso-erp-api"
       },
       "type": "Microsoft.Web/sites/config"
     },

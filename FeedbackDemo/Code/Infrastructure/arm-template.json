@@ -1,10 +1,3 @@
-WARNING: Export template operation completed with errors. Some resources were not exported. Please see details for more information.
-ERROR: Could not get resources of the type 'Microsoft.Storage/storageAccounts/inventoryPolicies'. Resources of this type will not be exported.
-ERROR: Could not get resources of the type 'microsoft.insights/components/pricingPlans'. Resources of this type will not be exported.
-ERROR: Could not get resources of the type 'microsoft.insights/components/myanalyticsItems'. Resources of this type will not be exported.
-ERROR: Could not get resources of the type 'Microsoft.Web/sites/certificates'. Resources of this type will not be exported.
-ERROR: Could not get resources of the type 'Microsoft.Web/sites/sitecontainers'. Resources of this type will not be exported.
-ERROR: Could not get resources of the type 'Microsoft.Web/sites/hybridconnection'. Resources of this type will not be exported.
 {
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
@@ -26,7 +19,7 @@ ERROR: Could not get resources of the type 'Microsoft.Web/sites/hybridconnection
       "type": "String"
     },
     "actiongroups_application_insights_smart_detection_externalid": {
-      "defaultValue": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/resourceGroups/rg1/providers/microsoft.insights/actiongroups/application insights smart detection",
+      "defaultValue": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/microsoft.insights/actiongroups/application insights smart detection",
       "type": "String"
     },
     "components_func_feedback_demo2_name": {
@@ -89,8 +82,8 @@ ERROR: Could not get resources of the type 'Microsoft.Web/sites/hybridconnection
       "defaultValue": "logic-feedback-processor",
       "type": "String"
     },
-    "workspaces_DefaultWorkspace_6002b2af_9f03_4eae_848a_b292aa75cfcc_EUS_externalid": {
-      "defaultValue": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/resourceGroups/DefaultResourceGroup-EUS/providers/Microsoft.OperationalInsights/workspaces/DefaultWorkspace-6002b2af-9f03-4eae-848a-b292aa75cfcc-EUS",
+    "workspaces_DefaultWorkspace_00000000_0000_0000_0000_000000000000_EUS_externalid": {
+      "defaultValue": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/DefaultResourceGroup-EUS/providers/Microsoft.OperationalInsights/workspaces/DefaultWorkspace-00000000-0000-0000-0000-000000000000-EUS",
       "type": "String"
     }
   },
@@ -191,7 +184,7 @@ ERROR: Could not get resources of the type 'Microsoft.Web/sites/hybridconnection
         "IngestionMode": "LogAnalytics",
         "Request_Source": "IbizaWebAppExtensionCreate",
         "RetentionInDays": 90,
-        "WorkspaceResourceId": "[parameters('workspaces_DefaultWorkspace_6002b2af_9f03_4eae_848a_b292aa75cfcc_EUS_externalid')]",
+        "WorkspaceResourceId": "[parameters('workspaces_DefaultWorkspace_00000000_0000_0000_0000_000000000000_EUS_externalid')]",
         "publicNetworkAccessForIngestion": "Enabled",
         "publicNetworkAccessForQuery": "Enabled"
       },
@@ -209,7 +202,7 @@ ERROR: Could not get resources of the type 'Microsoft.Web/sites/hybridconnection
         "IngestionMode": "LogAnalytics",
         "Request_Source": "IbizaWebAppExtensionCreate",
         "RetentionInDays": 90,
-        "WorkspaceResourceId": "[parameters('workspaces_DefaultWorkspace_6002b2af_9f03_4eae_848a_b292aa75cfcc_EUS_externalid')]",
+        "WorkspaceResourceId": "[parameters('workspaces_DefaultWorkspace_00000000_0000_0000_0000_000000000000_EUS_externalid')]",
         "publicNetworkAccessForIngestion": "Enabled",
         "publicNetworkAccessForQuery": "Enabled"
       },
@@ -304,7 +297,7 @@ ERROR: Could not get resources of the type 'Microsoft.Web/sites/hybridconnection
           "description": "Provides access to the environment database in Microsoft Dataverse.",
           "displayName": "Microsoft Dataverse",
           "iconUri": "[concat('https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1777/1.0.1777.4410/', parameters('connections_commondataservice_name'), '/icon-la.png')]",
-          "id": "[concat('/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/providers/Microsoft.Web/locations/eastus/managedApis/', parameters('connections_commondataservice_name'))]",
+          "id": "[concat('/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Web/locations/eastus/managedApis/', parameters('connections_commondataservice_name'))]",
           "name": "[parameters('connections_commondataservice_name')]",
           "type": "Microsoft.Web/locations/managedApis"
         },
@@ -332,14 +325,14 @@ ERROR: Could not get resources of the type 'Microsoft.Web/sites/hybridconnection
           "description": "Microsoft Office 365 is a cloud-based service that is designed to help meet your organization's needs for robust security, reliability, and user productivity.",
           "displayName": "Office 365 Outlook",
           "iconUri": "[concat('https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1782/1.0.1782.4452/', parameters('connections_office365_name'), '/icon.png')]",
-          "id": "[concat('/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/providers/Microsoft.Web/locations/eastus/managedApis/', parameters('connections_office365_name'))]",
+          "id": "[concat('/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Web/locations/eastus/managedApis/', parameters('connections_office365_name'))]",
           "name": "[parameters('connections_office365_name')]",
           "type": "Microsoft.Web/locations/managedApis"
         },
         "changedTime": "2025-12-26T07:03:44.1920737Z",
         "createdTime": "2025-12-02T08:27:58.1400734Z",
         "customParameterValues": {},
-        "displayName": "patrick.yifan96@67fz2c.onmicrosoft.com",
+        "displayName": "admin@contoso.onmicrosoft.com",
         "nonSecretParameterValues": {},
         "statuses": [
           {
@@ -349,7 +342,7 @@ ERROR: Could not get resources of the type 'Microsoft.Web/sites/hybridconnection
         "testLinks": [
           {
             "method": "get",
-            "requestUri": "[concat('https://management.azure.com:443/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/resourceGroups/rg-feedback-demo/providers/Microsoft.Web/connections/', parameters('connections_office365_name'), '/extensions/proxy/testconnection?api-version=2016-06-01')]"
+            "requestUri": "[concat('https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-feedback-demo/providers/Microsoft.Web/connections/', parameters('connections_office365_name'), '/extensions/proxy/testconnection?api-version=2016-06-01')]"
           }
         ]
       },
@@ -365,7 +358,7 @@ ERROR: Could not get resources of the type 'Microsoft.Web/sites/hybridconnection
           "description": "Connect to Azure Service Bus to send and receive messages. You can perform actions such as send to queue, send to topic, receive from queue, receive from subscription, etc.",
           "displayName": "Service Bus",
           "iconUri": "[concat('https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1760/1.0.1760.4281/', parameters('connections_servicebus_name'), '/icon.png')]",
-          "id": "[concat('/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/providers/Microsoft.Web/locations/eastus/managedApis/', parameters('connections_servicebus_name'))]",
+          "id": "[concat('/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Web/locations/eastus/managedApis/', parameters('connections_servicebus_name'))]",
           "name": "[parameters('connections_servicebus_name')]",
           "type": "Microsoft.Web/locations/managedApis"
         },
@@ -392,14 +385,14 @@ ERROR: Could not get resources of the type 'Microsoft.Web/sites/hybridconnection
           "description": "Microsoft Teams enables you to get all your content, tools and conversations in the team workspace with Microsoft 365.",
           "displayName": "Microsoft Teams",
           "iconUri": "[concat('https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1787/1.0.1787.4513/', parameters('connections_teams_name'), '/icon.png')]",
-          "id": "[concat('/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/providers/Microsoft.Web/locations/eastus/managedApis/', parameters('connections_teams_name'))]",
+          "id": "[concat('/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Web/locations/eastus/managedApis/', parameters('connections_teams_name'))]",
           "name": "[parameters('connections_teams_name')]",
           "type": "Microsoft.Web/locations/managedApis"
         },
         "changedTime": "2025-12-26T03:35:29.2569625Z",
         "createdTime": "2025-12-04T09:21:07.093582Z",
         "customParameterValues": {},
-        "displayName": "patrick.yifan96@67fz2c.onmicrosoft.com",
+        "displayName": "admin@contoso.onmicrosoft.com",
         "nonSecretParameterValues": {},
         "statuses": [
           {
@@ -409,7 +402,7 @@ ERROR: Could not get resources of the type 'Microsoft.Web/sites/hybridconnection
         "testLinks": [
           {
             "method": "get",
-            "requestUri": "[concat('https://management.azure.com:443/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/resourceGroups/rg-feedback-demo/providers/Microsoft.Web/connections/', parameters('connections_teams_name'), '/extensions/proxy/beta/me/teamwork?api-version=2016-06-01')]"
+            "requestUri": "[concat('https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-feedback-demo/providers/Microsoft.Web/connections/', parameters('connections_teams_name'), '/extensions/proxy/beta/me/teamwork?api-version=2016-06-01')]"
           }
         ]
       },
@@ -1657,7 +1650,7 @@ ERROR: Could not get resources of the type 'Microsoft.Web/sites/hybridconnection
         "clientCertEnabled": false,
         "clientCertMode": "Required",
         "containerSize": 1536,
-        "customDomainVerificationId": "B01235CDE279E7C2C6176A359CB777FFADF50054B9CFE3678E901B276D03C4E5",
+        "customDomainVerificationId": "REDACTED",
         "dailyMemoryTimeQuota": 0,
         "dnsConfiguration": {},
         "enabled": true,
@@ -1703,7 +1696,7 @@ ERROR: Could not get resources of the type 'Microsoft.Web/sites/hybridconnection
         "storageAccountRequired": false
       },
       "tags": {
-        "hidden-link: /app-insights-resource-id": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/resourceGroups/rg-feedback-demo/providers/microsoft.insights/components/func-feedback-demo2"
+        "hidden-link: /app-insights-resource-id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-feedback-demo/providers/microsoft.insights/components/func-feedback-demo2"
       },
       "type": "Microsoft.Web/sites"
     },
@@ -1718,7 +1711,7 @@ ERROR: Could not get resources of the type 'Microsoft.Web/sites/hybridconnection
         "allow": false
       },
       "tags": {
-        "hidden-link: /app-insights-resource-id": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/resourceGroups/rg-feedback-demo/providers/microsoft.insights/components/func-feedback-demo2"
+        "hidden-link: /app-insights-resource-id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-feedback-demo/providers/microsoft.insights/components/func-feedback-demo2"
       },
       "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies"
     },
@@ -1733,7 +1726,7 @@ ERROR: Could not get resources of the type 'Microsoft.Web/sites/hybridconnection
         "allow": false
       },
       "tags": {
-        "hidden-link: /app-insights-resource-id": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/resourceGroups/rg-feedback-demo/providers/microsoft.insights/components/func-feedback-demo2"
+        "hidden-link: /app-insights-resource-id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-feedback-demo/providers/microsoft.insights/components/func-feedback-demo2"
       },
       "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies"
     },
@@ -1823,7 +1816,7 @@ ERROR: Could not get resources of the type 'Microsoft.Web/sites/hybridconnection
         "webSocketsEnabled": false
       },
       "tags": {
-        "hidden-link: /app-insights-resource-id": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/resourceGroups/rg-feedback-demo/providers/microsoft.insights/components/func-feedback-demo2"
+        "hidden-link: /app-insights-resource-id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-feedback-demo/providers/microsoft.insights/components/func-feedback-demo2"
       },
       "type": "Microsoft.Web/sites/config"
     },
@@ -2001,7 +1994,7 @@ ERROR: Could not get resources of the type 'Microsoft.Web/sites/hybridconnection
                   "Body": "<p class=\"editor-paragraph\">@{body('Function_3_Generate_Report')?['htmlReport']}</p>",
                   "Importance": "Normal",
                   "Subject": "Daily Feedback Analytics Report",
-                  "To": "patrick.yifan96@67fz2c.onmicrosoft.com"
+                  "To": "admin@contoso.onmicrosoft.com"
                 },
                 "host": {
                   "connection": {
@@ -2023,8 +2016,8 @@ ERROR: Could not get resources of the type 'Microsoft.Web/sites/hybridconnection
                 "body": {
                   "messageBody": "<p class=\"editor-paragraph\">@{body('Function_3_Generate_Report')?['teamsSummary']}</p>",
                   "recipient": {
-                    "channelId": "19:4f29c304ac0c45b09895ed5fab53a8b2@thread.tacv2",
-                    "groupId": "92db7aca-8f40-4d39-8a87-3393ac7fa40f"
+                    "channelId": "19:00000000000000000000000000000000@thread.tacv2",
+                    "groupId": "00000000-0000-0000-0000-000000000000"
                   }
                 },
                 "host": {
@@ -2148,13 +2141,13 @@ ERROR: Could not get resources of the type 'Microsoft.Web/sites/hybridconnection
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('connections_office365_name'))]",
                 "connectionName": "office365",
                 "connectionProperties": {},
-                "id": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/providers/Microsoft.Web/locations/eastus/managedApis/office365"
+                "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Web/locations/eastus/managedApis/office365"
               },
               "teams": {
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('connections_teams_name'))]",
                 "connectionName": "teams",
                 "connectionProperties": {},
-                "id": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/providers/Microsoft.Web/locations/eastus/managedApis/teams"
+                "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Web/locations/eastus/managedApis/teams"
               }
             }
           }
@@ -2487,19 +2480,19 @@ ERROR: Could not get resources of the type 'Microsoft.Web/sites/hybridconnection
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('connections_commondataservice_name'))]",
                 "connectionName": "commondataservice",
                 "connectionProperties": {},
-                "id": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/providers/Microsoft.Web/locations/eastus/managedApis/commondataservice"
+                "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Web/locations/eastus/managedApis/commondataservice"
               },
               "office365": {
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('connections_office365_name'))]",
                 "connectionName": "office365",
                 "connectionProperties": {},
-                "id": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/providers/Microsoft.Web/locations/eastus/managedApis/office365"
+                "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Web/locations/eastus/managedApis/office365"
               },
               "servicebus-1": {
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('connections_servicebus_name'))]",
                 "connectionName": "servicebus",
                 "connectionProperties": {},
-                "id": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/providers/Microsoft.Web/locations/eastus/managedApis/servicebus"
+                "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Web/locations/eastus/managedApis/servicebus"
               }
             }
           }

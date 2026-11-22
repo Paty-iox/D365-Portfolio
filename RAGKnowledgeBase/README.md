@@ -51,8 +51,8 @@ Answer with sources
 ### 1. Clone and install
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/rag-knowledge-base.git
-cd rag-knowledge-base
+git clone https://github.com/Paty-iox/D365-Portfolio.git
+cd D365-Portfolio/RAGKnowledgeBase
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
@@ -134,7 +134,7 @@ All settings are in `.env`. See `.env.example` for the full list:
 ## Project Structure
 
 ```
-rag-knowledge-base/
+RAGKnowledgeBase/
   app.py              # Streamlit web UI
   query.py            # CLI query interface
   ingest.py           # Document ingestion pipeline

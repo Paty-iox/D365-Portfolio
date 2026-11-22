@@ -350,29 +350,29 @@
       ]
     }
   },
-  "id": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/resourceGroups/rg-feedback-demo/providers/Microsoft.Logic/workflows/logic-feedback-processor",
+  "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-feedback-demo/providers/Microsoft.Logic/workflows/logic-feedback-processor",
   "location": "eastus",
   "name": "logic-feedback-processor",
   "parameters": {
     "$connections": {
       "value": {
         "commondataservice": {
-          "connectionId": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/resourceGroups/rg-feedback-demo/providers/Microsoft.Web/connections/commondataservice",
+          "connectionId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-feedback-demo/providers/Microsoft.Web/connections/commondataservice",
           "connectionName": "commondataservice",
           "connectionProperties": {},
-          "id": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/providers/Microsoft.Web/locations/eastus/managedApis/commondataservice"
+          "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Web/locations/eastus/managedApis/commondataservice"
         },
         "office365": {
-          "connectionId": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/resourceGroups/rg-feedback-demo/providers/Microsoft.Web/connections/office365",
+          "connectionId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-feedback-demo/providers/Microsoft.Web/connections/office365",
           "connectionName": "office365",
           "connectionProperties": {},
-          "id": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/providers/Microsoft.Web/locations/eastus/managedApis/office365"
+          "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Web/locations/eastus/managedApis/office365"
         },
         "servicebus-1": {
-          "connectionId": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/resourceGroups/rg-feedback-demo/providers/Microsoft.Web/connections/servicebus",
+          "connectionId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-feedback-demo/providers/Microsoft.Web/connections/servicebus",
           "connectionName": "servicebus",
           "connectionProperties": {},
-          "id": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/providers/Microsoft.Web/locations/eastus/managedApis/servicebus"
+          "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Web/locations/eastus/managedApis/servicebus"
         }
       }
     }

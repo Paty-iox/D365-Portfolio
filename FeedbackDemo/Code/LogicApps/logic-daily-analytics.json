@@ -11,7 +11,7 @@
             "Body": "<p class=\"editor-paragraph\">@{body('Function_3_Generate_Report')?['htmlReport']}</p>",
             "Importance": "Normal",
             "Subject": "Daily Feedback Analytics Report",
-            "To": "patrick.yifan96@67fz2c.onmicrosoft.com"
+            "To": "admin@contoso.onmicrosoft.com"
           },
           "host": {
             "connection": {
@@ -33,8 +33,8 @@
           "body": {
             "messageBody": "<p class=\"editor-paragraph\">@{body('Function_3_Generate_Report')?['teamsSummary']}</p>",
             "recipient": {
-              "channelId": "19:4f29c304ac0c45b09895ed5fab53a8b2@thread.tacv2",
-              "groupId": "92db7aca-8f40-4d39-8a87-3393ac7fa40f"
+              "channelId": "19:00000000000000000000000000000000@thread.tacv2",
+              "groupId": "00000000-0000-0000-0000-000000000000"
             }
           },
           "host": {
@@ -301,23 +301,23 @@
       ]
     }
   },
-  "id": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/resourceGroups/rg-feedback-demo/providers/Microsoft.Logic/workflows/logic-daily-analytics",
+  "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-feedback-demo/providers/Microsoft.Logic/workflows/logic-daily-analytics",
   "location": "eastus",
   "name": "logic-daily-analytics",
   "parameters": {
     "$connections": {
       "value": {
         "office365": {
-          "connectionId": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/resourceGroups/rg-feedback-demo/providers/Microsoft.Web/connections/office365",
+          "connectionId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-feedback-demo/providers/Microsoft.Web/connections/office365",
           "connectionName": "office365",
           "connectionProperties": {},
-          "id": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/providers/Microsoft.Web/locations/eastus/managedApis/office365"
+          "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Web/locations/eastus/managedApis/office365"
         },
         "teams": {
-          "connectionId": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/resourceGroups/rg-feedback-demo/providers/Microsoft.Web/connections/teams",
+          "connectionId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-feedback-demo/providers/Microsoft.Web/connections/teams",
           "connectionName": "teams",
           "connectionProperties": {},
-          "id": "/subscriptions/6002b2af-9f03-4eae-848a-b292aa75cfcc/providers/Microsoft.Web/locations/eastus/managedApis/teams"
+          "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Web/locations/eastus/managedApis/teams"
         }
       }
     }

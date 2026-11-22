@@ -12,7 +12,7 @@ PCF control with React/TypeScript.
 
 ## Rationale
 
-- Web resources deprecated; no direct field binding
+- HTML web resource: no direct field binding, so the score would have to be passed in by form script
 - Canvas App too heavy for single field
 - PCF: field binding, React support, reusable
 
